@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>firefox.png</file>
+    <file>github.png</file>
+    <file>Papirus.512.png</file>
+    <file>pen.png</file>
+    <file>RS.512.png</file>
+  </qresource>
+</RCC>
