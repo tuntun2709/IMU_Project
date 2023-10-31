@@ -153,7 +153,6 @@ if not calib:
     timer2.init(period=500, mode=machine.Timer.PERIODIC, callback=calibration)
     while not calib:
         calib = imu.calibrated()
-        time.sleep(0.7)
 # when calibrated, stop timer and save the calibrated offsets 
     timer2.deinit()
     with open(calibrated_data_file, 'wb') as f:
