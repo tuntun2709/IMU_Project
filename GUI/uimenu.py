@@ -21,11 +21,13 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QFrame,
     QSlider, QSpacerItem, QStackedWidget, QTableWidget,
     QTableWidgetItem, QVBoxLayout, QWidget)
 
+from pyqtgraph import PlotWidget
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1475, 759)
+        MainWindow.resize(1489, 759)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -668,12 +670,48 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_38)
 
+        self.layoutWidget1 = QWidget(self.widget_3)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 30, 291, 21))
+        self.horizontalLayout_11 = QHBoxLayout(self.layoutWidget1)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.label_7 = QLabel(self.layoutWidget1)
+        self.label_7.setObjectName(u"label_7")
+
+        self.horizontalLayout_11.addWidget(self.label_7)
+
+        self.label_9 = QLabel(self.layoutWidget1)
+        self.label_9.setObjectName(u"label_9")
+
+        self.horizontalLayout_11.addWidget(self.label_9)
+
         self.widget_MLinechart = QWidget(self.page_Main)
         self.widget_MLinechart.setObjectName(u"widget_MLinechart")
         self.widget_MLinechart.setGeometry(QRect(770, 0, 500, 300))
+        self.horizontalLayout_14 = QHBoxLayout(self.widget_MLinechart)
+        self.horizontalLayout_14.setSpacing(0)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.lineChart_Main = PlotWidget(self.widget_MLinechart)
+        self.lineChart_Main.setObjectName(u"lineChart_Main")
+        self.lineChart_Main.setStyleSheet(u"background-color: rgb(0, 157, 236);")
+
+        self.horizontalLayout_14.addWidget(self.lineChart_Main)
+
         self.widget_MLowerlimb = QWidget(self.page_Main)
         self.widget_MLowerlimb.setObjectName(u"widget_MLowerlimb")
         self.widget_MLowerlimb.setGeometry(QRect(770, 300, 500, 420))
+        self.horizontalLayout_15 = QHBoxLayout(self.widget_MLowerlimb)
+        self.horizontalLayout_15.setSpacing(0)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.lowerlimbChart_Main = PlotWidget(self.widget_MLowerlimb)
+        self.lowerlimbChart_Main.setObjectName(u"lowerlimbChart_Main")
+        self.lowerlimbChart_Main.setStyleSheet(u"background-color: rgb(255, 85, 255);")
+
+        self.horizontalLayout_15.addWidget(self.lowerlimbChart_Main)
+
         self.stackedWidget.addWidget(self.page_Main)
         self.page_Introduction = QWidget()
         self.page_Introduction.setObjectName(u"page_Introduction")
@@ -751,23 +789,25 @@ class Ui_MainWindow(object):
         self.pushButton_16 = QPushButton(self.frame_4)
         self.pushButton_16.setObjectName(u"pushButton_16")
         self.pushButton_16.setGeometry(QRect(190, 210, 181, 71))
-        self.widget1 = QWidget(self.frame_4)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(70, 50, 311, 41))
-        self.horizontalLayout_11 = QHBoxLayout(self.widget1)
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.label_7 = QLabel(self.widget1)
-        self.label_7.setObjectName(u"label_7")
+        self.layoutWidget2 = QWidget(self.frame_4)
+        self.layoutWidget2.setObjectName(u"layoutWidget2")
+        self.layoutWidget2.setGeometry(QRect(70, 50, 311, 41))
+        self.horizontalLayout_39 = QHBoxLayout(self.layoutWidget2)
+        self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
+        self.horizontalLayout_39.setContentsMargins(0, 0, 0, 0)
+        self.label_68 = QLabel(self.layoutWidget2)
+        self.label_68.setObjectName(u"label_68")
+        self.label_68.setMinimumSize(QSize(150, 0))
+        self.label_68.setMaximumSize(QSize(150, 16777215))
 
-        self.horizontalLayout_11.addWidget(self.label_7)
+        self.horizontalLayout_39.addWidget(self.label_68)
 
-        self.comboBox_2 = QComboBox(self.widget1)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_3 = QComboBox(self.layoutWidget2)
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.setObjectName(u"comboBox_3")
 
-        self.horizontalLayout_11.addWidget(self.comboBox_2)
+        self.horizontalLayout_39.addWidget(self.comboBox_3)
 
         self.stackedWidget.addWidget(self.page_Setting)
         self.page_PartientInfomation = QWidget()
@@ -958,31 +998,32 @@ class Ui_MainWindow(object):
         self.tableWidget_3.setHorizontalHeaderItem(4, __qtablewidgetitem7)
         self.tableWidget_3.setObjectName(u"tableWidget_3")
         self.tableWidget_3.setGeometry(QRect(10, 60, 751, 631))
-        self.widget2 = QWidget(self.frame_11)
-        self.widget2.setObjectName(u"widget2")
-        self.widget2.setGeometry(QRect(10, 10, 751, 42))
-        self.horizontalLayout_14 = QHBoxLayout(self.widget2)
-        self.horizontalLayout_14.setSpacing(5)
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.lineEdit_4 = QLineEdit(self.widget2)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
+        self.layoutWidget3 = QWidget(self.frame_11)
+        self.layoutWidget3.setObjectName(u"layoutWidget3")
+        self.layoutWidget3.setGeometry(QRect(10, 10, 751, 42))
+        self.horizontalLayout_77 = QHBoxLayout(self.layoutWidget3)
+        self.horizontalLayout_77.setObjectName(u"horizontalLayout_77")
+        self.horizontalLayout_77.setContentsMargins(0, 0, 0, 0)
+        self.lineEdit_7 = QLineEdit(self.layoutWidget3)
+        self.lineEdit_7.setObjectName(u"lineEdit_7")
+        self.lineEdit_7.setMinimumSize(QSize(0, 32))
 
-        self.horizontalLayout_14.addWidget(self.lineEdit_4)
+        self.horizontalLayout_77.addWidget(self.lineEdit_7)
 
-        self.lineEdit_5 = QLineEdit(self.widget2)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
+        self.lineEdit_8 = QLineEdit(self.layoutWidget3)
+        self.lineEdit_8.setObjectName(u"lineEdit_8")
+        self.lineEdit_8.setMinimumSize(QSize(0, 32))
 
-        self.horizontalLayout_14.addWidget(self.lineEdit_5)
+        self.horizontalLayout_77.addWidget(self.lineEdit_8)
 
-        self.pushButton_7 = QPushButton(self.widget2)
-        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.pushButton_38 = QPushButton(self.layoutWidget3)
+        self.pushButton_38.setObjectName(u"pushButton_38")
         icon12 = QIcon()
-        icon12.addFile(u"icon/search.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_7.setIcon(icon12)
-        self.pushButton_7.setIconSize(QSize(32, 32))
+        icon12.addFile(u"../1.tutorial/icon/search.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_38.setIcon(icon12)
+        self.pushButton_38.setIconSize(QSize(32, 32))
 
-        self.horizontalLayout_14.addWidget(self.pushButton_7)
+        self.horizontalLayout_77.addWidget(self.pushButton_38)
 
         self.stackedWidget.addWidget(self.page_PartientInfomation)
         self.page_Review = QWidget()
@@ -1714,7 +1755,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1785,6 +1826,8 @@ class Ui_MainWindow(object):
         self.label_65.setText(QCoreApplication.translate("MainWindow", u"Max last Ankle angle", None))
         self.label_66.setText(QCoreApplication.translate("MainWindow", u"423.123", None))
         self.label_67.setText(QCoreApplication.translate("MainWindow", u"123.123", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Intro WIDGET", None))
         self.label_157.setText(QCoreApplication.translate("MainWindow", u"Nh\u00e0 t\u00e0i tr\u1ee3 s\u1eaft: Only C", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Setting WIDGET", None))
@@ -1795,9 +1838,9 @@ class Ui_MainWindow(object):
         self.radioButton_3.setText(QCoreApplication.translate("MainWindow", u"kg", None))
         self.radioButton_4.setText(QCoreApplication.translate("MainWindow", u"lb", None))
         self.pushButton_16.setText(QCoreApplication.translate("MainWindow", u"\u0110\u1eb7t l\u1ea1i h\u1ec7 th\u1ed1ng", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Ng\u00f4n ng\u1eef", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("MainWindow", u"Ti\u1ebfng Vi\u1ec7t", None))
-        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"English", None))
+        self.label_68.setText(QCoreApplication.translate("MainWindow", u"Ng\u00f4n ng\u1eef", None))
+        self.comboBox_3.setItemText(0, QCoreApplication.translate("MainWindow", u"Ti\u1ebfng Vi\u1ec7t", None))
+        self.comboBox_3.setItemText(1, QCoreApplication.translate("MainWindow", u"English", None))
 
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Partient WIDGET", None))
         self.label_138.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
@@ -1834,7 +1877,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y sinh", None));
         ___qtablewidgetitem7 = self.tableWidget_3.horizontalHeaderItem(4)
         ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Gi\u1edbi t\u00ednh", None));
-        self.pushButton_7.setText("")
+        self.pushButton_38.setText("")
         ___qtablewidgetitem8 = self.tableWidget_2.horizontalHeaderItem(0)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Hip", None));
         ___qtablewidgetitem9 = self.tableWidget_2.horizontalHeaderItem(1)
