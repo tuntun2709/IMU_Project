@@ -9,15 +9,28 @@ from bno055 import *
 
 
 ### Blink the onboard LED to show startup
-led = Pin("LED", Pin.OUT)
-
-i2c = machine.I2C(0, sda=machine.Pin(0), scl=machine.Pin(1))  # EIO error almost immediately
-imu = BNO055(i2c)
+led_red = Pin(22, Pin.OUT)
+led_green = Pin(24, Pin.OUT)
+led_blue = Pin(25, Pin.OUT)
 
 topic = 'mqtt1'
 calib_status_subtopic = f'{topic}/calib_status'
 calib_subtopic = f'{topic}/calib'
 data_subtopic = f'{topic}/data'
+
+try:
+    i2c = machine.I2C(0, sda=machine.Pin(26), scl=machine.Pin(27))  # EIO error almost immediately
+    imu = BNO055(i2c)
+except:
+    led_red.on()
+    time.sleep(1)
+    led_red.off()
+    while True:
+        pass
+    
+led_green.on()
+time.sleep(1)
+led_green.off()
 
 ### Connect to WiFi
 print('----------------------------------------------------------------------------------------------')
@@ -36,21 +49,22 @@ while not connected and attempt < 7:
     if wlan.status() < 0 or wlan.status() >= 3:
         connected = True
     if not connected:
-        led.value(not led.value())
+        led_blue.toggle()
         print("Connection attempt failed: " + str(attempt))
         time.sleep(1)
     else:
         print("Connected on attempt: " + str(attempt))
 
+led_blue.off()
 if not connected or wlan.ifconfig()[0] == "0.0.0.0":
     # Blink LED to show there is a WiFi problem
-    for i in range(10):
-        led.value(not led.value())
-        time.sleep(0.1)
-    print("Bad WiFi connection: " + wlan.ifconfig()[0])
-    led.value(0)
-    while True:
-        pass
+	for i in range(10):
+		led_red.toggle()
+		time.sleep(0.1)
+	print("Bad WiFi connection: " + wlan.ifconfig()[0])
+	led_red.off()
+	while True:
+	    pass
         
 
 
@@ -83,9 +97,9 @@ while con:
         con = False
     except:
         for i in range(20):
-            led.value(not led.value())
+            led_red.toggle()
             time.sleep(0.1)
-        led.value(0)
+        led_red.off()
         while True:
             pass
 # print('Connected to MQTT Broker: ' + broker)
@@ -103,14 +117,14 @@ timer2 = machine.Timer()
 
 # send calib status funcion for timer2
 def calibration(timer):
-    led.value(not led.value())
+    led_green.toggle()
     calib_mess = 'sys {} gyro {} acc {} mag {}'.format(*imu.cal_status())
     mqtt_client.publish(calib_subtopic, calib_mess)
     # print(calib_mess)
 
 # send data function for timer1
 def blink(timer):
-    led.value(not led.value())
+    led_green.toggle()
     data_mess = 'Heading {:4.2f} roll {:4.2f} pitch {:4.2f}'.format(*imu.euler())
     mqtt_client.publish(data_subtopic, data_mess)
     # print(data_mess)
@@ -137,9 +151,15 @@ if not calib:
     with open(calibrated_data_file, 'wb') as f:
         f.write(imu.sensor_offsets())
         f.close()
-       
+    led_green.on()
+    time.sleep(1)
+    led_green.off()
+
 # print('imu is calibrated')
 mqtt_client.publish(calib_status_subtopic, f'{calibrated_mess}', retain = True)
+for i in range(4):
+    led_green.toggle()
+    time.sleep(0.2)
 # start timer1
 timer1.init(period=20, mode=machine.Timer.PERIODIC, callback=blink)
 

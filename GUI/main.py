@@ -1,11 +1,11 @@
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtCore import QPropertyAnimation
-from PyQt6 import uic
+from PySide6.QtCore import QPropertyAnimation, QTimer
+# from PyQt6 import uic
 from PySide6.QtCore import Qt
 from ui_menu import Ui_MainWindow
-
-
+import pyqtgraph as pg
+from queue import Queue
 class MainWindow(QtWidgets.QMainWindow):
     
     def __init__(self):
@@ -39,6 +39,31 @@ class MainWindow(QtWidgets.QMainWindow):
         self.uic.bt_smallSize.hide()
 
         self.uic.bt_Menu.clicked.connect(self.control_menu)
+
+        self.graphWidget = pg.PlotWidget()
+        self.x = [0]
+        self.y = [0]
+        self.graphWidget.setGeometry(QtCore.QRect(0, 0, 500, 300))
+        self.graphWidget.setBackground('w')
+        pen = pg.mkPen(color=(39, 164, 242), width=5)
+        self.data_line =  self.graphWidget.plot(self.x, self.y, pen= pen)
+        self.graphWidget.resize(500,255)
+
+        self.timer = QTimer()
+        self.timer.setInterval(50)
+        self.timer.timeout.connect(self.update_plot_data)
+        self.timer.start()
+
+
+    def update_plot_data(self,q0=Queue()):
+        b = q0.get()
+        self.x = self.x[1:]  # Remove the first y element.
+        self.x.append(b[0])  # Add a new value 1 higher than the last.
+
+        self.y = self.y[1:]  # Remove the first
+        self.y.append(b[1])  # Add a new random value.
+
+        self.data_line.setData(self.x, self.y)  # Update the data.
 
     def control_bt_mini(self):
         self.showMinimized()
