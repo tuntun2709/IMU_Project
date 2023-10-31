@@ -9,17 +9,17 @@ from bno055 import *
 
 
 ### Blink the onboard LED to show startup
-led_red = Pin(22, Pin.OUT)
-led_green = Pin(24, Pin.OUT)
-led_blue = Pin(25, Pin.OUT)
+led_red = Pin(16, Pin.OUT)
+led_green = Pin(20, Pin.OUT)
+led_blue = Pin(21, Pin.OUT)
 
-topic = 'mqtt1'
+topic = 'mqtt4'
 calib_status_subtopic = f'{topic}/calib_status'
 calib_subtopic = f'{topic}/calib'
 data_subtopic = f'{topic}/data'
 
 try:
-    i2c = machine.I2C(0, sda=machine.Pin(26), scl=machine.Pin(27))  # EIO error almost immediately
+    i2c = machine.I2C(1, sda=machine.Pin(26), scl=machine.Pin(27))  # EIO error almost immediately
     imu = BNO055(i2c)
 except:
     led_red.on()
@@ -39,12 +39,21 @@ password = '1234567890'
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect(ssid, password)
+try:
+    wlan.connect(ssid, password)
+except:
+    for i in range(10):
+        led_red.toggle()
+        time.sleep(0.1)
+    print("Bad WiFi connection: " + wlan.ifconfig()[0])
+    led_red.off()
+    while True:
+        pass
 
 # Wait for WiFi connection or failure
 connected = False
 attempt = 0
-while not connected and attempt < 7:
+while not connected and attempt < 10:
     attempt += 1
     if wlan.status() < 0 or wlan.status() >= 3:
         connected = True
@@ -74,7 +83,7 @@ print("WiFi status: " + str(wlan.ifconfig()))
 
 ### Connect to HiveMQ Cloud
 broker = '192.168.50.10'
-mqtt_username = 'pico1'
+mqtt_username = 'pico4'
 mqtt_key = '1234'
 print('----------------------------------------------------------------------------------------------')
 print("Connecting to " + broker + " as user " + mqtt_username)
@@ -82,7 +91,7 @@ print("Connecting to " + broker + " as user " + mqtt_username)
 
 sslparams = {'server_hostname': broker}
 
-mqtt_client = MQTTClient(client_id="pico1",
+mqtt_client = MQTTClient(client_id="pico4",
                         server=broker,
                         port= 1883,
                         user=mqtt_username,
@@ -124,7 +133,6 @@ def calibration(timer):
 
 # send data function for timer1
 def blink(timer):
-    led_green.toggle()
     data_mess = 'Heading {:4.2f} roll {:4.2f} pitch {:4.2f}'.format(*imu.euler())
     mqtt_client.publish(data_subtopic, data_mess)
     # print(data_mess)
@@ -161,6 +169,8 @@ for i in range(4):
     led_green.toggle()
     time.sleep(0.2)
 # start timer1
+
+led_green.on()
 timer1.init(period=20, mode=machine.Timer.PERIODIC, callback=blink)
 
 while True:
