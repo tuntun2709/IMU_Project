@@ -1,11 +1,11 @@
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication
+from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, QTimer
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
 import math
-
+from random import randint
 # -------------------------------------------------------------------
 class MainWindow(QtWidgets.QMainWindow):
     
@@ -43,6 +43,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.lowerlimb()
         self.lineChart()
+
+        # self.timer = QTimer()
+        # self.timer.setInterval(50)
+        # self.timer.timeout.connect(self.update_plot_data)
+        # self.timer.start()
 
         
 
@@ -159,9 +164,9 @@ class MainWindow(QtWidgets.QMainWindow):
         layout_lowerlimb.addWidget(lowerlimbChart)
 
     def lineChart(self):
-        hour = [1,2,3,4,5,6,7,8,9,10]
-        temperature = [30,32,34,32,33,31,29,32,35,45]
-        linechart = pg.plot()
+        self.x = [0 for _ in range(10)]  # 100 time points
+        self.y = [0 for _ in range(10)]  # 100 data points
+        linechart = pg.PlotWidget()
         linechart.showGrid(x = True, y = True)
         linechart.addLegend()
         # set properties of the label for y axis
@@ -171,11 +176,21 @@ class MainWindow(QtWidgets.QMainWindow):
         # setting horizontal range
         linechart.setXRange(0, 10)
         pen = pg.mkPen(color=(39, 164, 242), width=5)
-        line1 = linechart.plot(hour, temperature, pen =pen)
-        line1.setSymbol('o')
+        self.line1 = linechart.plot(self.x, self.y, pen =pen)
+        self.line1.setSymbol('o')
         layout_linechart = QHBoxLayout()
         self.uic.widget_MLinechart.setLayout(layout_linechart)
         layout_linechart.addWidget(linechart)
+
+    def update_plot_data(self,b):
+        # b = q0.get()
+        self.x = self.x[1:]  # Remove the first y element.
+        self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
+
+        self.y = self.y[1:]  # Remove the first
+        self.y.append(b)  # Add a new random value.
+
+        self.line1.setData(self.x, self.y)  # Update the data.
 # -------------------------------------------------------------------------------
 
 
