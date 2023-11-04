@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>892</width>
+    <height>569</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="lineEdit_NameSearch"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_CodeSearch"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pb_PartientListSearch">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icon/search.png</normaloff>icon/search.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget_PartientList">
+     <column>
+      <property name="text">
+       <string>STT</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Mã Bệnh Nhân</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Họ và Tên</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Ngày Sinh</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>CCCD</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Giới tính</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,101 +1,58 @@
-# importing Qt widgets
-from PySide6.QtWidgets import * 
 import sys
+from PySide6.QtCore import Signal, QObject
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog, QVBoxLayout, QLineEdit, QLabel, QWidget
 
-# importing pyqtgraph as pg
-import pyqtgraph as pg
-from PySide6.QtGui import *
-from testui import Ui_MainWindow
+class MyDialog(QDialog):
+    data_signal = Signal(str)  # Custom signal to pass data
+    
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Dialog")
+        layout = QVBoxLayout()
 
+        self.label = QLabel("Enter data:")
+        self.input_field = QLineEdit()
+        self.submit_button = QPushButton("Submit")
+        self.submit_button.clicked.connect(self.submit)
 
+        layout.addWidget(self.label)
+        layout.addWidget(self.input_field)
+        layout.addWidget(self.submit_button)
+        self.setLayout(layout)
 
-class Window(QMainWindow):
+    def submit(self):
+        data = self.input_field.text()
+        self.data_signal.emit(data)
+        self.accept()  # Close the dialog
 
-	def __init__(self):
-		super().__init__()
-		self.ui = Ui_MainWindow()
-		self.ui.setupUi(self)
-		
+class MyMainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
+        self.setWindowTitle("Main Window")
+        self.button = QPushButton("Open Dialog")
+        self.button.clicked.connect(self.open_dialog)
+        self.label = QLabel("Data from Dialog: ")
 
-		# calling method
-		self.UiComponents()
+        self.dialog = MyDialog()
+        self.dialog.data_signal.connect(self.handle_data)
 
+        layout = QVBoxLayout()
+        layout.addWidget(self.button)
+        layout.addWidget(self.label)
 
-	# method for components
-	def UiComponents(self):
+        central_widget = QWidget()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
 
-		
-		# creating a new label
-		label = QLabel("GeeksforGeeks Line Plot")
+    def open_dialog(self):
+        self.dialog.exec()
 
-		# making it multiline
-		label.setWordWrap(True)
-
-		# y values to plot by line 1
-		y = [2, 8, 6, 8, 6, 11, 14, 13, 18, 19]
-
-		# y values to plot by line 2
-		y2 = [3, 1, 5, 8, 9, 11, 16, 17, 14, 16]
-		x = range(0, 10)
-
-		# create plot window object
-		plt = pg.plot()
-
-		# showing x and y grids
-		plt.showGrid(x = True, y = True)
-
-		# adding legend
-		plt.addLegend()
-
-		# set properties of the label for y axis
-		plt.setLabel('left', 'Vertical Values', units ='y')
-
-		# set properties of the label for x axis
-		plt.setLabel('bottom', 'Horizontal Values', units ='s')
-
-		# setting horizontal range
-		plt.setXRange(0, 10)
-
-		# setting vertical range
-		plt.setYRange(0, 20)
-
-		# plotting line in green color
-		# with dot symbol as x, not a mandatory field
-		line1 = plt.plot(x, y, pen ='g', symbol ='x', symbolPen ='g', symbolBrush = 0.2, name ='green')
-
-		# plotting line2 with blue color
-		# with dot symbol as o
-		line2 = plt.plot(x, y2, pen ='b', symbol ='o', symbolPen ='b', symbolBrush = 0.2, name ='blue')
-
-		# setting symbol of the line 1
-		line1.setSymbol('o')
-
-		# label minimum width
-		label.setMinimumWidth(120)
-
-		# Creating a grid layout
-		layout = QHBoxLayout()
-
-		# setting this layout to the widget
-		self.ui.widget.setLayout(layout)
-
-		# adding label to the layout
-		layout.addWidget(label)
-
-		# plot window goes on right side, spanning 3 rows
-		layout.addWidget(plt)
-		print(type(plt))
-		print(type(layout))
-
-		
-
-
-
-
+    def handle_data(self, data):
+        self.label.setText(f"Data from Dialog: {data}")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main_win = Window()
-    main_win.show()
+    main_window = MyMainWindow()
+    main_window.show()
     sys.exit(app.exec())
