@@ -125,13 +125,13 @@ timer2 = machine.Timer()
 # send calib status funcion for timer2
 def calibration(timer):
     led.toggle()
-    calib_mess = 'sys {} gyro {} acc {} mag {}'.format(*imu.cal_status())
+    calib_mess = '{},{},{},{}'.format(*imu.cal_status())
     mqtt_client.publish(calib_subtopic, calib_mess)
     # print(calib_mess)
 
 # send data function for timer1
 def blink(timer):
-    data_mess = 'Heading {:4.2f} roll {:4.2f} pitch {:4.2f}'.format(*imu.euler())
+    data_mess = '{:4.2f},{:4.2f},{:4.2f}'.format(*imu.euler())
     mqtt_client.publish(data_subtopic, data_mess)
     # print(data_mess)
 

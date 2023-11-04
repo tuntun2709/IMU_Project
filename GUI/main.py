@@ -9,6 +9,12 @@ import json
 from ExerciseDlgClass import Exercise_Dlg
 from PartienetInfoDlgClass import PartientInfo_Dlg
 from PartientListDlgClass import PartientList_Dlg
+
+import paho.mqtt.client as mqtt
+import threading
+import time
+from queue import Queue
+import csv
 # -------------------------------------------------------------------
 class MainWindow(QtWidgets.QMainWindow):
 	
@@ -53,6 +59,75 @@ class MainWindow(QtWidgets.QMainWindow):
 		f.close()
 		self.uic.cb_MainExcercise.addItem("Thêm mới")
 
+
+
+		self.q1 = Queue() #process queue for sensor 1
+		self.log_list1 = [] #log list for sensor 1
+		self.q2 = Queue()
+		self.log_list2 = []
+		self.q3 = Queue()
+		self.log_list3 = []
+		self.q4 = Queue()
+		self.log_list4 = []
+
+		self.nclients = 4
+		self.process_queues = [self.q1, self.q2, self.q3, self.q4]
+		self.log_lists = [self.log_list1, self.log_list2, self.log_list3, self.log_list4]
+		self.client_threads = []
+		self.clients = []
+		for i in range(self.nclients):
+			cname="client"+str(i)
+			t=int(time.time())
+			client_id =cname+str(t) #create unique client_id
+			client = mqtt.Client(client_id) #create new instance
+			client.proq = self.process_queues[i]
+			client.logL = self.log_lists[i]
+			client.logfile = f'log_list{i+1}'
+			client.on_connect = self.on_connect
+			#client.on_publish = self.on_publish
+			client.on_message = self.on_message
+			client.username_pw_set("user" + str(i+1),"1234")
+		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively
+			client.connect("192.168.50.10", 1883, 3600)
+			self.clients.append(client)
+			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
+		
+		for thread in self.client_threads:
+			thread.start()
+
+	def on_connect(self, client, userdata, flags, rc):
+		print(f"Connected with result code {rc}")
+
+	def on_log(self, client, userdata, level, buf):
+		print("log: " + buf)
+
+	def on_message(self, client, userdata, msg):
+		message = str(msg.payload.decode("utf-8"))
+		topics = msg.topic.split('/')
+		subtopic = topics[1]
+		match subtopic:
+			case 'data':
+				client.proq.put(message)
+				client.logL.append([message])
+		# Save data to file on each message
+				with open(f'{client.logfile}.csv', 'w', newline='') as f:
+					csvwriter = csv.writer(f)
+					csvwriter.writerows(client.logL)
+					f.close()
+				print(message)
+			case 'calib':
+				print(f'{topics[0]}: {message}')
+			case 'calib_status':
+				if message == 'a':
+					print('imu is not calibrated')
+				else:
+					print('imu is calibrated')
+
+	def Sub(self, client, topic):
+		client.subscribe(f'{topic}/#')
+		client.loop_start()
+
+
 # --------------------------------------------------------------------------\
 	def declare_var(self):
 		self.dlg_Exercise = None
@@ -88,6 +163,10 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.showMinimized()
 	
 	def control_bt_close(self):
+		for client in self.clients:
+			client.loop_stop()
+		for thread in self.client_threads:
+			thread.join()
 		self.close()
 
 	def control_bt_expand(self):
