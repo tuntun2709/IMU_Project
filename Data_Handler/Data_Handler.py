@@ -33,6 +33,7 @@ def on_message(client, userdata, msg):
         case 'data':
             client.proq.put(message)
             client.logL.append([message])
+# Save data to file on each message
             with open(f'{client.logfile}.csv', 'w', newline='') as f:
                 csvwriter = csv.writer(f)
                 csvwriter.writerows(client.logL)
