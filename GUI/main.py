@@ -1,6 +1,6 @@
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal
+from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QTimer
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
@@ -91,10 +91,17 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.connect("192.168.50.10", 1883, 3600)
 			self.clients.append(client)
 			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
-		
+### Start the threads aka start receiving data	
 		for thread in self.client_threads:
 			thread.start()
 
+		self.timer = QTimer()
+		self.timer.setInterval(500)
+		self.timer.timeout.connect(self.update_plot_data)
+		self.timer.start()
+
+		self.q = next((q for q in self.process_queues if not q.empty()), Queue())
+	
 	def on_connect(self, client, userdata, flags, rc):
 		print(f"Connected with result code {rc}")
 
@@ -277,8 +284,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		layoutMain_lowerlimb.addWidget(lowerlimbChart)
 
 	def lineChart(self):
-		hour = [1,2,3,4,5,6,7,8,9,10]
-		temperature = [30,32,34,32,33,31,29,32,35,45]
+		self.x = [0 for i in range(10)]
+		self.y = [0 for i in range(10)]
 		linechart = pg.plot()
 		linechart.showGrid(x = True, y = True)
 		linechart.addLegend()
@@ -289,12 +296,24 @@ class MainWindow(QtWidgets.QMainWindow):
 		# setting horizontal range
 		linechart.setXRange(0, 10)
 		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		line1 = linechart.plot(hour, temperature, pen =pen)
-		line1.setSymbol('o')
+		self.line1 = linechart.plot(self.x, self.y, pen =pen)
+		self.line1.setSymbol('o')
 		linechart.setBackground('w')
 		layoutMain_linechart = QHBoxLayout()		
 		self.uic.widget_MLinechart.setLayout(layoutMain_linechart)		
 		layoutMain_linechart.addWidget(linechart)	
+
+	def update_plot_data(self):
+		
+		if not self.q.empty():
+			self.x = self.x[1:]  # Remove the first y element.
+			self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
+
+			data = self.q.get()
+			self.y = self.y[1:]  # Remove the first
+			self.y.append(data)  # Add a new random value.
+
+			self.line1.setData(self.x, self.y)  # Update the data.
 
 	def onPartientAddClinked(self):
 		if self.dlg_PartientInfo == None:
