@@ -1,0 +1,37 @@
+{
+    "0": {
+        "name": "Nguy\u1ec5n Quang Duy",
+        "ID": "98374293847",
+        "Height": "53421",
+        "Weight": "1236",
+        "Gender": "Male",
+        "DateOfBirth": "30/05/2001",
+        "PatientCode": "Duy3847300501",
+        "Exercise": [
+            "swim_2023-11-06 11:47:28.773239",
+            "eat_2023-11-06 18:23:46.009306"
+        ]
+    },
+    "1": {
+        "name": "Tr\u1ecbnh Xu\u00e2n Th\u00e0nh",
+        "ID": "24872634",
+        "Height": "123",
+        "Weight": "6765",
+        "Gender": "Male",
+        "DateOfBirth": "28/12/2077",
+        "PatientCode": "Th\u00e0nh6348010100",
+        "Exercise": [
+            "walk_2023-11-06 18:16:00.236061"
+        ]
+    },
+    "2": {
+        "DateOfBirth": "01/01/2222",
+        "Exercise": [],
+        "Gender": "Male",
+        "Height": "123",
+        "ID": "8236478263",
+        "PatientCode": "T\u00f9ng8263010122",
+        "Weight": "435",
+        "name": "Ho\u00e0ng Xu\u00e2n T\u00f9ng"
+    }
+}
