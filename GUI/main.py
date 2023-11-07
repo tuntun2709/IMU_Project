@@ -3,7 +3,7 @@ from random import randint
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QDate, QTimer
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget, QFileDialog
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
 import math
@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic.pb_PatientInfoRemoveAll.clicked.connect(self.removeAllPatientInfo)
 		self.uic.pb_MainConnector.clicked.connect(self.connectBroker)
 		self.uic.pb_MainEndExercise.clicked.connect(self.disconnectBroker)
-		
+
 		self.lowerlimbMain()
 		self.lineChartMain()
 		self.lowerlimbReview()
@@ -87,7 +87,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.nclients = 4
 		self.process_queues = [self.q1, self.q2, self.q3, self.q4]
 		self.log_lists = [self.log_list1, self.log_list2, self.log_list3, self.log_list4]
-		self.client_threads = []
+		# self.client_threads = []
 		self.clients = []
 		for i in range(self.nclients):
 			cname="client"+str(i)
@@ -103,14 +103,11 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.username_pw_set("user" + str(i+1),"1234")
 		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
 			self.clients.append(client)
-			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
-	### Start the threads aka start receiving data	
 		
-
-		# self.timer = QTimer()
-		# self.timer.setInterval(500)
-		# self.timer.timeout.connect(self.update_plot_data)
-		# self.timer.start()
+		self.timer = QTimer()
+		self.timer.setInterval(500)
+		self.timer.timeout.connect(self.update_plot_data)
+		self.timer.start()
 
 		# self.q = next((q for q in self.process_queues if not q.empty()), Queue())
 
@@ -266,7 +263,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def lineChartMain(self):
 		self.time = [0 for _ in range(10)]
-		self.angle = [0 for _ in range(10)]
+		self.hipAngle = [0 for _ in range(10)]
+		self.kneeAngle = [0 for _ in range(10)]
+		self.ankleAngle = [0 for _ in range(10)]
 		linechart = pg.plot()
 		linechart.showGrid(x = True, y = True)
 		linechart.addLegend()
@@ -277,8 +276,12 @@ class MainWindow(QtWidgets.QMainWindow):
 		# setting horizontal range
 		linechart.setXRange(0, 10)
 		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		self.line1 = linechart.plot(self.time, self.angle, pen =pen)
+		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen)
+		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen)
+		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen)
 		self.line1.setSymbol('o')
+		self.line2.setSymbol('o')
+		self.line3.setSymbol('o')
 		linechart.setBackground('w')
 		layoutMain_linechart = QHBoxLayout()		
 		self.uic.widget_MLinechart.setLayout(layoutMain_linechart)		
@@ -292,11 +295,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
 			data1 = self.q1.get()
 			data2 = self.q2.get()
-			data = float(data1.split(',')[2]) - float(data2.split(',')[2])
-			self.angle = self.angle[1:]  # Remove the first
-			self.angle.append(data)  # Add a new random value.
+			data3 = self.q3.get()
+			data4 = self.q4.get()
+			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
+			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			self.hipAngle = self.hipAngle[1:]  # Remove the first
+			self.kneeAngle = self.kneeAngle[1:]
+			self.ankleAngle = self.ankleAngle[1:]
+			self.hipAngle.append(hip)  # Add a new random value.
+			self.kneeAngle.append(knee)
+			self.ankleAngle.append(ankle)
 
-			self.line1.setData(self.time, self.angle)  # Update the data.
+			self.line1.setData(self.time, self.hipAngle)  # Update the data.
+			self.line2.setData(self.time, self.kneeAngle)
+			self.line3.setData(self.time, self.ankleAngle)
 
 	def onPatientAddClinked(self):
 		if self.dlg_PatientInfo == None:
@@ -510,6 +523,9 @@ class MainWindow(QtWidgets.QMainWindow):
 			json.dump(file_data, f, indent= 4)
 			f.close()
 		
+		self.client_threads = []
+		for client in self.clients:
+			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{self.clients.index(client)+1}')))
 		for thread in self.client_threads:
 			thread.start()
 
@@ -581,10 +597,14 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.connect("192.168.50.10", 1883, 3600)
 
 	def disconnectBroker(self):
+		while not self.q1.empty():
+			self.update_plot_data()
 		for client in self.clients:
 			client.loop_stop()
 		for thread in self.client_threads:
 			thread.join()
+		print('All threads ended')
+
 # -------------------------------------------------------------------------------
 
 
