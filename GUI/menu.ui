@@ -555,7 +555,7 @@ font:75 12pt &quot;Droid Sans&quot;;
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_Main">
              <widget class="QWidget" name="widget" native="true">

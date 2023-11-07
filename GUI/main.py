@@ -1,6 +1,6 @@
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QDate
+from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QDate, QTimer
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
@@ -10,6 +10,12 @@ import datetime
 from ExerciseDlgClass import Exercise_Dlg
 from PatientInfoDlgClass import PatientInfo_Dlg
 from PatientsListDlgClass import PatientsList_Dlg
+
+import paho.mqtt.client as mqtt
+import threading
+import time
+from queue import Queue
+import csv
 # -------------------------------------------------------------------
 class MainWindow(QtWidgets.QMainWindow):
 	
@@ -46,6 +52,11 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic.le_PatientInfoSearch.textChanged.connect(self.searchPatientInfo)
 		self.uic.pb_PatientInfoSavePatient.clicked.connect(self.editPatientInfo)
 		self.uic.pb_MainStartExercise.clicked.connect(self.startExercise)
+		self.uic.pb_PatientInfoRemovePatient.clicked.connect(self.removePatientInfo)
+		self.uic.pb_PatientInfoRemoveAll.clicked.connect(self.removeAllPatientInfo)
+		self.uic.pb_MainConnector.clicked.connect(self.connectBroker)
+		self.uic.pb_MainEndExercise.clicked.connect(self.disconnectBroker)
+		
 		self.lowerlimbMain()
 		self.lineChartMain()
 		self.lowerlimbReview()
@@ -61,6 +72,46 @@ class MainWindow(QtWidgets.QMainWindow):
 		f.close()
 		self.uic.cb_MainExcercise.addItem("Thêm mới")
 
+		# -----------------------Connect-------------------------------------------
+		self.q1 = Queue() #process queue for sensor 1
+		self.log_list1 = [] #log list for sensor 1
+		self.q2 = Queue()
+		self.log_list2 = []
+		self.q3 = Queue()
+		self.log_list3 = []
+		self.q4 = Queue()
+		self.log_list4 = []
+
+		self.nclients = 4
+		self.process_queues = [self.q1, self.q2, self.q3, self.q4]
+		self.log_lists = [self.log_list1, self.log_list2, self.log_list3, self.log_list4]
+		self.client_threads = []
+		self.clients = []
+		for i in range(self.nclients):
+			cname="client"+str(i)
+			t=int(time.time())
+			client_id =cname+str(t) #create unique client_id
+			client = mqtt.Client(client_id) #create new instance
+			client.proq = self.process_queues[i]
+			client.logL = self.log_lists[i]
+			client.logfile = f'log_list{i+1}'
+			client.on_connect = self.on_connect
+			#client.on_publish = self.on_publish
+			client.on_message = self.on_message
+			client.username_pw_set("user" + str(i+1),"1234")
+		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
+			self.clients.append(client)
+			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
+	### Start the threads aka start receiving data	
+		
+
+		# self.timer = QTimer()
+		# self.timer.setInterval(500)
+		# self.timer.timeout.connect(self.update_plot_data)
+		# self.timer.start()
+
+		# self.q = next((q for q in self.process_queues if not q.empty()), Queue())
+
 # --------------------------------------------------------------------------\
 	def declare_var(self):
 		self.dlg_Exercise = None
@@ -68,13 +119,13 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.dlg_PatientsList = PatientsList_Dlg()
 		self.numOfPatient = 0
 		try:
-			with open('sample.json', 'r') as f:
+			with open('sample.json', 'r', encoding='utf-8') as f:
 				e = json.load(f)
 				self.numOfPatient = len(e)
 				# print(self.numOfPatient)
 				f.close()
 		except:
-			f = open('sample.json', 'w')
+			f = open('sample.json', 'w', encoding='utf-8')
 			f.write('{}')
 			f.close()
 
@@ -95,7 +146,7 @@ class MainWindow(QtWidgets.QMainWindow):
 	def control_bt_mini(self):
 		self.showMinimized()
 	
-	def control_bt_close(self):
+	def control_bt_close(self):		
 		self.close()
 
 	def control_bt_expand(self):
@@ -164,7 +215,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.thisPage = "Review"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Xem L\u1ea1i", None))
 		elif(page == "PatientInfo"):
-			self.loadPatientList()
+			self.loadPatientsList()
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_PatientInfomation)
 			self.thisPage = "PatientInfo"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Th\u00f4ng tin b\u1ec7nh nh\u00e2n", None))
@@ -263,13 +314,13 @@ class MainWindow(QtWidgets.QMainWindow):
 	def handle_newPatientInfo(self, data):
 		data_list = {}
 		# print(data)
-		with open('sample.json', 'r') as f:
+		with open('sample.json', 'r', encoding='utf-8') as f:
 			data_list = json.load(f)
-			data_list[self.numOfPatient] = data	
+			data_list[str(self.numOfPatient)] = data	
 			self.numOfPatient += 1		
 			f.close()
 		
-		with open('sample.json','w') as f:			
+		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(data_list, f, indent= 4)
 			f.close()
 		
@@ -283,9 +334,9 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.currentTime = datetime.datetime.now()
 		self.uic.lb_MainDayExercise.setText(str(self.currentTime))
 		
-	def loadPatientList(self):
+	def loadPatientsList(self):
 		file_data = {}
-		with open('sample.json','r') as file:
+		with open('sample.json','r', encoding='utf-8') as file:
 			file_data = json.load(file)
 			file.close()
 		self.uic.tableWidget_PatientInfoPatientTable.setRowCount(len(file_data))
@@ -405,15 +456,15 @@ class MainWindow(QtWidgets.QMainWindow):
 				'PatientCode': ParitentList[Patient[0].text()]['PatientCode'],
 				'Exercise': ParitentList[Patient[0].text()]['Exercise']}
 		ParitentList[Patient[0].text()] = data
-		with open('sample.json','w') as f:			
+		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(ParitentList, f, indent= 4)
 			f.close()
-		self.loadPatientList()
+		self.loadPatientsList()
 
 	def getPatientInfoToEdit(self):
 		Patient = self.uic.tableWidget_PatientInfoPatientTable.selectedItems()
 		ParitentList = {}
-		with open('sample.json','r') as file:
+		with open('sample.json','r', encoding='utf-8') as file:
 			ParitentList = json.load(file)
 			file.close()
 		PatientInfo = ParitentList[Patient[0].text()]
@@ -432,16 +483,19 @@ class MainWindow(QtWidgets.QMainWindow):
 	def startExercise(self):
 		Exercise = self.uic.cb_MainExcercise.currentText()+'_' + self.uic.lb_MainDayExercise.text()
 		
-		with open('sample.json','r') as file:
+		with open('sample.json','r', encoding='utf-8') as file:
 			file_data = json.load(file)
 			file.close()
 		for index_person in range(len(file_data)):
 			if file_data[str(index_person)]['PatientCode'] == self.currentMainPatientCode:				
 				file_data[str(index_person)]['Exercise'].append(Exercise)				
 		
-		with open('sample.json','w') as f:			
+		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(file_data, f, indent= 4)
 			f.close()
+		
+		for thread in self.client_threads:
+			thread.start()
 
 	def searchPatientInfo(self):
 		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
@@ -454,6 +508,67 @@ class MainWindow(QtWidgets.QMainWindow):
 			item = matching_items[0]  # take the first
 			self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(item)
 			self.uic.tableWidget_PatientInfoPatientTable.scrollToItem(item, QAbstractItemView.PositionAtTop)
+
+	def removePatientInfo(self):
+		Patient = self.uic.tableWidget_PatientInfoPatientTable.selectedItems()
+		ParitentList = {}
+		with open('sample.json','r', encoding='utf-8') as file:
+			ParitentList = json.load(file)
+			file.close()
+		print(ParitentList[Patient[0].text()])
+		del ParitentList[Patient[0].text()]
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump(ParitentList, f, indent= 4)
+			f.close()
+		self.loadPatientsList()
+	
+	def removeAllPatientInfo(self):
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump({}, f)
+			f.close()
+		self.loadPatientsList()
+	
+	def on_connect(self, client, userdata, flags, rc):
+		print(f"Connected with result code {rc}")
+
+	def on_log(self, client, userdata, level, buf):
+		print("log: " + buf)
+
+	def on_message(self, client, userdata, msg):
+		message = str(msg.payload.decode("utf-8"))
+		topics = msg.topic.split('/')
+		subtopic = topics[1]
+		match subtopic:
+			case 'data':
+				client.proq.put(message)
+				client.logL.append([message])
+		# Save data to file on each message
+				with open(f'{client.logfile}.csv', 'w', newline='') as f:
+					csvwriter = csv.writer(f)
+					csvwriter.writerows(client.logL)
+					f.close()
+				print(message)
+			case 'calib':
+				print(f'{topics[0]}: {message}')
+			case 'calib_status':
+				if message == 'a':
+					print('imu is not calibrated')
+				else:
+					print('imu is calibrated')
+
+	def Sub(self, client, topic):
+		client.subscribe(f'{topic}/#')
+		client.loop_start()
+
+	def connectBroker(self):
+		for client in self.clients:
+			client.connect("192.168.50.10", 1883, 3600)
+
+	def disconnectBroker(self):
+		for client in self.clients:
+			client.loop_stop()
+		for thread in self.client_threads:
+			thread.join()
 # -------------------------------------------------------------------------------
 
 
