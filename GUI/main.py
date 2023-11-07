@@ -1,3 +1,4 @@
+from numpy import angle
 from random import randint
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
@@ -264,8 +265,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		layoutMain_lowerlimb.addWidget(lowerlimbChart)
 
 	def lineChartMain(self):
-		hour = [1,2,3,4,5,6,7,8,9,10]
-		temperature = [30,32,34,32,33,31,29,32,35,45]
+		self.time = [0 for _ in range(10)]
+		self.angle = [0 for _ in range(10)]
 		linechart = pg.plot()
 		linechart.showGrid(x = True, y = True)
 		linechart.addLegend()
@@ -276,12 +277,26 @@ class MainWindow(QtWidgets.QMainWindow):
 		# setting horizontal range
 		linechart.setXRange(0, 10)
 		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		line1 = linechart.plot(hour, temperature, pen =pen)
-		line1.setSymbol('o')
+		self.line1 = linechart.plot(self.time, self.angle, pen =pen)
+		self.line1.setSymbol('o')
 		linechart.setBackground('w')
 		layoutMain_linechart = QHBoxLayout()		
 		self.uic.widget_MLinechart.setLayout(layoutMain_linechart)		
 		layoutMain_linechart.addWidget(linechart)	
+
+	def update_plot_data(self):
+		
+		if not (self.q1.empty() or self.q2.empty()):
+			self.time = self.time[1:]  # Remove the first y element.
+			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
+
+			data1 = self.q1.get()
+			data2 = self.q2.get()
+			data = float(data1.split(',')[2]) - float(data2.split(',')[2])
+			self.angle = self.angle[1:]  # Remove the first
+			self.angle.append(data)  # Add a new random value.
+
+			self.line1.setData(self.time, self.angle)  # Update the data.
 
 	def onPatientAddClinked(self):
 		if self.dlg_PatientInfo == None:
