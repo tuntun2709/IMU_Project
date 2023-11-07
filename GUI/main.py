@@ -87,13 +87,11 @@ class MainWindow(QtWidgets.QMainWindow):
 			#client.on_publish = self.on_publish
 			client.on_message = self.on_message
 			client.username_pw_set("user" + str(i+1),"1234")
-		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively
-			client.connect("192.168.50.10", 1883, 3600)
+		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
 			self.clients.append(client)
 			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
-### Start the threads aka start receiving data	
-		for thread in self.client_threads:
-			thread.start()
+	### Start the threads aka start receiving data	
+		
 
 		self.timer = QTimer()
 		self.timer.setInterval(500)
