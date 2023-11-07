@@ -1,3 +1,4 @@
+from random import randint
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QTimer
@@ -89,17 +90,30 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.username_pw_set("user" + str(i+1),"1234")
 		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
 			self.clients.append(client)
-			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
+			client.connect("192.168.50.10", 1883, 3600)
+			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))
+
+		for thread in self.client_threads:
+			thread.start()
 	### Start the threads aka start receiving data	
 		
 
-		self.timer = QTimer()
-		self.timer.setInterval(500)
-		self.timer.timeout.connect(self.update_plot_data)
-		self.timer.start()
+		# self.timer1 = QTimer()
+		# self.timer1.setInterval(20)
+		# self.timer1.timeout.connect(self.update_data)
+		# self.timer1.start()
 
-		self.q = next((q for q in self.process_queues if not q.empty()), Queue())
+		self.timer2 = QTimer()
+		self.timer2.setInterval(500)
+		self.timer2.timeout.connect(self.update_plot_data)
+		self.timer2.start()
+
+		# self.q = next((q for q in self.process_queues if not q.empty()), Queue())
 	
+	# def update_data(self):
+	# 	for queue in self.process_queues:
+	# 		queue.put(randint(0, 180))
+
 	def on_connect(self, client, userdata, flags, rc):
 		print(f"Connected with result code {rc}")
 
@@ -113,7 +127,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		match subtopic:
 			case 'data':
 				client.proq.put(message)
-				client.logL.append([message])
+				mess = message.split(',')
+				client.logL.append([mess[0], mess[1], mess[2]])
 		# Save data to file on each message
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
 					csvwriter = csv.writer(f)
@@ -303,11 +318,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def update_plot_data(self):
 		
-		if not self.q.empty():
+		if not (self.q1.empty() or self.q2.empty()):
 			self.x = self.x[1:]  # Remove the first y element.
 			self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
 
-			data = self.q.get()
+			data1 = self.q1.get()
+			data2 = self.q2.get()
+			data = float(data1.split(',')[2]) - float(data2.split(',')[2])
 			self.y = self.y[1:]  # Remove the first
 			self.y.append(data)  # Add a new random value.
 
