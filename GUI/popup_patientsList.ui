@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>892</width>
+    <height>569</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="lineEdit_Search">
+       <property name="placeholderText">
+        <string>Tìm Kiếm...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget_PatientsList">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <column>
+      <property name="text">
+       <string>STT</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Mã Bệnh Nhân</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Họ và Tên</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Ngày Sinh</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>CCCD</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Giới tính</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

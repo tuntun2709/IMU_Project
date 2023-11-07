@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1457</width>
-    <height>843</height>
+    <width>1475</width>
+    <height>845</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,7 +99,7 @@ font: 87 12pt &quot;Arial Black&quot;;
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/barra-de-menus.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/barra-de-menus.png</iconset>
+           <normaloff>icon/barra-de-menus.png</normaloff>icon/barra-de-menus.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -145,7 +145,7 @@ background-color:white;
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/minimizar.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/minimizar.png</iconset>
+           <normaloff>icon/minimizar.png</normaloff>icon/minimizar.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -171,7 +171,7 @@ background-color:white;
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/restaurar.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/restaurar.png</iconset>
+           <normaloff>icon/restaurar.png</normaloff>icon/restaurar.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -197,7 +197,7 @@ background-color:white;
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/maximizar.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/maximizar.png</iconset>
+           <normaloff>icon/max.png</normaloff>icon/max.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -223,7 +223,7 @@ background-color:white;
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/cerrar.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/cerrar.png</iconset>
+           <normaloff>icon/cerrar.png</normaloff>icon/cerrar.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -341,7 +341,7 @@ font:75 12pt &quot;Droid Sans&quot;;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/inteligencia-artificial.png</normaloff>../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/inteligencia-artificial.png</iconset>
+              <normaloff>icon/inteligencia-artificial.png</normaloff>icon/inteligencia-artificial.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -428,7 +428,7 @@ font:75 12pt &quot;Droid Sans&quot;;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icon/partient_info.png</normaloff>icon/partient_info.png</iconset>
+              <normaloff>icon/patient_info.png</normaloff>icon/patient_info.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -464,6 +464,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <width>32</width>
               <height>32</height>
              </size>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -552,7 +555,7 @@ font:75 12pt &quot;Droid Sans&quot;;
              <string notr="true"/>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_Main">
              <widget class="QWidget" name="widget" native="true">
@@ -561,11 +564,18 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <x>0</x>
                 <y>0</y>
                 <width>251</width>
-                <height>151</height>
+                <height>141</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">font:75 12pt &quot;Droid Sans&quot;;</string>
+               <string notr="true">font:75 12pt &quot;Droid Sans&quot;;
+QPushButton{
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:pressed{
+	background-color: rgb(255, 255, 255);
+}
+</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
                <item>
@@ -638,13 +648,22 @@ font:75 12pt &quot;Droid Sans&quot;;
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../1.tutorial/icon/accept.png</normaloff>../1.tutorial/icon/accept.png</iconset>
+                       <normaloff>icon/accept.png</normaloff>icon/accept.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
                        <width>12</width>
                        <height>12</height>
                       </size>
+                     </property>
+                     <property name="checkable">
+                      <bool>false</bool>
+                     </property>
+                     <property name="autoDefault">
+                      <bool>false</bool>
+                     </property>
+                     <property name="default">
+                      <bool>false</bool>
                      </property>
                      <property name="flat">
                       <bool>true</bool>
@@ -675,7 +694,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../1.tutorial/icon/accept.png</normaloff>../1.tutorial/icon/accept.png</iconset>
+                       <normaloff>icon/accept.png</normaloff>icon/accept.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -712,7 +731,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../1.tutorial/icon/accept.png</normaloff>../1.tutorial/icon/accept.png</iconset>
+                       <normaloff>icon/accept.png</normaloff>icon/accept.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -749,7 +768,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                      </property>
                      <property name="icon">
                       <iconset>
-                       <normaloff>../1.tutorial/icon/accept.png</normaloff>../1.tutorial/icon/accept.png</iconset>
+                       <normaloff>icon/accept.png</normaloff>icon/accept.png</iconset>
                      </property>
                      <property name="iconSize">
                       <size>
@@ -771,9 +790,9 @@ font:75 12pt &quot;Droid Sans&quot;;
              <widget class="QFrame" name="frame">
               <property name="geometry">
                <rect>
-                <x>-10</x>
+                <x>-1</x>
                 <y>150</y>
-                <width>470</width>
+                <width>461</width>
                 <height>651</height>
                </rect>
               </property>
@@ -785,19 +804,19 @@ font:75 12pt &quot;Droid Sans&quot;;
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_10">
                <property name="spacing">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="leftMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="rightMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <item>
                 <widget class="QTableWidget" name="tableWidget_MDataTable">
@@ -829,7 +848,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <x>250</x>
                 <y>0</y>
                 <width>211</width>
-                <height>151</height>
+                <height>141</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -837,14 +856,14 @@ font:75 12pt &quot;Droid Sans&quot;;
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
                <item>
-                <widget class="QPushButton" name="pb_MainPartientList">
+                <widget class="QPushButton" name="pb_MainPatientsList">
                  <property name="text">
                   <string>Danh sách bệnh nhân</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pb_MainAddPartient">
+                <widget class="QPushButton" name="pb_MainAddPatient">
                  <property name="text">
                   <string>Thêm bệnh nhân mới</string>
                  </property>
@@ -890,9 +909,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lb_MainSex">
+                 <widget class="QLabel" name="lb_MainPatientGender">
                   <property name="text">
-                   <string>Nam</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -906,7 +925,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <item>
                  <widget class="QLabel" name="lb_MainDateOfBirth">
                   <property name="text">
-                   <string>01/01/1111</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -930,9 +949,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lb_MainWeight">
+                 <widget class="QLabel" name="lb_MainPatientWeight">
                   <property name="text">
-                   <string>100kg</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -944,9 +963,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lv_MainHeight">
+                 <widget class="QLabel" name="lb_MainPatientHeight">
                   <property name="text">
-                   <string>120cm</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -976,9 +995,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lb_MainPartientCode">
+                 <widget class="QLabel" name="lb_MainPatientCode">
                   <property name="text">
-                   <string>quang.khuat</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -1038,7 +1057,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <item>
                  <widget class="QLabel" name="lb_MainDayExercise">
                   <property name="text">
-                   <string>12:12-31/02/2031</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -1101,9 +1120,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QPushButton" name="pb_MainStartExercise">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>20</x>
                  <y>290</y>
-                 <width>301</width>
+                 <width>281</width>
                  <height>41</height>
                 </rect>
                </property>
@@ -1114,9 +1133,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QPushButton" name="pb_MainEndExercise">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>20</x>
                  <y>340</y>
-                 <width>301</width>
+                 <width>281</width>
                  <height>41</height>
                 </rect>
                </property>
@@ -1127,9 +1146,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QPushButton" name="pb_MainSaveData">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>20</x>
                  <y>390</y>
-                 <width>301</width>
+                 <width>281</width>
                  <height>41</height>
                 </rect>
                </property>
@@ -1153,6 +1172,21 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <property name="spacing">
+                 <number>2</number>
+                </property>
+                <property name="leftMargin">
+                 <number>2</number>
+                </property>
+                <property name="topMargin">
+                 <number>2</number>
+                </property>
+                <property name="rightMargin">
+                 <number>2</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>2</number>
+                </property>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_33">
                   <item>
@@ -1287,9 +1321,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lb_MainName">
+                 <widget class="QLabel" name="lb_MainPatientName">
                   <property name="text">
-                   <string>Quang Khuất</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -1319,9 +1353,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lb_MainID">
+                 <widget class="QLabel" name="lb_MainPatientID">
                   <property name="text">
-                   <string>012345678912</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -1451,7 +1485,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="rb_Stcm">
+                 <widget class="QRadioButton" name="rb_SettingCm">
                   <property name="minimumSize">
                    <size>
                     <width>20</width>
@@ -1464,7 +1498,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="rb_StInch">
+                 <widget class="QRadioButton" name="rb_SettingInch">
                   <property name="text">
                    <string>inch</string>
                   </property>
@@ -1505,7 +1539,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="rb_StKg">
+                 <widget class="QRadioButton" name="rb_SettingKg">
                   <property name="minimumSize">
                    <size>
                     <width>20</width>
@@ -1518,7 +1552,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="rb_StLb">
+                 <widget class="QRadioButton" name="rb_SettingLb">
                   <property name="text">
                    <string>lb</string>
                   </property>
@@ -1526,7 +1560,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                 </item>
                </layout>
               </widget>
-              <widget class="QPushButton" name="pb_StResetSystem">
+              <widget class="QPushButton" name="pb_SettingResetSystem">
                <property name="geometry">
                 <rect>
                  <x>20</x>
@@ -1557,7 +1591,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="cb_StLanguage">
+                 <widget class="QComboBox" name="cb_SettingLanguage">
                   <item>
                    <property name="text">
                     <string>Tiếng Việt</string>
@@ -1574,7 +1608,7 @@ font:75 12pt &quot;Droid Sans&quot;;
               </widget>
              </widget>
             </widget>
-            <widget class="QWidget" name="page_PartientInfomation">
+            <widget class="QWidget" name="page_PatientInfomation">
              <widget class="QLabel" name="label_4">
               <property name="geometry">
                <rect>
@@ -1588,16 +1622,16 @@ font:75 12pt &quot;Droid Sans&quot;;
                <string notr="true">font: 12pt &quot;Segoe UI Historic&quot;;</string>
               </property>
               <property name="text">
-               <string>Partient WIDGET</string>
+               <string>Patient WIDGET</string>
               </property>
              </widget>
              <widget class="QFrame" name="frame_9">
               <property name="geometry">
                <rect>
-                <x>50</x>
-                <y>70</y>
-                <width>351</width>
-                <height>381</height>
+                <x>40</x>
+                <y>60</y>
+                <width>401</width>
+                <height>461</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1612,6 +1646,12 @@ font:75 12pt &quot;Droid Sans&quot;;
               <layout class="QVBoxLayout" name="verticalLayout_12">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_63">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_138">
                    <property name="minimumSize">
@@ -1632,9 +1672,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="le_PartientInfoName">
+                  <widget class="QLineEdit" name="le_PatientInfoName">
                    <property name="text">
-                    <string>Quang Khuất</string>
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Tên</string>
                    </property>
                   </widget>
                  </item>
@@ -1642,6 +1685,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_64">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_139">
                    <property name="minimumSize">
@@ -1662,9 +1711,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="le_PartientInfoID">
+                  <widget class="QLineEdit" name="le_PatientInfoID">
                    <property name="text">
-                    <string>012345678912</string>
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>CCCD</string>
                    </property>
                   </widget>
                  </item>
@@ -1672,6 +1724,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_72">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_151">
                    <property name="minimumSize">
@@ -1692,12 +1750,18 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDateEdit" name="de_PartientInfoBorn"/>
+                  <widget class="QDateEdit" name="de_PatientInfoDateOfBirth"/>
                  </item>
                 </layout>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_65">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_140">
                    <property name="minimumSize">
@@ -1718,7 +1782,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="cb_PartientInfoSex">
+                  <widget class="QComboBox" name="cb_PatientInfoGender">
                    <item>
                     <property name="text">
                      <string>Nam</string>
@@ -1735,6 +1799,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_67">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_143">
                    <property name="minimumSize">
@@ -1749,9 +1819,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="le_PartientInfoHeight">
+                  <widget class="QLineEdit" name="le_PatientInfoHeight">
                    <property name="text">
-                    <string>120</string>
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>...</string>
                    </property>
                   </widget>
                  </item>
@@ -1766,6 +1839,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_66">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_141">
                    <property name="minimumSize">
@@ -1780,9 +1859,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="le_PartientInfoWeight">
+                  <widget class="QLineEdit" name="le_PatientInfoWeight">
                    <property name="text">
-                    <string>120</string>
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>...</string>
                    </property>
                   </widget>
                  </item>
@@ -1811,9 +1893,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="lb_PartientInfoParitentCode">
+                  <widget class="QLabel" name="lb_PatientInfoPatitentCode">
                    <property name="text">
-                    <string>Quang.khuat</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
@@ -1838,14 +1920,14 @@ font:75 12pt &quot;Droid Sans&quot;;
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_76">
                <item>
-                <widget class="QPushButton" name="pb_PartientInfoSavePartient">
+                <widget class="QPushButton" name="pb_PatientInfoSavePatient">
                  <property name="text">
                   <string>Lưu</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pb_PartientInfoRemovePartient">
+                <widget class="QPushButton" name="pb_PatientInfoRemovePatient">
                  <property name="text">
                   <string>Xóa</string>
                  </property>
@@ -1853,7 +1935,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                </item>
               </layout>
              </widget>
-             <widget class="QPushButton" name="pb_PartientInfoRemoveAll">
+             <widget class="QPushButton" name="pb_PatientInfoRemoveAll">
               <property name="geometry">
                <rect>
                 <x>120</x>
@@ -1871,8 +1953,8 @@ font:75 12pt &quot;Droid Sans&quot;;
                <rect>
                 <x>480</x>
                 <y>10</y>
-                <width>771</width>
-                <height>781</height>
+                <width>781</width>
+                <height>791</height>
                </rect>
               </property>
               <property name="frameShape">
@@ -1881,99 +1963,108 @@ font:75 12pt &quot;Droid Sans&quot;;
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <widget class="QTableWidget" name="tableWidget_PartientInfoPartientTable">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>60</y>
-                 <width>771</width>
-                 <height>711</height>
-                </rect>
+              <layout class="QVBoxLayout" name="verticalLayout_13">
+               <property name="spacing">
+                <number>5</number>
                </property>
-               <column>
-                <property name="text">
-                 <string>STT</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Mã bệnh nhân</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Họ và tên</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Ngày sinh</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>CCCD</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Giới tính</string>
-                </property>
-               </column>
-              </widget>
-              <widget class="QWidget" name="layoutWidget">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>10</y>
-                 <width>771</width>
-                 <height>42</height>
-                </rect>
+               <property name="leftMargin">
+                <number>5</number>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_14">
-                <property name="spacing">
-                 <number>5</number>
-                </property>
-                <item>
-                 <widget class="QLineEdit" name="le_PartientInfoSearchName">
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>2</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>2</number>
+                 </property>
+                 <item>
+                  <widget class="QLineEdit" name="le_PatientInfoSearch">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>35</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Tìm Kiếm...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QTableWidget" name="tableWidget_PatientInfoPatientTable">
+                 <column>
                   <property name="text">
-                   <string>Quang Khuất</string>
+                   <string>STT</string>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="le_PartientInfoCode">
+                  <property name="foreground">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>0</red>
+                     <green>0</green>
+                     <blue>0</blue>
+                    </color>
+                   </brush>
+                  </property>
+                 </column>
+                 <column>
                   <property name="text">
-                   <string>Quang.khuat</string>
+                   <string>Mã bệnh nhân</string>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pb_PartientInfoSearch">
+                 </column>
+                 <column>
                   <property name="text">
-                   <string/>
+                   <string>Họ và tên</string>
                   </property>
-                  <property name="icon">
-                   <iconset>
-                    <normaloff>icon/search.png</normaloff>icon/search.png</iconset>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Ngày sinh</string>
                   </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>CCCD</string>
                   </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Giới tính</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </widget>
             <widget class="QWidget" name="page_Review">
              <widget class="QFrame" name="frame_5">
               <property name="geometry">
                <rect>
-                <x>0</x>
+                <x>-1</x>
                 <y>150</y>
                 <width>461</width>
                 <height>651</height>
@@ -1987,19 +2078,19 @@ font:75 12pt &quot;Droid Sans&quot;;
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_42">
                <property name="spacing">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="leftMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="rightMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>1</number>
                </property>
                <item>
                 <widget class="QTableWidget" name="tableWidget_ReviewDataAngle">
@@ -2028,7 +2119,7 @@ font:75 12pt &quot;Droid Sans&quot;;
              <widget class="QWidget" name="widget_9" native="true">
               <property name="geometry">
                <rect>
-                <x>470</x>
+                <x>460</x>
                 <y>0</y>
                 <width>311</width>
                 <height>801</height>
@@ -2048,9 +2139,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QPushButton" name="pb_ReviewRunAndPauseExercise">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
-                 <y>410</y>
-                 <width>301</width>
+                 <x>70</x>
+                 <y>380</y>
+                 <width>161</width>
                  <height>41</height>
                 </rect>
                </property>
@@ -2061,9 +2152,9 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QFrame" name="frame_6">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
-                 <y>580</y>
-                 <width>311</width>
+                 <x>5</x>
+                 <y>537</y>
+                 <width>181</width>
                  <height>171</height>
                 </rect>
                </property>
@@ -2074,6 +2165,21 @@ font:75 12pt &quot;Droid Sans&quot;;
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_9">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_49">
                   <item>
@@ -2146,9 +2252,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>760</y>
-                 <width>131</width>
-                 <height>41</height>
+                 <y>730</y>
+                 <width>111</width>
+                 <height>21</height>
                 </rect>
                </property>
                <property name="styleSheet">
@@ -2162,7 +2268,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                <property name="geometry">
                 <rect>
                  <x>10</x>
-                 <y>20</y>
+                 <y>100</y>
                  <width>296</width>
                  <height>30</height>
                 </rect>
@@ -2176,7 +2282,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pb_ReviewPartientList">
+                 <widget class="QPushButton" name="pb_ReviewPatientsList">
                   <property name="text">
                    <string>Danh sách bệnh nhân</string>
                   </property>
@@ -2187,10 +2293,10 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
-                 <y>480</y>
+                 <x>10</x>
+                 <y>445</y>
                  <width>301</width>
-                 <height>91</height>
+                 <height>81</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -2250,10 +2356,10 @@ font:75 12pt &quot;Droid Sans&quot;;
               <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
-                 <x>0</x>
-                 <y>160</y>
-                 <width>311</width>
-                 <height>231</height>
+                 <x>10</x>
+                 <y>150</y>
+                 <width>301</width>
+                 <height>200</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -2261,15 +2367,21 @@ font:75 12pt &quot;Droid Sans&quot;;
                  <layout class="QHBoxLayout" name="horizontalLayout_55">
                   <item>
                    <widget class="QLabel" name="label_98">
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string>Họ và tên:</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lb_ReviewName">
+                   <widget class="QLabel" name="lb_ReviewPatientName">
                     <property name="text">
-                     <string>Họ và tên:</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2279,15 +2391,21 @@ font:75 12pt &quot;Droid Sans&quot;;
                  <layout class="QHBoxLayout" name="horizontalLayout_15">
                   <item>
                    <widget class="QLabel" name="label_9">
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string>CCCD:</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lb_ReviewID">
+                   <widget class="QLabel" name="lb_ReviewPatientID">
                     <property name="text">
-                     <string>012345678912</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2303,9 +2421,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lb_ReviewSex">
+                   <widget class="QLabel" name="lb_ReviewPatientGender">
                     <property name="text">
-                     <string>Nam</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2317,9 +2435,9 @@ font:75 12pt &quot;Droid Sans&quot;;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lb_ReviewDateOfBirth">
+                   <widget class="QLabel" name="lb_ReviewPatientDateOfBirth">
                     <property name="text">
-                     <string>01/01/1111</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2337,7 +2455,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                   <item>
                    <widget class="QLabel" name="lb_ReviewWeight">
                     <property name="text">
-                     <string>100kg</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2351,7 +2469,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                   <item>
                    <widget class="QLabel" name="lb_ReviewHeight">
                     <property name="text">
-                     <string>120cm</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2361,6 +2479,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                  <layout class="QHBoxLayout" name="horizontalLayout_45">
                   <item>
                    <widget class="QLabel" name="label_79">
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string>Mã bệnh nhân:</string>
                     </property>
@@ -2369,7 +2493,7 @@ font:75 12pt &quot;Droid Sans&quot;;
                   <item>
                    <widget class="QLabel" name="lb_ReviewCode">
                     <property name="text">
-                     <string>quang.khuat</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>
@@ -2379,6 +2503,12 @@ font:75 12pt &quot;Droid Sans&quot;;
                  <layout class="QHBoxLayout" name="horizontalLayout_46">
                   <item>
                    <widget class="QLabel" name="label_81">
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string>Bài kiểm tra:</string>
                     </property>
@@ -2393,17 +2523,19 @@ font:75 12pt &quot;Droid Sans&quot;;
                  <layout class="QHBoxLayout" name="horizontalLayout_47">
                   <item>
                    <widget class="QLabel" name="label_82">
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="text">
                      <string>Ngày đo:</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lb_ReviewDayExercise">
-                    <property name="text">
-                     <string>12:12-31/02/2031</string>
-                    </property>
-                   </widget>
+                   <widget class="QComboBox" name="cb_ReviewDayExercise"/>
                   </item>
                  </layout>
                 </item>
@@ -2443,7 +2575,7 @@ font:75 12pt &quot;Droid Sans&quot;;
              <widget class="QWidget" name="widget_ReviewLowerlimb" native="true">
               <property name="geometry">
                <rect>
-                <x>780</x>
+                <x>770</x>
                 <y>300</y>
                 <width>500</width>
                 <height>500</height>
@@ -2453,7 +2585,7 @@ font:75 12pt &quot;Droid Sans&quot;;
              <widget class="QWidget" name="widget_ReviewLinechart" native="true">
               <property name="geometry">
                <rect>
-                <x>780</x>
+                <x>770</x>
                 <y>0</y>
                 <width>500</width>
                 <height>300</height>

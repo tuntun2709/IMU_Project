@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1457, 843)
+        MainWindow.resize(1475, 845)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
 "font: 87 12pt \"Arial Black\";\n"
 "}")
         icon = QIcon()
-        icon.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/barra-de-menus.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"icon/barra-de-menus.png", QSize(), QIcon.Normal, QIcon.Off)
         self.bt_Menu.setIcon(icon)
         self.bt_Menu.setIconSize(QSize(24, 24))
 
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
 "background-color:white;\n"
 "}")
         icon1 = QIcon()
-        icon1.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/minimizar.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u"icon/minimizar.png", QSize(), QIcon.Normal, QIcon.Off)
         self.bt_mini.setIcon(icon1)
         self.bt_mini.setIconSize(QSize(32, 32))
 
@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
 "background-color:white;\n"
 "}")
         icon2 = QIcon()
-        icon2.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/restaurar.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"icon/restaurar.png", QSize(), QIcon.Normal, QIcon.Off)
         self.bt_smallSize.setIcon(icon2)
         self.bt_smallSize.setIconSize(QSize(32, 32))
 
@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
 "background-color:white;\n"
 "}")
         icon3 = QIcon()
-        icon3.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/maximizar.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u"icon/max.png", QSize(), QIcon.Normal, QIcon.Off)
         self.bt_expand.setIcon(icon3)
         self.bt_expand.setIconSize(QSize(32, 32))
 
@@ -135,7 +135,7 @@ class Ui_MainWindow(object):
 "background-color:white;\n"
 "}")
         icon4 = QIcon()
-        icon4.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/cerrar.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u"icon/cerrar.png", QSize(), QIcon.Normal, QIcon.Off)
         self.bt_close.setIcon(icon4)
         self.bt_close.setIconSize(QSize(32, 32))
 
@@ -191,7 +191,7 @@ class Ui_MainWindow(object):
         self.pb_Main.setMinimumSize(QSize(0, 40))
         self.pb_Main.setMaximumSize(QSize(16777215, 40))
         icon5 = QIcon()
-        icon5.addFile(u"../codecat/gui-pyside2-qtdesigner/Menu lateral desplegable/inteligencia-artificial.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u"icon/inteligencia-artificial.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pb_Main.setIcon(icon5)
         self.pb_Main.setIconSize(QSize(32, 32))
 
@@ -224,7 +224,7 @@ class Ui_MainWindow(object):
         self.pb_Patient.setMinimumSize(QSize(0, 40))
         self.pb_Patient.setMaximumSize(QSize(16777215, 40))
         icon8 = QIcon()
-        icon8.addFile(u"icon/partient_info.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon8.addFile(u"icon/patient_info.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pb_Patient.setIcon(icon8)
         self.pb_Patient.setIconSize(QSize(32, 32))
 
@@ -238,6 +238,7 @@ class Ui_MainWindow(object):
         icon9.addFile(u"icon/setting.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pb_Setting.setIcon(icon9)
         self.pb_Setting.setIconSize(QSize(32, 32))
+        self.pb_Setting.setFlat(False)
 
         self.verticalLayout_2.addWidget(self.pb_Setting)
 
@@ -281,8 +282,15 @@ class Ui_MainWindow(object):
         self.page_Main.setObjectName(u"page_Main")
         self.widget = QWidget(self.page_Main)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 251, 151))
-        self.widget.setStyleSheet(u"font:75 12pt \"Droid Sans\";")
+        self.widget.setGeometry(QRect(0, 0, 251, 141))
+        self.widget.setStyleSheet(u"font:75 12pt \"Droid Sans\";\n"
+"QPushButton{\n"
+"	background-color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: rgb(255, 255, 255);\n"
+"}\n"
+"")
         self.horizontalLayout_9 = QHBoxLayout(self.widget)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.verticalLayout_3 = QVBoxLayout()
@@ -318,9 +326,11 @@ class Ui_MainWindow(object):
         self.pb_MainCheckImu1.setEnabled(True)
         self.pb_MainCheckImu1.setMaximumSize(QSize(20, 16777215))
         icon11 = QIcon()
-        icon11.addFile(u"../1.tutorial/icon/accept.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon11.addFile(u"icon/accept.png", QSize(), QIcon.Normal, QIcon.Off)
         self.pb_MainCheckImu1.setIcon(icon11)
         self.pb_MainCheckImu1.setIconSize(QSize(12, 12))
+        self.pb_MainCheckImu1.setCheckable(False)
+        self.pb_MainCheckImu1.setAutoDefault(False)
         self.pb_MainCheckImu1.setFlat(True)
 
         self.horizontalLayout_5.addWidget(self.pb_MainCheckImu1)
@@ -390,13 +400,13 @@ class Ui_MainWindow(object):
 
         self.frame = QFrame(self.page_Main)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(-10, 150, 470, 651))
+        self.frame.setGeometry(QRect(-1, 150, 461, 651))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_10 = QHBoxLayout(self.frame)
-        self.horizontalLayout_10.setSpacing(0)
+        self.horizontalLayout_10.setSpacing(1)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_10.setContentsMargins(1, 1, 1, 1)
         self.tableWidget_MDataTable = QTableWidget(self.frame)
         if (self.tableWidget_MDataTable.columnCount() < 3):
             self.tableWidget_MDataTable.setColumnCount(3)
@@ -413,19 +423,19 @@ class Ui_MainWindow(object):
 
         self.widget_2 = QWidget(self.page_Main)
         self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setGeometry(QRect(250, 0, 211, 151))
+        self.widget_2.setGeometry(QRect(250, 0, 211, 141))
         self.widget_2.setStyleSheet(u"font:75 12pt \"Droid Sans\";")
         self.verticalLayout_7 = QVBoxLayout(self.widget_2)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.pb_MainPartientList = QPushButton(self.widget_2)
-        self.pb_MainPartientList.setObjectName(u"pb_MainPartientList")
+        self.pb_MainPatientsList = QPushButton(self.widget_2)
+        self.pb_MainPatientsList.setObjectName(u"pb_MainPatientsList")
 
-        self.verticalLayout_7.addWidget(self.pb_MainPartientList)
+        self.verticalLayout_7.addWidget(self.pb_MainPatientsList)
 
-        self.pb_MainAddPartient = QPushButton(self.widget_2)
-        self.pb_MainAddPartient.setObjectName(u"pb_MainAddPartient")
+        self.pb_MainAddPatient = QPushButton(self.widget_2)
+        self.pb_MainAddPatient.setObjectName(u"pb_MainAddPatient")
 
-        self.verticalLayout_7.addWidget(self.pb_MainAddPartient)
+        self.verticalLayout_7.addWidget(self.pb_MainAddPatient)
 
         self.widget_3 = QWidget(self.page_Main)
         self.widget_3.setObjectName(u"widget_3")
@@ -450,10 +460,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_12.addWidget(self.label_10)
 
-        self.lb_MainSex = QLabel(self.layoutWidget)
-        self.lb_MainSex.setObjectName(u"lb_MainSex")
+        self.lb_MainPatientGender = QLabel(self.layoutWidget)
+        self.lb_MainPatientGender.setObjectName(u"lb_MainPatientGender")
 
-        self.horizontalLayout_12.addWidget(self.lb_MainSex)
+        self.horizontalLayout_12.addWidget(self.lb_MainPatientGender)
 
         self.label_12 = QLabel(self.layoutWidget)
         self.label_12.setObjectName(u"label_12")
@@ -476,20 +486,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.label_14)
 
-        self.lb_MainWeight = QLabel(self.layoutWidget_2)
-        self.lb_MainWeight.setObjectName(u"lb_MainWeight")
+        self.lb_MainPatientWeight = QLabel(self.layoutWidget_2)
+        self.lb_MainPatientWeight.setObjectName(u"lb_MainPatientWeight")
 
-        self.horizontalLayout_13.addWidget(self.lb_MainWeight)
+        self.horizontalLayout_13.addWidget(self.lb_MainPatientWeight)
 
         self.label_16 = QLabel(self.layoutWidget_2)
         self.label_16.setObjectName(u"label_16")
 
         self.horizontalLayout_13.addWidget(self.label_16)
 
-        self.lv_MainHeight = QLabel(self.layoutWidget_2)
-        self.lv_MainHeight.setObjectName(u"lv_MainHeight")
+        self.lb_MainPatientHeight = QLabel(self.layoutWidget_2)
+        self.lb_MainPatientHeight.setObjectName(u"lb_MainPatientHeight")
 
-        self.horizontalLayout_13.addWidget(self.lv_MainHeight)
+        self.horizontalLayout_13.addWidget(self.lb_MainPatientHeight)
 
         self.layoutWidget_6 = QWidget(self.widget_3)
         self.layoutWidget_6.setObjectName(u"layoutWidget_6")
@@ -503,10 +513,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_23.addWidget(self.label_34)
 
-        self.lb_MainPartientCode = QLabel(self.layoutWidget_6)
-        self.lb_MainPartientCode.setObjectName(u"lb_MainPartientCode")
+        self.lb_MainPatientCode = QLabel(self.layoutWidget_6)
+        self.lb_MainPatientCode.setObjectName(u"lb_MainPatientCode")
 
-        self.horizontalLayout_23.addWidget(self.lb_MainPartientCode)
+        self.horizontalLayout_23.addWidget(self.lb_MainPatientCode)
 
         self.layoutWidget_7 = QWidget(self.widget_3)
         self.layoutWidget_7.setObjectName(u"layoutWidget_7")
@@ -564,20 +574,22 @@ class Ui_MainWindow(object):
 
         self.pb_MainStartExercise = QPushButton(self.widget_3)
         self.pb_MainStartExercise.setObjectName(u"pb_MainStartExercise")
-        self.pb_MainStartExercise.setGeometry(QRect(10, 290, 301, 41))
+        self.pb_MainStartExercise.setGeometry(QRect(20, 290, 281, 41))
         self.pb_MainEndExercise = QPushButton(self.widget_3)
         self.pb_MainEndExercise.setObjectName(u"pb_MainEndExercise")
-        self.pb_MainEndExercise.setGeometry(QRect(10, 340, 301, 41))
+        self.pb_MainEndExercise.setGeometry(QRect(20, 340, 281, 41))
         self.pb_MainSaveData = QPushButton(self.widget_3)
         self.pb_MainSaveData.setObjectName(u"pb_MainSaveData")
-        self.pb_MainSaveData.setGeometry(QRect(10, 390, 301, 41))
+        self.pb_MainSaveData.setGeometry(QRect(20, 390, 281, 41))
         self.frame_3 = QFrame(self.widget_3)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setGeometry(QRect(0, 460, 311, 171))
         self.frame_3.setFrameShape(QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QFrame.Raised)
         self.verticalLayout_8 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_8.setSpacing(2)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(2, 2, 2, 2)
         self.horizontalLayout_33 = QHBoxLayout()
         self.horizontalLayout_33.setObjectName(u"horizontalLayout_33")
         self.label_55 = QLabel(self.frame_3)
@@ -680,10 +692,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_17.addWidget(self.label_20)
 
-        self.lb_MainName = QLabel(self.layoutWidget_3)
-        self.lb_MainName.setObjectName(u"lb_MainName")
+        self.lb_MainPatientName = QLabel(self.layoutWidget_3)
+        self.lb_MainPatientName.setObjectName(u"lb_MainPatientName")
 
-        self.horizontalLayout_17.addWidget(self.lb_MainName)
+        self.horizontalLayout_17.addWidget(self.lb_MainPatientName)
 
         self.layoutWidget1 = QWidget(self.widget_3)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
@@ -697,10 +709,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16.addWidget(self.label_18)
 
-        self.lb_MainID = QLabel(self.layoutWidget1)
-        self.lb_MainID.setObjectName(u"lb_MainID")
+        self.lb_MainPatientID = QLabel(self.layoutWidget1)
+        self.lb_MainPatientID.setObjectName(u"lb_MainPatientID")
 
-        self.horizontalLayout_16.addWidget(self.lb_MainID)
+        self.horizontalLayout_16.addWidget(self.lb_MainPatientID)
 
         self.widget_MLinechart = QWidget(self.page_Main)
         self.widget_MLinechart.setObjectName(u"widget_MLinechart")
@@ -746,16 +758,16 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_40.addWidget(self.label_69)
 
-        self.rb_Stcm = QRadioButton(self.layoutWidget_22)
-        self.rb_Stcm.setObjectName(u"rb_Stcm")
-        self.rb_Stcm.setMinimumSize(QSize(20, 20))
+        self.rb_SettingCm = QRadioButton(self.layoutWidget_22)
+        self.rb_SettingCm.setObjectName(u"rb_SettingCm")
+        self.rb_SettingCm.setMinimumSize(QSize(20, 20))
 
-        self.horizontalLayout_40.addWidget(self.rb_Stcm)
+        self.horizontalLayout_40.addWidget(self.rb_SettingCm)
 
-        self.rb_StInch = QRadioButton(self.layoutWidget_22)
-        self.rb_StInch.setObjectName(u"rb_StInch")
+        self.rb_SettingInch = QRadioButton(self.layoutWidget_22)
+        self.rb_SettingInch.setObjectName(u"rb_SettingInch")
 
-        self.horizontalLayout_40.addWidget(self.rb_StInch)
+        self.horizontalLayout_40.addWidget(self.rb_SettingInch)
 
         self.layoutWidget_23 = QWidget(self.frame_4)
         self.layoutWidget_23.setObjectName(u"layoutWidget_23")
@@ -771,20 +783,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_41.addWidget(self.label_70)
 
-        self.rb_StKg = QRadioButton(self.layoutWidget_23)
-        self.rb_StKg.setObjectName(u"rb_StKg")
-        self.rb_StKg.setMinimumSize(QSize(20, 20))
+        self.rb_SettingKg = QRadioButton(self.layoutWidget_23)
+        self.rb_SettingKg.setObjectName(u"rb_SettingKg")
+        self.rb_SettingKg.setMinimumSize(QSize(20, 20))
 
-        self.horizontalLayout_41.addWidget(self.rb_StKg)
+        self.horizontalLayout_41.addWidget(self.rb_SettingKg)
 
-        self.rb_StLb = QRadioButton(self.layoutWidget_23)
-        self.rb_StLb.setObjectName(u"rb_StLb")
+        self.rb_SettingLb = QRadioButton(self.layoutWidget_23)
+        self.rb_SettingLb.setObjectName(u"rb_SettingLb")
 
-        self.horizontalLayout_41.addWidget(self.rb_StLb)
+        self.horizontalLayout_41.addWidget(self.rb_SettingLb)
 
-        self.pb_StResetSystem = QPushButton(self.frame_4)
-        self.pb_StResetSystem.setObjectName(u"pb_StResetSystem")
-        self.pb_StResetSystem.setGeometry(QRect(20, 210, 401, 121))
+        self.pb_SettingResetSystem = QPushButton(self.frame_4)
+        self.pb_SettingResetSystem.setObjectName(u"pb_SettingResetSystem")
+        self.pb_SettingResetSystem.setGeometry(QRect(20, 210, 401, 121))
         self.layoutWidget2 = QWidget(self.frame_4)
         self.layoutWidget2.setObjectName(u"layoutWidget2")
         self.layoutWidget2.setGeometry(QRect(70, 50, 311, 41))
@@ -796,23 +808,23 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_11.addWidget(self.label_7)
 
-        self.cb_StLanguage = QComboBox(self.layoutWidget2)
-        self.cb_StLanguage.addItem("")
-        self.cb_StLanguage.addItem("")
-        self.cb_StLanguage.setObjectName(u"cb_StLanguage")
+        self.cb_SettingLanguage = QComboBox(self.layoutWidget2)
+        self.cb_SettingLanguage.addItem("")
+        self.cb_SettingLanguage.addItem("")
+        self.cb_SettingLanguage.setObjectName(u"cb_SettingLanguage")
 
-        self.horizontalLayout_11.addWidget(self.cb_StLanguage)
+        self.horizontalLayout_11.addWidget(self.cb_SettingLanguage)
 
         self.stackedWidget.addWidget(self.page_Setting)
-        self.page_PartientInfomation = QWidget()
-        self.page_PartientInfomation.setObjectName(u"page_PartientInfomation")
-        self.label_4 = QLabel(self.page_PartientInfomation)
+        self.page_PatientInfomation = QWidget()
+        self.page_PatientInfomation.setObjectName(u"page_PatientInfomation")
+        self.label_4 = QLabel(self.page_PatientInfomation)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(30, 0, 131, 41))
         self.label_4.setStyleSheet(u"font: 12pt \"Segoe UI Historic\";")
-        self.frame_9 = QFrame(self.page_PartientInfomation)
+        self.frame_9 = QFrame(self.page_PatientInfomation)
         self.frame_9.setObjectName(u"frame_9")
-        self.frame_9.setGeometry(QRect(50, 70, 351, 381))
+        self.frame_9.setGeometry(QRect(40, 60, 401, 461))
         self.frame_9.setStyleSheet(u"font:75 12pt \"Droid Sans\";")
         self.frame_9.setFrameShape(QFrame.StyledPanel)
         self.frame_9.setFrameShadow(QFrame.Raised)
@@ -820,6 +832,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.horizontalLayout_63 = QHBoxLayout()
         self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
+        self.horizontalLayout_63.setContentsMargins(5, -1, 5, -1)
         self.label_138 = QLabel(self.frame_9)
         self.label_138.setObjectName(u"label_138")
         self.label_138.setMinimumSize(QSize(110, 0))
@@ -827,16 +840,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_63.addWidget(self.label_138)
 
-        self.le_PartientInfoName = QLineEdit(self.frame_9)
-        self.le_PartientInfoName.setObjectName(u"le_PartientInfoName")
+        self.le_PatientInfoName = QLineEdit(self.frame_9)
+        self.le_PatientInfoName.setObjectName(u"le_PatientInfoName")
 
-        self.horizontalLayout_63.addWidget(self.le_PartientInfoName)
+        self.horizontalLayout_63.addWidget(self.le_PatientInfoName)
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_63)
 
         self.horizontalLayout_64 = QHBoxLayout()
         self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
+        self.horizontalLayout_64.setContentsMargins(5, -1, 5, -1)
         self.label_139 = QLabel(self.frame_9)
         self.label_139.setObjectName(u"label_139")
         self.label_139.setMinimumSize(QSize(110, 0))
@@ -844,16 +858,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_64.addWidget(self.label_139)
 
-        self.le_PartientInfoID = QLineEdit(self.frame_9)
-        self.le_PartientInfoID.setObjectName(u"le_PartientInfoID")
+        self.le_PatientInfoID = QLineEdit(self.frame_9)
+        self.le_PatientInfoID.setObjectName(u"le_PatientInfoID")
 
-        self.horizontalLayout_64.addWidget(self.le_PartientInfoID)
+        self.horizontalLayout_64.addWidget(self.le_PatientInfoID)
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_64)
 
         self.horizontalLayout_72 = QHBoxLayout()
         self.horizontalLayout_72.setObjectName(u"horizontalLayout_72")
+        self.horizontalLayout_72.setContentsMargins(5, -1, 5, -1)
         self.label_151 = QLabel(self.frame_9)
         self.label_151.setObjectName(u"label_151")
         self.label_151.setMinimumSize(QSize(110, 0))
@@ -861,16 +876,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_72.addWidget(self.label_151)
 
-        self.de_PartientInfoBorn = QDateEdit(self.frame_9)
-        self.de_PartientInfoBorn.setObjectName(u"de_PartientInfoBorn")
+        self.de_PatientInfoDateOfBirth = QDateEdit(self.frame_9)
+        self.de_PatientInfoDateOfBirth.setObjectName(u"de_PatientInfoDateOfBirth")
 
-        self.horizontalLayout_72.addWidget(self.de_PartientInfoBorn)
+        self.horizontalLayout_72.addWidget(self.de_PatientInfoDateOfBirth)
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_72)
 
         self.horizontalLayout_65 = QHBoxLayout()
         self.horizontalLayout_65.setObjectName(u"horizontalLayout_65")
+        self.horizontalLayout_65.setContentsMargins(5, -1, 5, -1)
         self.label_140 = QLabel(self.frame_9)
         self.label_140.setObjectName(u"label_140")
         self.label_140.setMinimumSize(QSize(0, 0))
@@ -878,28 +894,29 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_65.addWidget(self.label_140)
 
-        self.cb_PartientInfoSex = QComboBox(self.frame_9)
-        self.cb_PartientInfoSex.addItem("")
-        self.cb_PartientInfoSex.addItem("")
-        self.cb_PartientInfoSex.setObjectName(u"cb_PartientInfoSex")
+        self.cb_PatientInfoGender = QComboBox(self.frame_9)
+        self.cb_PatientInfoGender.addItem("")
+        self.cb_PatientInfoGender.addItem("")
+        self.cb_PatientInfoGender.setObjectName(u"cb_PatientInfoGender")
 
-        self.horizontalLayout_65.addWidget(self.cb_PartientInfoSex)
+        self.horizontalLayout_65.addWidget(self.cb_PatientInfoGender)
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_65)
 
         self.horizontalLayout_67 = QHBoxLayout()
         self.horizontalLayout_67.setObjectName(u"horizontalLayout_67")
+        self.horizontalLayout_67.setContentsMargins(5, -1, 5, -1)
         self.label_143 = QLabel(self.frame_9)
         self.label_143.setObjectName(u"label_143")
         self.label_143.setMinimumSize(QSize(110, 0))
 
         self.horizontalLayout_67.addWidget(self.label_143)
 
-        self.le_PartientInfoHeight = QLineEdit(self.frame_9)
-        self.le_PartientInfoHeight.setObjectName(u"le_PartientInfoHeight")
+        self.le_PatientInfoHeight = QLineEdit(self.frame_9)
+        self.le_PatientInfoHeight.setObjectName(u"le_PatientInfoHeight")
 
-        self.horizontalLayout_67.addWidget(self.le_PartientInfoHeight)
+        self.horizontalLayout_67.addWidget(self.le_PatientInfoHeight)
 
         self.label_144 = QLabel(self.frame_9)
         self.label_144.setObjectName(u"label_144")
@@ -911,16 +928,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_66 = QHBoxLayout()
         self.horizontalLayout_66.setObjectName(u"horizontalLayout_66")
+        self.horizontalLayout_66.setContentsMargins(5, -1, 5, -1)
         self.label_141 = QLabel(self.frame_9)
         self.label_141.setObjectName(u"label_141")
         self.label_141.setMinimumSize(QSize(110, 0))
 
         self.horizontalLayout_66.addWidget(self.label_141)
 
-        self.le_PartientInfoWeight = QLineEdit(self.frame_9)
-        self.le_PartientInfoWeight.setObjectName(u"le_PartientInfoWeight")
+        self.le_PatientInfoWeight = QLineEdit(self.frame_9)
+        self.le_PatientInfoWeight.setObjectName(u"le_PatientInfoWeight")
 
-        self.horizontalLayout_66.addWidget(self.le_PartientInfoWeight)
+        self.horizontalLayout_66.addWidget(self.le_PatientInfoWeight)
 
         self.label_142 = QLabel(self.frame_9)
         self.label_142.setObjectName(u"label_142")
@@ -938,94 +956,90 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_74.addWidget(self.label_153)
 
-        self.lb_PartientInfoParitentCode = QLabel(self.frame_9)
-        self.lb_PartientInfoParitentCode.setObjectName(u"lb_PartientInfoParitentCode")
+        self.lb_PatientInfoPatitentCode = QLabel(self.frame_9)
+        self.lb_PatientInfoPatitentCode.setObjectName(u"lb_PatientInfoPatitentCode")
 
-        self.horizontalLayout_74.addWidget(self.lb_PartientInfoParitentCode)
+        self.horizontalLayout_74.addWidget(self.lb_PatientInfoPatitentCode)
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_74)
 
-        self.frame_10 = QFrame(self.page_PartientInfomation)
+        self.frame_10 = QFrame(self.page_PatientInfomation)
         self.frame_10.setObjectName(u"frame_10")
         self.frame_10.setGeometry(QRect(50, 590, 341, 121))
         self.frame_10.setFrameShape(QFrame.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_76 = QHBoxLayout(self.frame_10)
         self.horizontalLayout_76.setObjectName(u"horizontalLayout_76")
-        self.pb_PartientInfoSavePartient = QPushButton(self.frame_10)
-        self.pb_PartientInfoSavePartient.setObjectName(u"pb_PartientInfoSavePartient")
+        self.pb_PatientInfoSavePatient = QPushButton(self.frame_10)
+        self.pb_PatientInfoSavePatient.setObjectName(u"pb_PatientInfoSavePatient")
 
-        self.horizontalLayout_76.addWidget(self.pb_PartientInfoSavePartient)
+        self.horizontalLayout_76.addWidget(self.pb_PatientInfoSavePatient)
 
-        self.pb_PartientInfoRemovePartient = QPushButton(self.frame_10)
-        self.pb_PartientInfoRemovePartient.setObjectName(u"pb_PartientInfoRemovePartient")
+        self.pb_PatientInfoRemovePatient = QPushButton(self.frame_10)
+        self.pb_PatientInfoRemovePatient.setObjectName(u"pb_PatientInfoRemovePatient")
 
-        self.horizontalLayout_76.addWidget(self.pb_PartientInfoRemovePartient)
+        self.horizontalLayout_76.addWidget(self.pb_PatientInfoRemovePatient)
 
-        self.pb_PartientInfoRemoveAll = QPushButton(self.page_PartientInfomation)
-        self.pb_PartientInfoRemoveAll.setObjectName(u"pb_PartientInfoRemoveAll")
-        self.pb_PartientInfoRemoveAll.setGeometry(QRect(120, 720, 191, 51))
-        self.frame_11 = QFrame(self.page_PartientInfomation)
+        self.pb_PatientInfoRemoveAll = QPushButton(self.page_PatientInfomation)
+        self.pb_PatientInfoRemoveAll.setObjectName(u"pb_PatientInfoRemoveAll")
+        self.pb_PatientInfoRemoveAll.setGeometry(QRect(120, 720, 191, 51))
+        self.frame_11 = QFrame(self.page_PatientInfomation)
         self.frame_11.setObjectName(u"frame_11")
-        self.frame_11.setGeometry(QRect(480, 10, 771, 781))
+        self.frame_11.setGeometry(QRect(480, 10, 781, 791))
         self.frame_11.setFrameShape(QFrame.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Raised)
-        self.tableWidget_PartientInfoPartientTable = QTableWidget(self.frame_11)
-        if (self.tableWidget_PartientInfoPartientTable.columnCount() < 6):
-            self.tableWidget_PartientInfoPartientTable.setColumnCount(6)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(0, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(1, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(2, __qtablewidgetitem5)
-        __qtablewidgetitem6 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(3, __qtablewidgetitem6)
-        __qtablewidgetitem7 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(4, __qtablewidgetitem7)
-        __qtablewidgetitem8 = QTableWidgetItem()
-        self.tableWidget_PartientInfoPartientTable.setHorizontalHeaderItem(5, __qtablewidgetitem8)
-        self.tableWidget_PartientInfoPartientTable.setObjectName(u"tableWidget_PartientInfoPartientTable")
-        self.tableWidget_PartientInfoPartientTable.setGeometry(QRect(0, 60, 771, 711))
-        self.layoutWidget3 = QWidget(self.frame_11)
-        self.layoutWidget3.setObjectName(u"layoutWidget3")
-        self.layoutWidget3.setGeometry(QRect(0, 10, 771, 42))
-        self.horizontalLayout_14 = QHBoxLayout(self.layoutWidget3)
-        self.horizontalLayout_14.setSpacing(5)
+        self.verticalLayout_13 = QVBoxLayout(self.frame_11)
+        self.verticalLayout_13.setSpacing(5)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.verticalLayout_13.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setSpacing(10)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.le_PartientInfoSearchName = QLineEdit(self.layoutWidget3)
-        self.le_PartientInfoSearchName.setObjectName(u"le_PartientInfoSearchName")
+        self.horizontalLayout_14.setContentsMargins(2, 2, 2, 2)
+        self.le_PatientInfoSearch = QLineEdit(self.frame_11)
+        self.le_PatientInfoSearch.setObjectName(u"le_PatientInfoSearch")
+        self.le_PatientInfoSearch.setMinimumSize(QSize(0, 35))
 
-        self.horizontalLayout_14.addWidget(self.le_PartientInfoSearchName)
+        self.horizontalLayout_14.addWidget(self.le_PatientInfoSearch)
 
-        self.le_PartientInfoCode = QLineEdit(self.layoutWidget3)
-        self.le_PartientInfoCode.setObjectName(u"le_PartientInfoCode")
 
-        self.horizontalLayout_14.addWidget(self.le_PartientInfoCode)
+        self.verticalLayout_13.addLayout(self.horizontalLayout_14)
 
-        self.pb_PartientInfoSearch = QPushButton(self.layoutWidget3)
-        self.pb_PartientInfoSearch.setObjectName(u"pb_PartientInfoSearch")
-        icon12 = QIcon()
-        icon12.addFile(u"icon/search.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pb_PartientInfoSearch.setIcon(icon12)
-        self.pb_PartientInfoSearch.setIconSize(QSize(32, 32))
+        self.tableWidget_PatientInfoPatientTable = QTableWidget(self.frame_11)
+        if (self.tableWidget_PatientInfoPatientTable.columnCount() < 6):
+            self.tableWidget_PatientInfoPatientTable.setColumnCount(6)
+        brush = QBrush(QColor(0, 0, 0, 255))
+        brush.setStyle(Qt.SolidPattern)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        __qtablewidgetitem3.setForeground(brush);
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(0, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(1, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(2, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(3, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(4, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableWidget_PatientInfoPatientTable.setHorizontalHeaderItem(5, __qtablewidgetitem8)
+        self.tableWidget_PatientInfoPatientTable.setObjectName(u"tableWidget_PatientInfoPatientTable")
 
-        self.horizontalLayout_14.addWidget(self.pb_PartientInfoSearch)
+        self.verticalLayout_13.addWidget(self.tableWidget_PatientInfoPatientTable)
 
-        self.stackedWidget.addWidget(self.page_PartientInfomation)
+        self.stackedWidget.addWidget(self.page_PatientInfomation)
         self.page_Review = QWidget()
         self.page_Review.setObjectName(u"page_Review")
         self.frame_5 = QFrame(self.page_Review)
         self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setGeometry(QRect(0, 150, 461, 651))
+        self.frame_5.setGeometry(QRect(-1, 150, 461, 651))
         self.frame_5.setFrameShape(QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_42 = QHBoxLayout(self.frame_5)
-        self.horizontalLayout_42.setSpacing(0)
+        self.horizontalLayout_42.setSpacing(1)
         self.horizontalLayout_42.setObjectName(u"horizontalLayout_42")
-        self.horizontalLayout_42.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_42.setContentsMargins(1, 1, 1, 1)
         self.tableWidget_ReviewDataAngle = QTableWidget(self.frame_5)
         if (self.tableWidget_ReviewDataAngle.columnCount() < 3):
             self.tableWidget_ReviewDataAngle.setColumnCount(3)
@@ -1042,7 +1056,7 @@ class Ui_MainWindow(object):
 
         self.widget_9 = QWidget(self.page_Review)
         self.widget_9.setObjectName(u"widget_9")
-        self.widget_9.setGeometry(QRect(470, 0, 311, 801))
+        self.widget_9.setGeometry(QRect(460, 0, 311, 801))
         self.widget_9.setStyleSheet(u"QLabel{\n"
 "font:75 10pt \"Droid Sans\";\n"
 "}\n"
@@ -1054,14 +1068,16 @@ class Ui_MainWindow(object):
 "")
         self.pb_ReviewRunAndPauseExercise = QPushButton(self.widget_9)
         self.pb_ReviewRunAndPauseExercise.setObjectName(u"pb_ReviewRunAndPauseExercise")
-        self.pb_ReviewRunAndPauseExercise.setGeometry(QRect(0, 410, 301, 41))
+        self.pb_ReviewRunAndPauseExercise.setGeometry(QRect(70, 380, 161, 41))
         self.frame_6 = QFrame(self.widget_9)
         self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setGeometry(QRect(0, 580, 311, 171))
+        self.frame_6.setGeometry(QRect(5, 537, 181, 171))
         self.frame_6.setFrameShape(QFrame.StyledPanel)
         self.frame_6.setFrameShadow(QFrame.Raised)
         self.verticalLayout_9 = QVBoxLayout(self.frame_6)
+        self.verticalLayout_9.setSpacing(0)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_49 = QHBoxLayout()
         self.horizontalLayout_49.setObjectName(u"horizontalLayout_49")
         self.label_86 = QLabel(self.frame_6)
@@ -1124,11 +1140,11 @@ class Ui_MainWindow(object):
 
         self.label_5 = QLabel(self.widget_9)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(10, 760, 131, 41))
+        self.label_5.setGeometry(QRect(10, 730, 111, 21))
         self.label_5.setStyleSheet(u"font: 12pt \"Segoe UI Historic\";")
         self.layoutWidget_31 = QWidget(self.widget_9)
         self.layoutWidget_31.setObjectName(u"layoutWidget_31")
-        self.layoutWidget_31.setGeometry(QRect(10, 20, 296, 30))
+        self.layoutWidget_31.setGeometry(QRect(10, 100, 296, 30))
         self.horizontalLayout_56 = QHBoxLayout(self.layoutWidget_31)
         self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
         self.horizontalLayout_56.setContentsMargins(0, 0, 0, 0)
@@ -1137,26 +1153,26 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_56.addWidget(self.label_100)
 
-        self.pb_ReviewPartientList = QPushButton(self.layoutWidget_31)
-        self.pb_ReviewPartientList.setObjectName(u"pb_ReviewPartientList")
+        self.pb_ReviewPatientsList = QPushButton(self.layoutWidget_31)
+        self.pb_ReviewPatientsList.setObjectName(u"pb_ReviewPatientsList")
 
-        self.horizontalLayout_56.addWidget(self.pb_ReviewPartientList)
+        self.horizontalLayout_56.addWidget(self.pb_ReviewPatientsList)
 
-        self.layoutWidget4 = QWidget(self.widget_9)
-        self.layoutWidget4.setObjectName(u"layoutWidget4")
-        self.layoutWidget4.setGeometry(QRect(0, 480, 301, 91))
-        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget4)
+        self.layoutWidget3 = QWidget(self.widget_9)
+        self.layoutWidget3.setObjectName(u"layoutWidget3")
+        self.layoutWidget3.setGeometry(QRect(10, 445, 301, 81))
+        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget3)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_57 = QHBoxLayout()
         self.horizontalLayout_57.setObjectName(u"horizontalLayout_57")
-        self.label_84 = QLabel(self.layoutWidget4)
+        self.label_84 = QLabel(self.layoutWidget3)
         self.label_84.setObjectName(u"label_84")
         self.label_84.setMinimumSize(QSize(80, 0))
 
         self.horizontalLayout_57.addWidget(self.label_84)
 
-        self.horizontalSlider_ReviewSpeed = QSlider(self.layoutWidget4)
+        self.horizontalSlider_ReviewSpeed = QSlider(self.layoutWidget3)
         self.horizontalSlider_ReviewSpeed.setObjectName(u"horizontalSlider_ReviewSpeed")
         self.horizontalSlider_ReviewSpeed.setValue(50)
         self.horizontalSlider_ReviewSpeed.setOrientation(Qt.Horizontal)
@@ -1168,13 +1184,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_58 = QHBoxLayout()
         self.horizontalLayout_58.setObjectName(u"horizontalLayout_58")
-        self.label_101 = QLabel(self.layoutWidget4)
+        self.label_101 = QLabel(self.layoutWidget3)
         self.label_101.setObjectName(u"label_101")
         self.label_101.setMinimumSize(QSize(80, 0))
 
         self.horizontalLayout_58.addWidget(self.label_101)
 
-        self.horizontalSlider_ReviewTimer = QSlider(self.layoutWidget4)
+        self.horizontalSlider_ReviewTimer = QSlider(self.layoutWidget3)
         self.horizontalSlider_ReviewTimer.setObjectName(u"horizontalSlider_ReviewTimer")
         self.horizontalSlider_ReviewTimer.setOrientation(Qt.Horizontal)
 
@@ -1183,85 +1199,87 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_58)
 
-        self.layoutWidget5 = QWidget(self.widget_9)
-        self.layoutWidget5.setObjectName(u"layoutWidget5")
-        self.layoutWidget5.setGeometry(QRect(0, 160, 311, 231))
-        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget5)
+        self.layoutWidget4 = QWidget(self.widget_9)
+        self.layoutWidget4.setObjectName(u"layoutWidget4")
+        self.layoutWidget4.setGeometry(QRect(10, 150, 301, 200))
+        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget4)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_55 = QHBoxLayout()
         self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
-        self.label_98 = QLabel(self.layoutWidget5)
+        self.label_98 = QLabel(self.layoutWidget4)
         self.label_98.setObjectName(u"label_98")
+        self.label_98.setMaximumSize(QSize(100, 16777215))
 
         self.horizontalLayout_55.addWidget(self.label_98)
 
-        self.lb_ReviewName = QLabel(self.layoutWidget5)
-        self.lb_ReviewName.setObjectName(u"lb_ReviewName")
+        self.lb_ReviewPatientName = QLabel(self.layoutWidget4)
+        self.lb_ReviewPatientName.setObjectName(u"lb_ReviewPatientName")
 
-        self.horizontalLayout_55.addWidget(self.lb_ReviewName)
+        self.horizontalLayout_55.addWidget(self.lb_ReviewPatientName)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_55)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.label_9 = QLabel(self.layoutWidget5)
+        self.label_9 = QLabel(self.layoutWidget4)
         self.label_9.setObjectName(u"label_9")
+        self.label_9.setMaximumSize(QSize(100, 16777215))
 
         self.horizontalLayout_15.addWidget(self.label_9)
 
-        self.lb_ReviewID = QLabel(self.layoutWidget5)
-        self.lb_ReviewID.setObjectName(u"lb_ReviewID")
+        self.lb_ReviewPatientID = QLabel(self.layoutWidget4)
+        self.lb_ReviewPatientID.setObjectName(u"lb_ReviewPatientID")
 
-        self.horizontalLayout_15.addWidget(self.lb_ReviewID)
+        self.horizontalLayout_15.addWidget(self.lb_ReviewPatientID)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_15)
 
         self.horizontalLayout_43 = QHBoxLayout()
         self.horizontalLayout_43.setObjectName(u"horizontalLayout_43")
-        self.label_71 = QLabel(self.layoutWidget5)
+        self.label_71 = QLabel(self.layoutWidget4)
         self.label_71.setObjectName(u"label_71")
 
         self.horizontalLayout_43.addWidget(self.label_71)
 
-        self.lb_ReviewSex = QLabel(self.layoutWidget5)
-        self.lb_ReviewSex.setObjectName(u"lb_ReviewSex")
+        self.lb_ReviewPatientGender = QLabel(self.layoutWidget4)
+        self.lb_ReviewPatientGender.setObjectName(u"lb_ReviewPatientGender")
 
-        self.horizontalLayout_43.addWidget(self.lb_ReviewSex)
+        self.horizontalLayout_43.addWidget(self.lb_ReviewPatientGender)
 
-        self.label_73 = QLabel(self.layoutWidget5)
+        self.label_73 = QLabel(self.layoutWidget4)
         self.label_73.setObjectName(u"label_73")
 
         self.horizontalLayout_43.addWidget(self.label_73)
 
-        self.lb_ReviewDateOfBirth = QLabel(self.layoutWidget5)
-        self.lb_ReviewDateOfBirth.setObjectName(u"lb_ReviewDateOfBirth")
+        self.lb_ReviewPatientDateOfBirth = QLabel(self.layoutWidget4)
+        self.lb_ReviewPatientDateOfBirth.setObjectName(u"lb_ReviewPatientDateOfBirth")
 
-        self.horizontalLayout_43.addWidget(self.lb_ReviewDateOfBirth)
+        self.horizontalLayout_43.addWidget(self.lb_ReviewPatientDateOfBirth)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_43)
 
         self.horizontalLayout_44 = QHBoxLayout()
         self.horizontalLayout_44.setObjectName(u"horizontalLayout_44")
-        self.label_75 = QLabel(self.layoutWidget5)
+        self.label_75 = QLabel(self.layoutWidget4)
         self.label_75.setObjectName(u"label_75")
 
         self.horizontalLayout_44.addWidget(self.label_75)
 
-        self.lb_ReviewWeight = QLabel(self.layoutWidget5)
+        self.lb_ReviewWeight = QLabel(self.layoutWidget4)
         self.lb_ReviewWeight.setObjectName(u"lb_ReviewWeight")
 
         self.horizontalLayout_44.addWidget(self.lb_ReviewWeight)
 
-        self.label_77 = QLabel(self.layoutWidget5)
+        self.label_77 = QLabel(self.layoutWidget4)
         self.label_77.setObjectName(u"label_77")
 
         self.horizontalLayout_44.addWidget(self.label_77)
 
-        self.lb_ReviewHeight = QLabel(self.layoutWidget5)
+        self.lb_ReviewHeight = QLabel(self.layoutWidget4)
         self.lb_ReviewHeight.setObjectName(u"lb_ReviewHeight")
 
         self.horizontalLayout_44.addWidget(self.lb_ReviewHeight)
@@ -1271,12 +1289,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_45 = QHBoxLayout()
         self.horizontalLayout_45.setObjectName(u"horizontalLayout_45")
-        self.label_79 = QLabel(self.layoutWidget5)
+        self.label_79 = QLabel(self.layoutWidget4)
         self.label_79.setObjectName(u"label_79")
+        self.label_79.setMaximumSize(QSize(100, 16777215))
 
         self.horizontalLayout_45.addWidget(self.label_79)
 
-        self.lb_ReviewCode = QLabel(self.layoutWidget5)
+        self.lb_ReviewCode = QLabel(self.layoutWidget4)
         self.lb_ReviewCode.setObjectName(u"lb_ReviewCode")
 
         self.horizontalLayout_45.addWidget(self.lb_ReviewCode)
@@ -1286,12 +1305,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_46 = QHBoxLayout()
         self.horizontalLayout_46.setObjectName(u"horizontalLayout_46")
-        self.label_81 = QLabel(self.layoutWidget5)
+        self.label_81 = QLabel(self.layoutWidget4)
         self.label_81.setObjectName(u"label_81")
+        self.label_81.setMaximumSize(QSize(100, 16777215))
 
         self.horizontalLayout_46.addWidget(self.label_81)
 
-        self.cb_ReviewExercise = QComboBox(self.layoutWidget5)
+        self.cb_ReviewExercise = QComboBox(self.layoutWidget4)
         self.cb_ReviewExercise.setObjectName(u"cb_ReviewExercise")
 
         self.horizontalLayout_46.addWidget(self.cb_ReviewExercise)
@@ -1301,15 +1321,16 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_47 = QHBoxLayout()
         self.horizontalLayout_47.setObjectName(u"horizontalLayout_47")
-        self.label_82 = QLabel(self.layoutWidget5)
+        self.label_82 = QLabel(self.layoutWidget4)
         self.label_82.setObjectName(u"label_82")
+        self.label_82.setMaximumSize(QSize(100, 16777215))
 
         self.horizontalLayout_47.addWidget(self.label_82)
 
-        self.lb_ReviewDayExercise = QLabel(self.layoutWidget5)
-        self.lb_ReviewDayExercise.setObjectName(u"lb_ReviewDayExercise")
+        self.cb_ReviewDayExercise = QComboBox(self.layoutWidget4)
+        self.cb_ReviewDayExercise.setObjectName(u"cb_ReviewDayExercise")
 
-        self.horizontalLayout_47.addWidget(self.lb_ReviewDayExercise)
+        self.horizontalLayout_47.addWidget(self.cb_ReviewDayExercise)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_47)
@@ -1320,7 +1341,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_48.addItem(self.horizontalSpacer_3)
 
-        self.lb_ReviewTimer = QLabel(self.layoutWidget5)
+        self.lb_ReviewTimer = QLabel(self.layoutWidget4)
         self.lb_ReviewTimer.setObjectName(u"lb_ReviewTimer")
         self.lb_ReviewTimer.setStyleSheet(u"font:75 12pt \"Droid Sans\";")
 
@@ -1331,10 +1352,10 @@ class Ui_MainWindow(object):
 
         self.widget_ReviewLowerlimb = QWidget(self.page_Review)
         self.widget_ReviewLowerlimb.setObjectName(u"widget_ReviewLowerlimb")
-        self.widget_ReviewLowerlimb.setGeometry(QRect(780, 300, 500, 500))
+        self.widget_ReviewLowerlimb.setGeometry(QRect(770, 300, 500, 500))
         self.widget_ReviewLinechart = QWidget(self.page_Review)
         self.widget_ReviewLinechart.setObjectName(u"widget_ReviewLinechart")
-        self.widget_ReviewLinechart.setGeometry(QRect(780, 0, 500, 300))
+        self.widget_ReviewLinechart.setGeometry(QRect(770, 0, 500, 300))
         self.stackedWidget.addWidget(self.page_Review)
         self.page_Calib = QWidget()
         self.page_Calib.setObjectName(u"page_Calib")
@@ -1371,7 +1392,9 @@ class Ui_MainWindow(object):
         self.pb_CalibGyroIMU1.setObjectName(u"pb_CalibGyroIMU1")
         self.pb_CalibGyroIMU1.setEnabled(True)
         self.pb_CalibGyroIMU1.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibGyroIMU1.setIcon(icon11)
+        icon12 = QIcon()
+        icon12.addFile(u"../1.tutorial/icon/accept.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pb_CalibGyroIMU1.setIcon(icon12)
         self.pb_CalibGyroIMU1.setIconSize(QSize(12, 12))
         self.pb_CalibGyroIMU1.setFlat(True)
 
@@ -1391,7 +1414,7 @@ class Ui_MainWindow(object):
         self.pb_CalibAccIMU1.setObjectName(u"pb_CalibAccIMU1")
         self.pb_CalibAccIMU1.setEnabled(True)
         self.pb_CalibAccIMU1.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibAccIMU1.setIcon(icon11)
+        self.pb_CalibAccIMU1.setIcon(icon12)
         self.pb_CalibAccIMU1.setIconSize(QSize(12, 12))
         self.pb_CalibAccIMU1.setFlat(True)
 
@@ -1411,7 +1434,7 @@ class Ui_MainWindow(object):
         self.pb_CalibMagIMU1.setObjectName(u"pb_CalibMagIMU1")
         self.pb_CalibMagIMU1.setEnabled(True)
         self.pb_CalibMagIMU1.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibMagIMU1.setIcon(icon11)
+        self.pb_CalibMagIMU1.setIcon(icon12)
         self.pb_CalibMagIMU1.setIconSize(QSize(12, 12))
         self.pb_CalibMagIMU1.setFlat(True)
 
@@ -1431,7 +1454,7 @@ class Ui_MainWindow(object):
         self.pb_CalibSysIMU1.setObjectName(u"pb_CalibSysIMU1")
         self.pb_CalibSysIMU1.setEnabled(True)
         self.pb_CalibSysIMU1.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibSysIMU1.setIcon(icon11)
+        self.pb_CalibSysIMU1.setIcon(icon12)
         self.pb_CalibSysIMU1.setIconSize(QSize(12, 12))
         self.pb_CalibSysIMU1.setFlat(True)
 
@@ -1461,7 +1484,7 @@ class Ui_MainWindow(object):
         self.pb_CalibGyroIMU2.setObjectName(u"pb_CalibGyroIMU2")
         self.pb_CalibGyroIMU2.setEnabled(True)
         self.pb_CalibGyroIMU2.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibGyroIMU2.setIcon(icon11)
+        self.pb_CalibGyroIMU2.setIcon(icon12)
         self.pb_CalibGyroIMU2.setIconSize(QSize(12, 12))
         self.pb_CalibGyroIMU2.setFlat(True)
 
@@ -1481,7 +1504,7 @@ class Ui_MainWindow(object):
         self.pb_CalibAccIMU2.setObjectName(u"pb_CalibAccIMU2")
         self.pb_CalibAccIMU2.setEnabled(True)
         self.pb_CalibAccIMU2.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibAccIMU2.setIcon(icon11)
+        self.pb_CalibAccIMU2.setIcon(icon12)
         self.pb_CalibAccIMU2.setIconSize(QSize(12, 12))
         self.pb_CalibAccIMU2.setFlat(True)
 
@@ -1501,7 +1524,7 @@ class Ui_MainWindow(object):
         self.pb_CalibMagIMU2.setObjectName(u"pb_CalibMagIMU2")
         self.pb_CalibMagIMU2.setEnabled(True)
         self.pb_CalibMagIMU2.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibMagIMU2.setIcon(icon11)
+        self.pb_CalibMagIMU2.setIcon(icon12)
         self.pb_CalibMagIMU2.setIconSize(QSize(12, 12))
         self.pb_CalibMagIMU2.setFlat(True)
 
@@ -1521,7 +1544,7 @@ class Ui_MainWindow(object):
         self.pb_CalibSysIMU2.setObjectName(u"pb_CalibSysIMU2")
         self.pb_CalibSysIMU2.setEnabled(True)
         self.pb_CalibSysIMU2.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibSysIMU2.setIcon(icon11)
+        self.pb_CalibSysIMU2.setIcon(icon12)
         self.pb_CalibSysIMU2.setIconSize(QSize(12, 12))
         self.pb_CalibSysIMU2.setFlat(True)
 
@@ -1551,7 +1574,7 @@ class Ui_MainWindow(object):
         self.pb_CalibGyroIMU3.setObjectName(u"pb_CalibGyroIMU3")
         self.pb_CalibGyroIMU3.setEnabled(True)
         self.pb_CalibGyroIMU3.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibGyroIMU3.setIcon(icon11)
+        self.pb_CalibGyroIMU3.setIcon(icon12)
         self.pb_CalibGyroIMU3.setIconSize(QSize(12, 12))
         self.pb_CalibGyroIMU3.setFlat(True)
 
@@ -1571,7 +1594,7 @@ class Ui_MainWindow(object):
         self.pb_CalibAccIMU3.setObjectName(u"pb_CalibAccIMU3")
         self.pb_CalibAccIMU3.setEnabled(True)
         self.pb_CalibAccIMU3.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibAccIMU3.setIcon(icon11)
+        self.pb_CalibAccIMU3.setIcon(icon12)
         self.pb_CalibAccIMU3.setIconSize(QSize(12, 12))
         self.pb_CalibAccIMU3.setFlat(True)
 
@@ -1591,7 +1614,7 @@ class Ui_MainWindow(object):
         self.pb_CalibMagIMU3.setObjectName(u"pb_CalibMagIMU3")
         self.pb_CalibMagIMU3.setEnabled(True)
         self.pb_CalibMagIMU3.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibMagIMU3.setIcon(icon11)
+        self.pb_CalibMagIMU3.setIcon(icon12)
         self.pb_CalibMagIMU3.setIconSize(QSize(12, 12))
         self.pb_CalibMagIMU3.setFlat(True)
 
@@ -1611,7 +1634,7 @@ class Ui_MainWindow(object):
         self.pb_CalibSysIMU3.setObjectName(u"pb_CalibSysIMU3")
         self.pb_CalibSysIMU3.setEnabled(True)
         self.pb_CalibSysIMU3.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibSysIMU3.setIcon(icon11)
+        self.pb_CalibSysIMU3.setIcon(icon12)
         self.pb_CalibSysIMU3.setIconSize(QSize(12, 12))
         self.pb_CalibSysIMU3.setFlat(True)
 
@@ -1641,7 +1664,7 @@ class Ui_MainWindow(object):
         self.pb_CalibGyroIMU4.setObjectName(u"pb_CalibGyroIMU4")
         self.pb_CalibGyroIMU4.setEnabled(True)
         self.pb_CalibGyroIMU4.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibGyroIMU4.setIcon(icon11)
+        self.pb_CalibGyroIMU4.setIcon(icon12)
         self.pb_CalibGyroIMU4.setIconSize(QSize(12, 12))
         self.pb_CalibGyroIMU4.setFlat(True)
 
@@ -1661,7 +1684,7 @@ class Ui_MainWindow(object):
         self.pb_CalibAccIMU4.setObjectName(u"pb_CalibAccIMU4")
         self.pb_CalibAccIMU4.setEnabled(True)
         self.pb_CalibAccIMU4.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibAccIMU4.setIcon(icon11)
+        self.pb_CalibAccIMU4.setIcon(icon12)
         self.pb_CalibAccIMU4.setIconSize(QSize(12, 12))
         self.pb_CalibAccIMU4.setFlat(True)
 
@@ -1681,7 +1704,7 @@ class Ui_MainWindow(object):
         self.pb_CalibMagIMU4.setObjectName(u"pb_CalibMagIMU4")
         self.pb_CalibMagIMU4.setEnabled(True)
         self.pb_CalibMagIMU4.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibMagIMU4.setIcon(icon11)
+        self.pb_CalibMagIMU4.setIcon(icon12)
         self.pb_CalibMagIMU4.setIconSize(QSize(12, 12))
         self.pb_CalibMagIMU4.setFlat(True)
 
@@ -1701,7 +1724,7 @@ class Ui_MainWindow(object):
         self.pb_CalibSysIMU4.setObjectName(u"pb_CalibSysIMU4")
         self.pb_CalibSysIMU4.setEnabled(True)
         self.pb_CalibSysIMU4.setMaximumSize(QSize(20, 16777215))
-        self.pb_CalibSysIMU4.setIcon(icon11)
+        self.pb_CalibSysIMU4.setIcon(icon12)
         self.pb_CalibSysIMU4.setIconSize(QSize(12, 12))
         self.pb_CalibSysIMU4.setFlat(True)
 
@@ -1761,6 +1784,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
+        self.pb_MainCheckImu1.setDefault(False)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1795,21 +1819,21 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Knee", None));
         ___qtablewidgetitem2 = self.tableWidget_MDataTable.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Ankle", None));
-        self.pb_MainPartientList.setText(QCoreApplication.translate("MainWindow", u"Danh s\u00e1ch b\u1ec7nh nh\u00e2n", None))
-        self.pb_MainAddPartient.setText(QCoreApplication.translate("MainWindow", u"Th\u00eam b\u1ec7nh nh\u00e2n m\u1edbi", None))
+        self.pb_MainPatientsList.setText(QCoreApplication.translate("MainWindow", u"Danh s\u00e1ch b\u1ec7nh nh\u00e2n", None))
+        self.pb_MainAddPatient.setText(QCoreApplication.translate("MainWindow", u"Th\u00eam b\u1ec7nh nh\u00e2n m\u1edbi", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Gi\u1edbi t\u00ednh:", None))
-        self.lb_MainSex.setText(QCoreApplication.translate("MainWindow", u"Nam", None))
+        self.lb_MainPatientGender.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y Sinh:", None))
-        self.lb_MainDateOfBirth.setText(QCoreApplication.translate("MainWindow", u"01/01/1111", None))
+        self.lb_MainDateOfBirth.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"C\u00e2n n\u1eb7ng:", None))
-        self.lb_MainWeight.setText(QCoreApplication.translate("MainWindow", u"100kg", None))
+        self.lb_MainPatientWeight.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Chi\u1ec1u cao:", None))
-        self.lv_MainHeight.setText(QCoreApplication.translate("MainWindow", u"120cm", None))
+        self.lb_MainPatientHeight.setText("")
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"M\u00e3 b\u1ec7nh nh\u00e2n:", None))
-        self.lb_MainPartientCode.setText(QCoreApplication.translate("MainWindow", u"quang.khuat", None))
+        self.lb_MainPatientCode.setText("")
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"B\u00e0i ki\u1ec3m tra:", None))
         self.label_37.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y \u0111o:", None))
-        self.lb_MainDayExercise.setText(QCoreApplication.translate("MainWindow", u"12:12-31/02/2031", None))
+        self.lb_MainDayExercise.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"MAIN WIDGET", None))
         self.lb_MainTimer.setText(QCoreApplication.translate("MainWindow", u"00:00.0000ms", None))
         self.pb_MainStartExercise.setText(QCoreApplication.translate("MainWindow", u"B\u1eaft \u0111\u1ea7u \u0111o", None))
@@ -1828,59 +1852,62 @@ class Ui_MainWindow(object):
         self.lb_MainMaxAnkleAngle.setText(QCoreApplication.translate("MainWindow", u"423.123", None))
         self.lb_MainMaxLastAnkleAngle.setText(QCoreApplication.translate("MainWindow", u"123.123", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean: ", None))
-        self.lb_MainName.setText(QCoreApplication.translate("MainWindow", u"Quang Khu\u1ea5t", None))
+        self.lb_MainPatientName.setText("")
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"CCCD: ", None))
-        self.lb_MainID.setText(QCoreApplication.translate("MainWindow", u"012345678912", None))
+        self.lb_MainPatientID.setText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Intro WIDGET", None))
         self.label_157.setText(QCoreApplication.translate("MainWindow", u"Nh\u00e0 t\u00e0i tr\u1ee3 s\u1eaft: Only C", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Setting WIDGET", None))
         self.label_69.setText(QCoreApplication.translate("MainWindow", u"\u0110\u01a1n v\u1ecb \u0111\u1ed9 d\u00e0i:", None))
-        self.rb_Stcm.setText(QCoreApplication.translate("MainWindow", u"cm", None))
-        self.rb_StInch.setText(QCoreApplication.translate("MainWindow", u"inch", None))
+        self.rb_SettingCm.setText(QCoreApplication.translate("MainWindow", u"cm", None))
+        self.rb_SettingInch.setText(QCoreApplication.translate("MainWindow", u"inch", None))
         self.label_70.setText(QCoreApplication.translate("MainWindow", u"\u0110\u01a1n v\u1ecb kh\u1ed1i l\u01b0\u1ee3ng:", None))
-        self.rb_StKg.setText(QCoreApplication.translate("MainWindow", u"kg", None))
-        self.rb_StLb.setText(QCoreApplication.translate("MainWindow", u"lb", None))
-        self.pb_StResetSystem.setText(QCoreApplication.translate("MainWindow", u"\u0110\u1eb7t l\u1ea1i h\u1ec7 th\u1ed1ng( ch\u1ee9c n\u0103ng m\u1edf r\u1ed9ng sau n\u00e0y)", None))
+        self.rb_SettingKg.setText(QCoreApplication.translate("MainWindow", u"kg", None))
+        self.rb_SettingLb.setText(QCoreApplication.translate("MainWindow", u"lb", None))
+        self.pb_SettingResetSystem.setText(QCoreApplication.translate("MainWindow", u"\u0110\u1eb7t l\u1ea1i h\u1ec7 th\u1ed1ng( ch\u1ee9c n\u0103ng m\u1edf r\u1ed9ng sau n\u00e0y)", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Ng\u00f4n ng\u1eef", None))
-        self.cb_StLanguage.setItemText(0, QCoreApplication.translate("MainWindow", u"Ti\u1ebfng Vi\u1ec7t", None))
-        self.cb_StLanguage.setItemText(1, QCoreApplication.translate("MainWindow", u"English", None))
+        self.cb_SettingLanguage.setItemText(0, QCoreApplication.translate("MainWindow", u"Ti\u1ebfng Vi\u1ec7t", None))
+        self.cb_SettingLanguage.setItemText(1, QCoreApplication.translate("MainWindow", u"English", None))
 
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Partient WIDGET", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Patient WIDGET", None))
         self.label_138.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
-        self.le_PartientInfoName.setText(QCoreApplication.translate("MainWindow", u"Quang Khu\u1ea5t", None))
+        self.le_PatientInfoName.setText("")
+        self.le_PatientInfoName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"T\u00ean", None))
         self.label_139.setText(QCoreApplication.translate("MainWindow", u"CCCD:", None))
-        self.le_PartientInfoID.setText(QCoreApplication.translate("MainWindow", u"012345678912", None))
+        self.le_PatientInfoID.setText("")
+        self.le_PatientInfoID.setPlaceholderText(QCoreApplication.translate("MainWindow", u"CCCD", None))
         self.label_151.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y sinh:", None))
         self.label_140.setText(QCoreApplication.translate("MainWindow", u"Gi\u1edbi t\u00ednh:", None))
-        self.cb_PartientInfoSex.setItemText(0, QCoreApplication.translate("MainWindow", u"Nam", None))
-        self.cb_PartientInfoSex.setItemText(1, QCoreApplication.translate("MainWindow", u"N\u1eef", None))
+        self.cb_PatientInfoGender.setItemText(0, QCoreApplication.translate("MainWindow", u"Nam", None))
+        self.cb_PatientInfoGender.setItemText(1, QCoreApplication.translate("MainWindow", u"N\u1eef", None))
 
         self.label_143.setText(QCoreApplication.translate("MainWindow", u"Chi\u1ec1u cao:", None))
-        self.le_PartientInfoHeight.setText(QCoreApplication.translate("MainWindow", u"120", None))
+        self.le_PatientInfoHeight.setText("")
+        self.le_PatientInfoHeight.setPlaceholderText(QCoreApplication.translate("MainWindow", u"...", None))
         self.label_144.setText(QCoreApplication.translate("MainWindow", u"cm", None))
         self.label_141.setText(QCoreApplication.translate("MainWindow", u"C\u00e2n n\u1eb7ng:", None))
-        self.le_PartientInfoWeight.setText(QCoreApplication.translate("MainWindow", u"120", None))
+        self.le_PatientInfoWeight.setText("")
+        self.le_PatientInfoWeight.setPlaceholderText(QCoreApplication.translate("MainWindow", u"...", None))
         self.label_142.setText(QCoreApplication.translate("MainWindow", u"kg", None))
         self.label_153.setText(QCoreApplication.translate("MainWindow", u"M\u00e3 b\u1ec7nh nh\u00e2n:", None))
-        self.lb_PartientInfoParitentCode.setText(QCoreApplication.translate("MainWindow", u"Quang.khuat", None))
-        self.pb_PartientInfoSavePartient.setText(QCoreApplication.translate("MainWindow", u"L\u01b0u", None))
-        self.pb_PartientInfoRemovePartient.setText(QCoreApplication.translate("MainWindow", u"X\u00f3a", None))
-        self.pb_PartientInfoRemoveAll.setText(QCoreApplication.translate("MainWindow", u"X\u00f3a to\u00e0n b\u1ed9 danh s\u00e1ch", None))
-        ___qtablewidgetitem3 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(0)
+        self.lb_PatientInfoPatitentCode.setText("")
+        self.pb_PatientInfoSavePatient.setText(QCoreApplication.translate("MainWindow", u"L\u01b0u", None))
+        self.pb_PatientInfoRemovePatient.setText(QCoreApplication.translate("MainWindow", u"X\u00f3a", None))
+        self.pb_PatientInfoRemoveAll.setText(QCoreApplication.translate("MainWindow", u"X\u00f3a to\u00e0n b\u1ed9 danh s\u00e1ch", None))
+        self.le_PatientInfoSearch.setText("")
+        self.le_PatientInfoSearch.setPlaceholderText(QCoreApplication.translate("MainWindow", u"T\u00ecm Ki\u1ebfm...", None))
+        ___qtablewidgetitem3 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(0)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"STT", None));
-        ___qtablewidgetitem4 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(1)
+        ___qtablewidgetitem4 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(1)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"M\u00e3 b\u1ec7nh nh\u00e2n", None));
-        ___qtablewidgetitem5 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(2)
+        ___qtablewidgetitem5 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(2)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean", None));
-        ___qtablewidgetitem6 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(3)
+        ___qtablewidgetitem6 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(3)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y sinh", None));
-        ___qtablewidgetitem7 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(4)
+        ___qtablewidgetitem7 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(4)
         ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"CCCD", None));
-        ___qtablewidgetitem8 = self.tableWidget_PartientInfoPartientTable.horizontalHeaderItem(5)
+        ___qtablewidgetitem8 = self.tableWidget_PatientInfoPatientTable.horizontalHeaderItem(5)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Gi\u1edbi t\u00ednh", None));
-        self.le_PartientInfoSearchName.setText(QCoreApplication.translate("MainWindow", u"Quang Khu\u1ea5t", None))
-        self.le_PartientInfoCode.setText(QCoreApplication.translate("MainWindow", u"Quang.khuat", None))
-        self.pb_PartientInfoSearch.setText("")
         ___qtablewidgetitem9 = self.tableWidget_ReviewDataAngle.horizontalHeaderItem(0)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Hip", None));
         ___qtablewidgetitem10 = self.tableWidget_ReviewDataAngle.horizontalHeaderItem(1)
@@ -1896,26 +1923,25 @@ class Ui_MainWindow(object):
         self.lb_ReivewMaxAnkleAngle.setText(QCoreApplication.translate("MainWindow", u"423.123", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Review WIDGET", None))
         self.label_100.setText(QCoreApplication.translate("MainWindow", u"Th\u00f4ng tin b\u1ec7nh nh\u00e2n:", None))
-        self.pb_ReviewPartientList.setText(QCoreApplication.translate("MainWindow", u"Danh s\u00e1ch b\u1ec7nh nh\u00e2n", None))
+        self.pb_ReviewPatientsList.setText(QCoreApplication.translate("MainWindow", u"Danh s\u00e1ch b\u1ec7nh nh\u00e2n", None))
         self.label_84.setText(QCoreApplication.translate("MainWindow", u"T\u1ed1c \u0111\u1ed9:", None))
         self.label_101.setText(QCoreApplication.translate("MainWindow", u"Th\u1eddi gian:", None))
         self.label_98.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
-        self.lb_ReviewName.setText(QCoreApplication.translate("MainWindow", u"H\u1ecd v\u00e0 t\u00ean:", None))
+        self.lb_ReviewPatientName.setText("")
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"CCCD:", None))
-        self.lb_ReviewID.setText(QCoreApplication.translate("MainWindow", u"012345678912", None))
+        self.lb_ReviewPatientID.setText("")
         self.label_71.setText(QCoreApplication.translate("MainWindow", u"Gi\u1edbi t\u00ednh:", None))
-        self.lb_ReviewSex.setText(QCoreApplication.translate("MainWindow", u"Nam", None))
+        self.lb_ReviewPatientGender.setText("")
         self.label_73.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y Sinh:", None))
-        self.lb_ReviewDateOfBirth.setText(QCoreApplication.translate("MainWindow", u"01/01/1111", None))
+        self.lb_ReviewPatientDateOfBirth.setText("")
         self.label_75.setText(QCoreApplication.translate("MainWindow", u"C\u00e2n n\u1eb7ng:", None))
-        self.lb_ReviewWeight.setText(QCoreApplication.translate("MainWindow", u"100kg", None))
+        self.lb_ReviewWeight.setText("")
         self.label_77.setText(QCoreApplication.translate("MainWindow", u"Chi\u1ec1u cao:", None))
-        self.lb_ReviewHeight.setText(QCoreApplication.translate("MainWindow", u"120cm", None))
+        self.lb_ReviewHeight.setText("")
         self.label_79.setText(QCoreApplication.translate("MainWindow", u"M\u00e3 b\u1ec7nh nh\u00e2n:", None))
-        self.lb_ReviewCode.setText(QCoreApplication.translate("MainWindow", u"quang.khuat", None))
+        self.lb_ReviewCode.setText("")
         self.label_81.setText(QCoreApplication.translate("MainWindow", u"B\u00e0i ki\u1ec3m tra:", None))
         self.label_82.setText(QCoreApplication.translate("MainWindow", u"Ng\u00e0y \u0111o:", None))
-        self.lb_ReviewDayExercise.setText(QCoreApplication.translate("MainWindow", u"12:12-31/02/2031", None))
         self.lb_ReviewTimer.setText(QCoreApplication.translate("MainWindow", u"00:00.0000ms", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Calib WIDGET", None))
         self.label_87.setText(QCoreApplication.translate("MainWindow", u"IMU1:", None))

@@ -1,47 +1,12 @@
 {
     "0": {
-        "DateOfBirth": "01/01/2000",
-        "Exercise": "\u0110i \u0103n",
-        "Height": "654",
-        "ID": "435",
-        "Sex": "Female",
-        "Weight": "435",
-        "name": "dfgdfg"
-    },
-    "1": {
-        "DateOfBirth": "01/01/2000",
-        "Exercise": "\u0110i \u0103n",
-        "Height": "`23",
-        "ID": "werwer",
-        "Sex": "Female",
-        "Weight": "234",
-        "name": "435345"
-    },
-    "2": {
-        "DateOfBirth": "02/01/2000",
-        "Exercise": "\u0110i ng\u1ee7",
-        "Height": "435",
-        "ID": "345123",
-        "Sex": "Female",
-        "Weight": "123466546",
-        "name": "fghf2345"
-    },
-    "3": {
-        "DateOfBirth": "02/01/2000",
-        "Exercise": "\u0110i ng\u1ee7",
-        "Height": "435",
-        "ID": "345123",
-        "Sex": "Female",
-        "Weight": "123466546",
-        "name": "fghf2345"
-    },
-    "4": {
-        "DateOfBirth": "02/06/2002",
-        "Exercise": "\u0110i \u0103n",
-        "Height": "41",
-        "ID": "6456",
-        "Sex": "Female",
-        "Weight": "13",
-        "name": "dhfgh"
+        "DateOfBirth": "01/01/2001",
+        "Exercise": [],
+        "Gender": "Male",
+        "Height": "165",
+        "ID": "35345345",
+        "PatientCode": "Duy5345010101",
+        "Weight": "45",
+        "name": "Nguy\u1ec5n Quang Duy"
     }
 }

@@ -14,21 +14,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QLabel" name="label">
      <property name="maximumSize">
@@ -52,7 +37,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="lineEdit_Name"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_16">
+     <item>
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>CCCD: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_ID"/>
      </item>
     </layout>
    </item>
@@ -66,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="dateEdit"/>
+      <widget class="QDateEdit" name="dateEdit_DateOfBirth"/>
      </item>
     </layout>
    </item>
@@ -80,14 +79,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="radioButton_Male">
        <property name="text">
         <string>Nam</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="radioButton_Female">
        <property name="text">
         <string>Nữ</string>
        </property>
@@ -105,7 +104,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="lineEdit_Weight"/>
      </item>
     </layout>
    </item>
@@ -119,42 +118,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="lineEdit_Height"/>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_24">
-     <item>
-      <widget class="QLabel" name="label_36">
-       <property name="text">
-        <string>Bài kiểm tra:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox">
-       <item>
-        <property name="text">
-         <string>Đi ăn</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Đi ngủ</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Thêm mới</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pushButton_SaveInfomation">
      <property name="minimumSize">
       <size>
        <width>0</width>

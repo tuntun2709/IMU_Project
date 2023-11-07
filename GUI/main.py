@@ -1,15 +1,16 @@
 from random import randint
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QTimer
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView
+from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QDate, QTimer
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
 import math
 import json
+import datetime
 from ExerciseDlgClass import Exercise_Dlg
-from PartienetInfoDlgClass import PartientInfo_Dlg
-from PartientListDlgClass import PartientList_Dlg
+from PatientInfoDlgClass import PatientInfo_Dlg
+from PatientsListDlgClass import PatientsList_Dlg
 
 import paho.mqtt.client as mqtt
 import threading
@@ -24,44 +25,55 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic = Ui_MainWindow()		
 		self.uic.setupUi(self)
 
+		self.thisPage = 'Main'
+		self.currentMainPatientCode = '-1'
 		self.declare_var()
+		self.currentTime = datetime.datetime.now()
 		self.uic.stackedWidget.setCurrentWidget(self.uic.page_Main)
 		self.setWindowFlags(Qt.FramelessWindowHint)
 		self.setWindowOpacity(1)
 		self.uic.fr_sideMenu.setLineWidth(200)
 
-		self.uic.rb_Stcm.setChecked(True)
-		self.uic.rb_StKg.setChecked(True)
+		self.uic.rb_SettingCm.setChecked(True)
+		self.uic.rb_SettingKg.setChecked(True)
 
 		self.gripSize = 10
 		self.grip = QtWidgets.QSizeGrip(self)
 		self.grip.resize(self.gripSize, self.gripSize)
-
 		self.uic.fr_topMenu.mouseMoveEvent = self.mover 
 
 		self.pb_menu_function()
 		
-		self.uic.pb_MainPartientList.clicked.connect(self.onPartientListClinked)
-		self.uic.pb_MainAddPartient.clicked.connect(self.onPartientAddClinked)
-		self.uic.pb_ReviewPartientList.clicked.connect(self.onPartientListClinked)
+		self.uic.pb_MainPatientsList.clicked.connect(self.onPatientListClinked)
+		self.uic.pb_MainAddPatient.clicked.connect(self.onPatientAddClinked)
+		self.uic.pb_ReviewPatientsList.clicked.connect(self.onPatientListClinked)
 		self.uic.cb_MainExcercise.currentIndexChanged.connect(self.onExerciseChanged)
+		self.uic.tableWidget_PatientInfoPatientTable.itemDoubleClicked.connect(self.getPatientInfoToEdit)
+		self.uic.tableWidget_PatientInfoPatientTable.sortItems(0)
+		self.uic.le_PatientInfoSearch.textChanged.connect(self.searchPatientInfo)
+		self.uic.pb_PatientInfoSavePatient.clicked.connect(self.editPatientInfo)
+		self.uic.pb_MainStartExercise.clicked.connect(self.startExercise)
+		self.uic.pb_PatientInfoRemovePatient.clicked.connect(self.removePatientInfo)
+		self.uic.pb_PatientInfoRemoveAll.clicked.connect(self.removeAllPatientInfo)
+		self.uic.pb_MainConnector.clicked.connect(self.connectBroker)
+		self.uic.pb_MainEndExercise.clicked.connect(self.disconnectBroker)
 		
-		self.lowerlimb()
-		self.lineChart()
+		self.lowerlimbMain()
+		self.lineChartMain()
+		self.lowerlimbReview()
+		self.lineChartReview()
 
-		self.dlg_PartientInfo.data_signal.connect(self.handle_data)
-
+		self.dlg_PatientInfo.data_signal.connect(self.handle_newPatientInfo)
+		self.dlg_PatientsList.data_Patient.connect(self.handle_Patient)
 		# load exercise
 		f = open("Exercise.txt",'r', encoding='utf-8')
 		for line in f:		
 			if not (line == ''):
 				self.uic.cb_MainExcercise.addItem(line.replace('\n', ''))
-				self.uic.cb_ReviewExercise.addItem(line.replace('\n', ''))
 		f.close()
 		self.uic.cb_MainExcercise.addItem("Thêm mới")
 
-
-
+		# -----------------------Connect-------------------------------------------
 		self.q1 = Queue() #process queue for sensor 1
 		self.log_list1 = [] #log list for sensor 1
 		self.q2 = Queue()
@@ -90,78 +102,31 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.username_pw_set("user" + str(i+1),"1234")
 		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
 			self.clients.append(client)
-			client.connect("192.168.50.10", 1883, 3600)
-			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))
-
-		for thread in self.client_threads:
-			thread.start()
+			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{i+1}')))		
 	### Start the threads aka start receiving data	
 		
 
-		# self.timer1 = QTimer()
-		# self.timer1.setInterval(20)
-		# self.timer1.timeout.connect(self.update_data)
-		# self.timer1.start()
-
-		self.timer2 = QTimer()
-		self.timer2.setInterval(500)
-		self.timer2.timeout.connect(self.update_plot_data)
-		self.timer2.start()
+		# self.timer = QTimer()
+		# self.timer.setInterval(500)
+		# self.timer.timeout.connect(self.update_plot_data)
+		# self.timer.start()
 
 		# self.q = next((q for q in self.process_queues if not q.empty()), Queue())
-	
-	# def update_data(self):
-	# 	for queue in self.process_queues:
-	# 		queue.put(randint(0, 180))
-
-	def on_connect(self, client, userdata, flags, rc):
-		print(f"Connected with result code {rc}")
-
-	def on_log(self, client, userdata, level, buf):
-		print("log: " + buf)
-
-	def on_message(self, client, userdata, msg):
-		message = str(msg.payload.decode("utf-8"))
-		topics = msg.topic.split('/')
-		subtopic = topics[1]
-		match subtopic:
-			case 'data':
-				client.proq.put(message)
-				mess = message.split(',')
-				client.logL.append([mess[0], mess[1], mess[2]])
-		# Save data to file on each message
-				with open(f'{client.logfile}.csv', 'w', newline='') as f:
-					csvwriter = csv.writer(f)
-					csvwriter.writerows(client.logL)
-					f.close()
-				print(message)
-			case 'calib':
-				print(f'{topics[0]}: {message}')
-			case 'calib_status':
-				if message == 'a':
-					print('imu is not calibrated')
-				else:
-					print('imu is calibrated')
-
-	def Sub(self, client, topic):
-		client.subscribe(f'{topic}/#')
-		client.loop_start()
-
 
 # --------------------------------------------------------------------------\
 	def declare_var(self):
 		self.dlg_Exercise = None
-		self.dlg_PartientInfo = PartientInfo_Dlg()
-		self.dlg_PartientList = None
-		self.numOfPartient = 0
+		self.dlg_PatientInfo = PatientInfo_Dlg()
+		self.dlg_PatientsList = PatientsList_Dlg()
+		self.numOfPatient = 0
 		try:
-			with open('sample.json', 'r') as f:
+			with open('sample.json', 'r', encoding='utf-8') as f:
 				e = json.load(f)
-				self.numOfPartient = len(e)
-				# print(self.numOfPartient)
+				self.numOfPatient = len(e)
+				# print(self.numOfPatient)
 				f.close()
 		except:
-			f = open('sample.json', 'w')
+			f = open('sample.json', 'w', encoding='utf-8')
 			f.write('{}')
 			f.close()
 
@@ -169,7 +134,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic.pb_Main.clicked.connect(lambda: self.changePage("Main"))
 		self.uic.pb_Calibration.clicked.connect(lambda: self.changePage("Calib"))
 		self.uic.pb_Introduction.clicked.connect(lambda: self.changePage("Introduction"))
-		self.uic.pb_Patient.clicked.connect(lambda: self.changePage("PartientInfo"))
+		self.uic.pb_Patient.clicked.connect(lambda: self.changePage("PatientInfo"))
 		self.uic.pb_Review.clicked.connect(lambda: self.changePage("Review"))
 		self.uic.pb_Setting.clicked.connect(lambda: self.changePage("Setting"))
 		self.uic.bt_smallSize.hide()
@@ -182,11 +147,7 @@ class MainWindow(QtWidgets.QMainWindow):
 	def control_bt_mini(self):
 		self.showMinimized()
 	
-	def control_bt_close(self):
-		for client in self.clients:
-			client.loop_stop()
-		for thread in self.client_threads:
-			thread.join()
+	def control_bt_close(self):		
 		self.close()
 
 	def control_bt_expand(self):
@@ -244,25 +205,31 @@ class MainWindow(QtWidgets.QMainWindow):
 	def changePage(self, page):
 		if(page == "Main"):
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_Main)
+			self.thisPage = "Main"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Trang Ch\u1ee7", None))
 		elif(page == "Calib"):
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_Calib)
+			self.thisPage = "Calib"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Hi\u1ec7u Ch\u1ec9nh", None))
 		elif(page == "Review"):
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_Review)
+			self.thisPage = "Review"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Xem L\u1ea1i", None))
-		elif(page == "PartientInfo"):
-			self.loadPartientList()
-			self.uic.stackedWidget.setCurrentWidget(self.uic.page_PartientInfomation)
+		elif(page == "PatientInfo"):
+			self.loadPatientsList()
+			self.uic.stackedWidget.setCurrentWidget(self.uic.page_PatientInfomation)
+			self.thisPage = "PatientInfo"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"Th\u00f4ng tin b\u1ec7nh nh\u00e2n", None))
 		elif(page == "Setting"):
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_Setting)
+			self.thisPage = "Setting"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"C\u00e0i \u0110\u1eb7t", None))
 		elif(page == "Introduction"):
 			self.uic.stackedWidget.setCurrentWidget(self.uic.page_Introduction)
+			self.thisPage = "Introduction"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"", None))
 
-	def lowerlimb(self):
+	def lowerlimbMain(self):
 		l_back = 400
 		l_thigh = 400
 		l_shin = 380
@@ -296,9 +263,9 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic.widget_MLowerlimb.setLayout(layoutMain_lowerlimb)		
 		layoutMain_lowerlimb.addWidget(lowerlimbChart)
 
-	def lineChart(self):
-		self.x = [0 for i in range(10)]
-		self.y = [0 for i in range(10)]
+	def lineChartMain(self):
+		hour = [1,2,3,4,5,6,7,8,9,10]
+		temperature = [30,32,34,32,33,31,29,32,35,45]
 		linechart = pg.plot()
 		linechart.showGrid(x = True, y = True)
 		linechart.addLegend()
@@ -309,34 +276,20 @@ class MainWindow(QtWidgets.QMainWindow):
 		# setting horizontal range
 		linechart.setXRange(0, 10)
 		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		self.line1 = linechart.plot(self.x, self.y, pen =pen)
-		self.line1.setSymbol('o')
+		line1 = linechart.plot(hour, temperature, pen =pen)
+		line1.setSymbol('o')
 		linechart.setBackground('w')
 		layoutMain_linechart = QHBoxLayout()		
 		self.uic.widget_MLinechart.setLayout(layoutMain_linechart)		
 		layoutMain_linechart.addWidget(linechart)	
 
-	def update_plot_data(self):
-		
-		if not (self.q1.empty() or self.q2.empty()):
-			self.x = self.x[1:]  # Remove the first y element.
-			self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
-
-			data1 = self.q1.get()
-			data2 = self.q2.get()
-			data = float(data1.split(',')[2]) - float(data2.split(',')[2])
-			self.y = self.y[1:]  # Remove the first
-			self.y.append(data)  # Add a new random value.
-
-			self.line1.setData(self.x, self.y)  # Update the data.
-
-	def onPartientAddClinked(self):
-		if self.dlg_PartientInfo == None:
-			self.dlg_PartientInfo = PartientInfo_Dlg(self)
-		if self.dlg_PartientInfo.isVisible():
-			self.dlg_PartientInfo.close()
+	def onPatientAddClinked(self):
+		if self.dlg_PatientInfo == None:
+			self.dlg_PatientInfo = PatientInfo_Dlg(self)
+		if self.dlg_PatientInfo.isVisible():
+			self.dlg_PatientInfo.close()
 		else:
-			self.dlg_PartientInfo.show()
+			self.dlg_PatientInfo.show()
 
 	def onExerciseClinked(self):
 		if self.dlg_Exercise == None:
@@ -350,42 +303,273 @@ class MainWindow(QtWidgets.QMainWindow):
 		if (self.uic.cb_MainExcercise.currentText() == "Thêm mới"):        
 			self.onExerciseClinked()
 	
-	def onPartientListClinked(self):
-		if self.dlg_PartientList == None:
-			self.dlg_PartientList = PartientList_Dlg(self)
-		if self.dlg_PartientList.isVisible():
-			self.dlg_PartientList.close()
+	def onPatientListClinked(self):
+		if self.dlg_PatientsList == None:
+			self.dlg_PatientsList = PatientsList_Dlg(self)
+		if self.dlg_PatientsList.isVisible():
+			self.dlg_PatientsList.close()
 		else:
-			self.dlg_PartientList.updateTable()
-			self.dlg_PartientList.show()
+			self.dlg_PatientsList.updateTable()
+			self.dlg_PatientsList.show()
 
-	def handle_data(self, data):
+	def handle_newPatientInfo(self, data):
 		data_list = {}
-		with open('sample.json', 'r') as f:
+		# print(data)
+		with open('sample.json', 'r', encoding='utf-8') as f:
 			data_list = json.load(f)
-			data_list[self.numOfPartient] = data	
-			self.numOfPartient += 1		
+			data_list[str(self.numOfPatient)] = data	
+			self.numOfPatient += 1		
 			f.close()
 		
-		with open('sample.json','w') as f:			
+		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(data_list, f, indent= 4)
 			f.close()
-
-	def loadPartientList(self):
+		
+		self.uic.lb_MainPatientName.setText(data['name'])
+		self.uic.lb_MainPatientID.setText(data['ID'])
+		self.uic.lb_MainDateOfBirth.setText(data['DateOfBirth'])
+		self.uic.lb_MainPatientGender.setText(data['Gender'])
+		self.uic.lb_MainPatientWeight.setText(data['Weight']+'kg')
+		self.uic.lb_MainPatientHeight.setText(data['Height']+ 'cm')
+		self.uic.lb_MainPatientCode.setText(data['PatientCode'])
+		self.currentTime = datetime.datetime.now()
+		self.uic.lb_MainDayExercise.setText(str(self.currentTime))
+		
+	def loadPatientsList(self):
 		file_data = {}
-		with open('sample.json','r') as file:
+		with open('sample.json','r', encoding='utf-8') as file:
 			file_data = json.load(file)
 			file.close()
-		self.uic.tableWidget_PartientInfoPartientTable.setRowCount(len(file_data))
+		self.uic.tableWidget_PatientInfoPatientTable.setRowCount(len(file_data))
 		for index_person in range(len(file_data)):
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,0, QTableWidgetItem(str(index_person)))
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,1, QTableWidgetItem('Quang Suy'))
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,2, QTableWidgetItem(file_data[str(index_person)]['name']))
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,3, QTableWidgetItem(file_data[str(index_person)]['DateOfBirth']))
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,4, QTableWidgetItem(file_data[str(index_person)]['ID']))
-			self.uic.tableWidget_PartientInfoPartientTable.setItem(index_person,5, QTableWidgetItem(file_data[str(index_person)]['Sex']))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,0, QTableWidgetItem(str(index_person)))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,1, QTableWidgetItem(file_data[str(index_person)]['PatientCode']))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,2, QTableWidgetItem(file_data[str(index_person)]['name']))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,3, QTableWidgetItem(file_data[str(index_person)]['DateOfBirth']))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,4, QTableWidgetItem(file_data[str(index_person)]['ID']))
+			self.uic.tableWidget_PatientInfoPatientTable.setItem(index_person,5, QTableWidgetItem(file_data[str(index_person)]['Gender']))
 		
-		self.uic.tableWidget_PartientInfoPartientTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+		self.uic.tableWidget_PatientInfoPatientTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+		self.uic.tableWidget_PatientInfoPatientTable.setSelectionBehavior(QTableWidget.SelectRows)  
+		self.uic.tableWidget_PatientInfoPatientTable.setSelectionMode(QTableWidget.SingleSelection)
+
+	def lowerlimbReview(self):
+		l_back = 400
+		l_thigh = 400
+		l_shin = 380
+		l_foot = 200
+		x0 = 0
+		y0 = 0
+		x1 = x0 + l_back*math.cos(math.radians(-90))
+		y1 = y0 + l_back*math.sin(math.radians(-90))
+		x2 = x1 + l_thigh*math.cos(math.radians(-40))
+		y2 = y1 + l_thigh*math.sin(math.radians(-40))
+		x3 = x2 + l_shin*math.cos(math.radians(-70))
+		y3 = y2 + l_shin*math.sin(math.radians(-70))
+		x4 = x3 + l_foot*math.cos(math.radians(-10))
+		y4 = y3 + l_foot*math.sin(math.radians(-10))
+		
+		pen1 = pg.mkPen(color=(39, 164, 242), width=30)
+		pen2 = pg.mkPen(color=(62, 174, 244), width=25)
+		pen3 = pg.mkPen(color=(110, 194, 247), width=20)
+		pen4 = pg.mkPen(color=(159, 215, 248), width=15)
+
+		lowerlimbChartReview = pg.plot()
+		lowerlimbChartReview.showGrid(x = True, y = True)
+		lowerlimbChartReview.plot([x3,x4], [y3,y4], pen= pen4, symbol = 'o')
+		lowerlimbChartReview.plot([x2,x3], [y2,y3], pen= pen3, symbol = 'o')
+		lowerlimbChartReview.plot([x1,x2], [y1,y2], pen= pen2, symbol = 'o')
+		lowerlimbChartReview.plot([x0,x1], [y0,y1], pen= pen1, symbol = 'o')
+		lowerlimbChartReview.setBackground('w')
+		lowerlimbChartReview.setXRange(-100, 1100, padding= 0)
+		lowerlimbChartReview.setYRange(-1100, 100, padding= 0)
+		layoutReview_lowerlimb = QHBoxLayout()
+		self.uic.widget_ReviewLowerlimb.setLayout(layoutReview_lowerlimb)		
+		layoutReview_lowerlimb.addWidget(lowerlimbChartReview)
+
+	def lineChartReview(self):
+		hour = [1,2,3,4,5,6,7,8,9,10]
+		temperature = [30,32,34,32,33,31,29,32,35,45]
+		linechartReview = pg.plot()
+		linechartReview.showGrid(x = True, y = True)
+		linechartReview.addLegend()
+		# set properties of the label for y axis
+		linechartReview.setLabel('left', 'Vertical Values', units ='y')
+		# set properties of the label for x axis
+		linechartReview.setLabel('bottom', 'Horizontal Values', units ='s')
+		# setting horizontal range
+		linechartReview.setXRange(0, 10)
+		pen = pg.mkPen(color=(39, 164, 242), width=5)
+		line1 = linechartReview.plot(hour, temperature, pen =pen)
+		line1.setSymbol('o')
+		linechartReview.setBackground('w')
+		layoutReview_linechart = QHBoxLayout()		
+		self.uic.widget_ReviewLinechart.setLayout(layoutReview_linechart)		
+		layoutReview_linechart.addWidget(linechartReview)	
+
+	def handle_Patient(self, data):
+		if(self.thisPage == "Main"):
+			self.uic.lb_MainPatientName.setText(data['name'])
+			self.uic.lb_MainPatientID.setText(data['ID'])
+			self.uic.lb_MainDateOfBirth.setText(data['DateOfBirth'])
+			self.uic.lb_MainPatientGender.setText(data['Gender'])
+			self.uic.lb_MainPatientWeight.setText(data['Weight']+'kg')
+			self.uic.lb_MainPatientHeight.setText(data['Height']+ 'cm')
+			self.uic.lb_MainPatientCode.setText(data['PatientCode'])
+			self.currentTime = datetime.datetime.now()
+			self.uic.lb_MainDayExercise.setText(str(self.currentTime))
+			self.currentMainPatientCode = data['PatientCode']
+		
+		if(self.thisPage == "Review"):
+			self.uic.lb_ReviewPatientName.setText(data['name'])
+			self.uic.lb_ReviewPatientID.setText(data['ID'])
+			self.uic.lb_ReviewPatientDateOfBirth.setText(data['DateOfBirth'])
+			self.uic.lb_ReviewPatientGender.setText(data['Gender'])
+			self.uic.lb_ReviewWeight.setText(data['Weight']+'kg')
+			self.uic.lb_ReviewHeight.setText(data['Height']+ 'cm')
+			self.uic.lb_ReviewCode.setText(data['PatientCode'])
+			self.currentTime = datetime.datetime.now()
+			# self.uic.lb_ReviewDayExercise.setText(str(self.currentTime))
+			self.uic.cb_ReviewExercise.clear()
+			self.uic.cb_ReviewDayExercise.clear()
+			for value in data['Exercise']:
+				# print(value)
+				self.uic.cb_ReviewExercise.addItem(value.split('_')[0])
+				self.uic.cb_ReviewDayExercise.addItem(value.split('_')[1])
+
+	def editPatientInfo(self):
+		Patient = self.uic.tableWidget_PatientInfoPatientTable.selectedItems()
+		ParitentList = {}
+		with open('sample.json','r', encoding='utf-8') as file:
+			ParitentList = json.load(file)
+			file.close()
+		# PatientInfo = ParitentList[Patient[0].text()]
+		if self.uic.cb_PatientInfoGender.currentText() == 'Nam':
+			Gender = 'Male'
+		else:
+			Gender = 'FeMale'
+		data = {'name':self.uic.le_PatientInfoName.text(),
+				'ID':self.uic.le_PatientInfoID.text(),
+				'Height': self.uic.le_PatientInfoHeight.text(),
+				'Weight': self.uic.le_PatientInfoWeight.text(),
+				'Gender': Gender,
+				'DateOfBirth': self.uic.de_PatientInfoDateOfBirth.text(),
+				'PatientCode': ParitentList[Patient[0].text()]['PatientCode'],
+				'Exercise': ParitentList[Patient[0].text()]['Exercise']}
+		ParitentList[Patient[0].text()] = data
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump(ParitentList, f, indent= 4)
+			f.close()
+		self.loadPatientsList()
+
+	def getPatientInfoToEdit(self):
+		Patient = self.uic.tableWidget_PatientInfoPatientTable.selectedItems()
+		ParitentList = {}
+		with open('sample.json','r', encoding='utf-8') as file:
+			ParitentList = json.load(file)
+			file.close()
+		PatientInfo = ParitentList[Patient[0].text()]
+		self.uic.le_PatientInfoName.setText(PatientInfo['name'])
+		self.uic.le_PatientInfoID.setText(PatientInfo['ID'])
+		date = PatientInfo['DateOfBirth'].split('/')
+		self.uic.de_PatientInfoDateOfBirth.setDate(QDate(int(date[2]),int(date[1]) , int(date[0])))
+		if(PatientInfo['Gender'] == 'Male'):
+			self.uic.cb_PatientInfoGender.setCurrentIndex(0)
+		else:
+			self.uic.cb_PatientInfoGender.setCurrentIndex(1)		
+		self.uic.le_PatientInfoWeight.setText(PatientInfo['Weight'])
+		self.uic.le_PatientInfoHeight.setText(PatientInfo['Height'])
+		self.uic.lb_PatientInfoPatitentCode.setText(PatientInfo['PatientCode'])
+
+	def startExercise(self):
+		Exercise = self.uic.cb_MainExcercise.currentText()+'_' + self.uic.lb_MainDayExercise.text()
+		
+		with open('sample.json','r', encoding='utf-8') as file:
+			file_data = json.load(file)
+			file.close()
+		for index_person in range(len(file_data)):
+			if file_data[str(index_person)]['PatientCode'] == self.currentMainPatientCode:				
+				file_data[str(index_person)]['Exercise'].append(Exercise)				
+		
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump(file_data, f, indent= 4)
+			f.close()
+		
+		for thread in self.client_threads:
+			thread.start()
+
+	def searchPatientInfo(self):
+		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
+		if not self.uic.le_PatientInfoSearch.text():
+			return	
+
+		matching_items = self.uic.tableWidget_PatientInfoPatientTable.findItems(self.uic.le_PatientInfoSearch.text(), Qt.MatchStartsWith)
+		if matching_items:
+			# we have found something
+			item = matching_items[0]  # take the first
+			self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(item)
+			self.uic.tableWidget_PatientInfoPatientTable.scrollToItem(item, QAbstractItemView.PositionAtTop)
+
+	def removePatientInfo(self):
+		Patient = self.uic.tableWidget_PatientInfoPatientTable.selectedItems()
+		ParitentList = {}
+		with open('sample.json','r', encoding='utf-8') as file:
+			ParitentList = json.load(file)
+			file.close()
+		print(ParitentList[Patient[0].text()])
+		del ParitentList[Patient[0].text()]
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump(ParitentList, f, indent= 4)
+			f.close()
+		self.loadPatientsList()
+	
+	def removeAllPatientInfo(self):
+		with open('sample.json','w', encoding='utf-8') as f:			
+			json.dump({}, f)
+			f.close()
+		self.loadPatientsList()
+	
+	def on_connect(self, client, userdata, flags, rc):
+		print(f"Connected with result code {rc}")
+
+	def on_log(self, client, userdata, level, buf):
+		print("log: " + buf)
+
+	def on_message(self, client, userdata, msg):
+		message = str(msg.payload.decode("utf-8"))
+		topics = msg.topic.split('/')
+		subtopic = topics[1]
+		match subtopic:
+			case 'data':
+				client.proq.put(message)
+				client.logL.append([message])
+		# Save data to file on each message
+				with open(f'{client.logfile}.csv', 'w', newline='') as f:
+					csvwriter = csv.writer(f)
+					csvwriter.writerows(client.logL)
+					f.close()
+				print(message)
+			case 'calib':
+				print(f'{topics[0]}: {message}')
+			case 'calib_status':
+				if message == 'a':
+					print('imu is not calibrated')
+				else:
+					print('imu is calibrated')
+
+	def Sub(self, client, topic):
+		client.subscribe(f'{topic}/#')
+		client.loop_start()
+
+	def connectBroker(self):
+		for client in self.clients:
+			client.connect("192.168.50.10", 1883, 3600)
+
+	def disconnectBroker(self):
+		for client in self.clients:
+			client.loop_stop()
+		for thread in self.client_threads:
+			thread.join()
 # -------------------------------------------------------------------------------
 
 
