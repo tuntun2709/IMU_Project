@@ -291,7 +291,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def update_plot_data(self):
 		
-		if not (self.q1.empty() or self.q2.empty()):
+		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
 			self.time = self.time[1:]  # Remove the first y element.
 			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
 
@@ -735,6 +735,10 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.timer.timeout.connect(self.update_plotDataReview)
 		self.timer.start()
 >>>>>>> Stashed changes
+
+	def update_data(self):
+		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+			
 
 # -------------------------------------------------------------------------------
 

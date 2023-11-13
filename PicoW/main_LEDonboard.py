@@ -165,8 +165,9 @@ mqtt_client.publish(calib_status_subtopic, f'{calibrated_mess}', retain = True)
 for i in range(4):
     led.toggle()
     time.sleep(0.2)
-# start timer1
 
+mqtt_client.publish(calib_status_subtopic, '', retain = True)
+# start timer1
 led.on()
 timer1.init(period=20, mode=machine.Timer.PERIODIC, callback=blink)
 
