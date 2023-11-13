@@ -275,10 +275,12 @@ class MainWindow(QtWidgets.QMainWindow):
 		linechart.setLabel('bottom', 'Horizontal Values', units ='s')
 		# setting horizontal range
 		linechart.setXRange(0, 10)
-		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen)
-		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen)
-		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen)
+		pen1 = pg.mkPen(color=(39, 164, 242), width=5)
+		pen2 = pg.mkPen(color=(255, 0, 0), width=5)
+		pen3 = pg.mkPen(color=(0, 255, 0), width=5)
+		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen1)
+		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen2)
+		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen3)
 		self.line1.setSymbol('o')
 		self.line2.setSymbol('o')
 		self.line3.setSymbol('o')
@@ -528,6 +530,12 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{self.clients.index(client)+1}')))
 		for thread in self.client_threads:
 			thread.start()
+<<<<<<< Updated upstream
+=======
+		
+		self.threadTimer = RepeatTimer(0.027, self.update_plotDataMain)
+		self.threadTimer.start()
+>>>>>>> Stashed changes
 
 	def searchPatientInfo(self):
 		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
@@ -574,12 +582,32 @@ class MainWindow(QtWidgets.QMainWindow):
 			case 'data':
 				client.proq.put(message)
 				client.logL.append([message])
+				# print(f'{topics[0]}: {client.proq.qsize()}')
 		# Save data to file on each message
+<<<<<<< Updated upstream
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
 					csvwriter = csv.writer(f)
 					csvwriter.writerows(client.logL)
 					f.close()
 				print(message)
+=======
+				# with open(f'{client.logfile}.csv', 'w', newline='') as f:
+				# 	csvwriter = csv.writer(f)
+				# 	csvwriter.writerows(client.logL)
+				# 	f.close()
+				# angles = message.split(',')
+				# # print(message)
+				# self.uic.lb_MainMaxHipAngle.setText(angles[0])
+				# self.uic.lb_MainMaxKneeAngle.setText(angles[1])
+				# self.uic.lb_MainMaxAnkleAngle.setText(angles[2])
+				# self.countData +=1
+				# self.uic.tableWidget_MDataTable.setRowCount(self.countData)
+				# self.uic.tableWidget_MDataTable.insertRow(0)
+				# self.uic.tableWidget_MDataTable.setItem(0,0,QTableWidgetItem(angles[0]))
+				# self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
+				# self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
+				
+>>>>>>> Stashed changes
 			case 'calib':
 				print(f'{topics[0]}: {message}')
 			case 'calib_status':
@@ -600,13 +628,121 @@ class MainWindow(QtWidgets.QMainWindow):
 		while not self.q1.empty():
 			self.update_plot_data()
 		for client in self.clients:
+			client.proq = Queue()
 			client.loop_stop()
 		for thread in self.client_threads:
 			thread.join()
+<<<<<<< Updated upstream
 		print('All threads ended')
+=======
+		print('threads stop')
+		# self.q1 = Queue()
+		# self.q2 = Queue()
+		# self.q3 = Queue()
+		# self.q4 = Queue()
+		print(self.q1.qsize(),self.q2.qsize(),self.q3.qsize(),self.q4.qsize())
+		self.threadTimer.cancel()
+		
+
+	def save_result(self):
+		self.options = QFileDialog.Options()
+		self.options |= QFileDialog.DontUseNativeDialog
+		fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","csv Files (*.csv)", options=self.options)
+		if fileName:
+			if not fileName[-4:] == '.csv':
+				fileName += '.csv'
+			text = ['ngay moi','asdbajsd']
+			data = [ ['Nikhil', 'COE', '2', '9.0'],  
+			['Sanchit', 'COE', '2', '9.1'],  
+			['Aditya', 'IT', '2', '9.3'],  
+			['Sagar', 'SE', '1', '9.5'],  
+			['Prateek', 'MCE', '3', '7.8'],  
+			['Sahil', 'EP', '2', '9.1']]
+			# print(fileName)
+			try:
+				f = open(fileName, "w", encoding='utf-8', newline='')
+				writer = csv.writer(f)
+				writer.writerow(text)
+				writer.writerows(data)
+				# f.write(text)
+				f.close()
+				# self.rebuildHTML()
+			except IOError:
+				QMessageBox.information(
+					self,
+					"Unable to open file: %s" % fileName
+				)
+
+	def update_plotDataMain(self):
+		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+			t1 = time.perf_counter()
+			self.time = self.time[1:]  # Remove the first y element.
+			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
+
+			data1 = self.q1.get()
+			data2 = self.q2.get()
+			data3 = self.q3.get()
+			data4 = self.q4.get()
+			# print(data1, data2, data3, data4)
+			# print(self.q1.qsize(),self.q2.qsize(),self.q3.qsize(),self.q4.qsize())
+			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
+			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			print('knee:', knee)
+			
+			self.hipAngle = self.hipAngle[1:]  # Remove the first
+			self.kneeAngle = self.kneeAngle[1:]
+			self.ankleAngle = self.ankleAngle[1:]
+			self.hipAngle.append(hip)  # Add a new random value.
+			self.kneeAngle.append(knee)
+			self.ankleAngle.append(ankle)
+			print('something')
+			self.line1.setData(self.time, self.hipAngle)  # Update the data.
+			self.line2.setData(self.time, self.kneeAngle)
+			self.line3.setData(self.time, self.ankleAngle)
+			print(time.perf_counter())
+			t2 = time.perf_counter()
+			# print(f'time elapsed: {t2 - t1}')
+	def update_plotDataReview(self):
+		self.time_review = self.time_review[0:]
+		self.time_review.append(self.time_review[-1] + 1) 
+		self.angle_review = self.angle_review[0:]
+		self.angle_review.append(random.randrange(10,30))
+		self.line_review.setData(self.time_review, self.angle_review)
+		self.linechartReview.setXRange(len(self.time_review)-10, len(self.time_review))
+		l_back = 400
+		l_thigh = 400
+		l_shin = 380
+		l_foot = 200
+		x0 = 0
+		y0 = 0
+		x1 = x0 + l_back*math.cos(math.radians(-90 + random.randrange(-5,5)))
+		y1 = y0 + l_back*math.sin(math.radians(-90+ random.randrange(-5,5)))
+		x2 = x1 + l_thigh*math.cos(math.radians(-40+ random.randrange(-5,5)))
+		y2 = y1 + l_thigh*math.sin(math.radians(-40+ random.randrange(-5,5)))
+		x3 = x2 + l_shin*math.cos(math.radians(-70+ random.randrange(-5,5)))
+		y3 = y2 + l_shin*math.sin(math.radians(-70+ random.randrange(-5,5)))
+		x4 = x3 + l_foot*math.cos(math.radians(-10+ random.randrange(-5,5)))
+		y4 = y3 + l_foot*math.sin(math.radians(-10+ random.randrange(-5,5)))
+		self.lowerlimbReview1.setData([x3,x4], [y3,y4], symbol = 'o')
+		self.lowerlimbReview2.setData([x2,x3], [y2,y3], symbol = 'o')
+		self.lowerlimbReview3.setData([x1,x2], [y1,y2], symbol = 'o')
+		self.lowerlimbReview4.setData([x0,x1], [y0,y1], symbol = 'o')
+	
+	def changeSpeed(self, value):
+		self.timer = QTimer()
+		self.timer.setInterval(value+50)
+		self.timer.timeout.connect(self.update_plotDataReview)
+		self.timer.start()
+>>>>>>> Stashed changes
 
 # -------------------------------------------------------------------------------
 
+class RepeatTimer(threading.Timer):  
+    def run(self):  
+        while not self.finished.wait(self.interval):  
+            self.function(*self.args,**self.kwargs)  
+            # print('thread is running')
 
 # ---------------------------------------------------------------------------------
 if __name__ == '__main__':
