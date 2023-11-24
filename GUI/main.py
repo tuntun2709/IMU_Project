@@ -585,10 +585,17 @@ class MainWindow(QtWidgets.QMainWindow):
 				client.proq.put(message)
 				client.logL.append([message])
 		# Save data to file on each message
+<<<<<<< Updated upstream
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
 					csvwriter = csv.writer(f)
 					csvwriter.writerows(client.logL)
 					f.close()
+				print(message)
+=======
+				# with open(f'{client.logfile}.csv', 'w', newline='') as f:
+				# 	csvwriter = csv.writer(f)
+				# 	csvwriter.writerows(client.logL)
+				# 	f.close()
 				# angles = message.split(',')
 				# # print(message)
 				# self.uic.lb_MainMaxHipAngle.setText(angles[0])
@@ -601,6 +608,7 @@ class MainWindow(QtWidgets.QMainWindow):
 				# self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
 				# self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
 				
+>>>>>>> Stashed changes
 			case 'calib':
 				print(f'{topics[0]}: {message}')
 			case 'calib_status':
@@ -632,6 +640,17 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.loop_stop()
 		for thread in self.client_threads:
 			thread.join()
+<<<<<<< Updated upstream
+		print('All threads ended')
+=======
+		print('threads stop')
+		# self.q1 = Queue()
+		# self.q2 = Queue()
+		# self.q3 = Queue()
+		# self.q4 = Queue()
+		print(self.q1.qsize(),self.q2.qsize(),self.q3.qsize(),self.q4.qsize())
+		self.threadTimer.cancel()
+		
 
 	def save_result(self):
 		self.options = QFileDialog.Options()
