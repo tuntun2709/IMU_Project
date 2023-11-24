@@ -1,66 +1,46 @@
-from PySide6.QtWidgets import QTableWidget, QLineEdit, QPushButton, QApplication, QMainWindow, QVBoxLayout, QWidget, QTableWidgetItem, QAbstractItemView
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QSlider, QLabel
 from PySide6.QtCore import Qt
 
-import random, string, sys
-
-
-class MainWindow(QMainWindow):
-
+class SliderExample(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.init_ui()
 
-        self.query = QLineEdit()
-        self.query.setPlaceholderText("Search...")
-        self.query.textChanged.connect(self.search)
-        
-
-        n_rows = 52
-        n_cols = 4
-
-        self.table = QTableWidget()
-        self.table.setRowCount(n_rows)
-        self.table.setColumnCount(n_cols)
-        self.table.setSelectionBehavior(QTableWidget.SelectRows)  
-        self.table.setSelectionMode(QTableWidget.SingleSelection)
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-
-        for c in range(0, n_rows):
-            for r in range(0, n_cols):
-                s = ''.join(random.choice(string.ascii_lowercase) for n in range(10))
-                i = QTableWidgetItem(s)
-                self.table.setItem(c, r, i)
-                print(c,r,s)
-
-        self.table.sortItems(0)
+    def init_ui(self):
+        # Create a vertical layout for the main window
         layout = QVBoxLayout()
 
-        layout.addWidget(self.query)
-        layout.addWidget(self.table)
+        # Create a horizontal slider
+        slider = QSlider(Qt.Horizontal)
+        slider.setMinimum(0)
+        slider.setMaximum(100)
+        slider.setValue(50)  # Set the initial value
 
-        w = QWidget()
-        w.setLayout(layout)
-        self.setCentralWidget(w)
+        # Connect the valueChanged signal to a custom slot
+        slider.valueChanged.connect(self.on_slider_value_changed)
 
-    def search(self, s):
-        # clear current selection.
-        self.table.setCurrentItem(None)
+        # Create a label to display the slider value
+        self.label = QLabel('Slider Value: {}'.format(slider.value()))
 
-        if not s:
-            # Empty string, don't search.
-            return
+        # Add the slider and label to the layout
+        layout.addWidget(slider)
+        layout.addWidget(self.label)
 
-        matching_items = self.table.findItems(s, Qt.MatchStartsWith)
-        # print(len(matching_items))
-        if matching_items:
-            # we have found something
-            item = matching_items[0]  # take the first
-            self.table.setCurrentItem(item)
-            self.table.scrollToItem(item, QAbstractItemView.PositionAtTop)
+        # Set the layout for the main window
+        self.setLayout(layout)
+
+        # Set the properties of the main window
+        self.setWindowTitle('PySide6 Slider Example')
+        self.setGeometry(300, 300, 300, 150)
+
+    def on_slider_value_changed(self, value):
+        # Update the label text when the slider value changes
+        self.label.setText('Slider Value: {}'.format(value))
 
 
-app = QApplication(sys.argv)
-w = MainWindow()
-w.show()
-
-app.exec()
+if __name__ == '__main__':
+    app = QApplication([])
+    window = SliderExample()
+    window.show()
+    app.exec_()
