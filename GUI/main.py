@@ -668,20 +668,26 @@ class MainWindow(QtWidgets.QMainWindow):
 				)
 
 	def update_plotDataMain(self):
-		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
-			t1 = time.perf_counter()
+		if not (
+			# self.q1.empty() 
+		#   or 
+		  self.q2.empty() 
+		  or self.q3.empty() 
+		#   or self.q4.empty()
+		  ):
+			# t1 = time.perf_counter()
 			self.time = self.time[1:]  # Remove the first y element.
 			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
 
-			data1 = self.q1.get()
+			# data1 = self.q1.get()
 			data2 = self.q2.get()
 			data3 = self.q3.get()
-			data4 = self.q4.get()
+			# data4 = self.q4.get()
 			# print(data1, data2, data3, data4)
 			# print(self.q1.qsize(),self.q2.qsize(),self.q3.qsize(),self.q4.qsize())
-			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			# hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
 			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
-			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			# ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
 			print('knee:', knee)
 			
 			# self.hipAngle = self.hipAngle[1:]  # Remove the first
