@@ -3,24 +3,21 @@ from random import randint
 import sys
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import QPropertyAnimation,Qt, QCoreApplication, Signal, QDate, QTimer
-from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget, QFileDialog, QMessageBox
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QAbstractItemView, QTableWidget, QFileDialog
 from ui_menu import Ui_MainWindow
 import pyqtgraph as pg
 import math
-import os
 import json
 import datetime
 from ExerciseDlgClass import Exercise_Dlg
 from PatientInfoDlgClass import PatientInfo_Dlg
 from PatientsListDlgClass import PatientsList_Dlg
-import subprocess
+
 import paho.mqtt.client as mqtt
 import threading
 import time
 from queue import Queue
 import csv
-
-import random
 # -------------------------------------------------------------------
 class MainWindow(QtWidgets.QMainWindow):
 	
@@ -31,14 +28,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		self.thisPage = 'Main'
 		self.currentMainPatientCode = '-1'
-		self.isConnected =False
 		self.declare_var()
 		self.currentTime = datetime.datetime.now()
 		self.uic.stackedWidget.setCurrentWidget(self.uic.page_Main)
 		self.setWindowFlags(Qt.FramelessWindowHint)
 		self.setWindowOpacity(1)
 		self.uic.fr_sideMenu.setLineWidth(200)
-		self.uic.horizontalSlider_ReviewTimer.setMaximum(100000)
+
 		self.uic.rb_SettingCm.setChecked(True)
 		self.uic.rb_SettingKg.setChecked(True)
 
@@ -62,9 +58,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.uic.pb_PatientInfoRemoveAll.clicked.connect(self.removeAllPatientInfo)
 		self.uic.pb_MainConnector.clicked.connect(self.connectBroker)
 		self.uic.pb_MainEndExercise.clicked.connect(self.disconnectBroker)
-		self.uic.pb_MainSaveData.clicked.connect(self.save_result)
 
-		self.lowerlimbMain(0,0,0,0)
+		self.lowerlimbMain()
 		self.lineChartMain()
 		self.lowerlimbReview()
 		self.lineChartReview()
@@ -109,17 +104,12 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Create connection, the three parameters are broker address, broker port number, and keep-alive time respectively			
 			self.clients.append(client)
 		
-		self.countData = 0
-		self.uic.tableWidget_MDataTable.setRowCount(self.countData)
-		# self.timer = QTimer()
-		# self.timer.setInterval(500)
-		# self.timer.timeout.connect(self.update_plot_data)
-		# self.timer.start()
+		self.timer = QTimer()
+		self.timer.setInterval(500)
+		self.timer.timeout.connect(self.update_plot_data)
+		self.timer.start()
 
 		# self.q = next((q for q in self.process_queues if not q.empty()), Queue())
-
-		
-		self.uic.horizontalSlider_ReviewSpeed.valueChanged.connect(self.changeSpeed)
 
 # --------------------------------------------------------------------------\
 	def declare_var(self):
@@ -155,11 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
 	def control_bt_mini(self):
 		self.showMinimized()
 	
-	def control_bt_close(self):	
-		# print(self.isConnected)	
-		if self.isConnected:
-			for client in self.clients:
-				client.disconnect()
+	def control_bt_close(self):		
 		self.close()
 
 	def control_bt_expand(self):
@@ -241,21 +227,21 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.thisPage = "Introduction"
 			self.uic.label_Page.setText(QCoreApplication.translate("MainWindow", u"", None))
 
-	def lowerlimbMain(self,a,b,c,d):
+	def lowerlimbMain(self):
 		l_back = 400
 		l_thigh = 400
 		l_shin = 380
 		l_foot = 200
 		x0 = 0
 		y0 = 0
-		x1 = x0 + l_back*math.cos(math.radians(a))
-		y1 = y0 + l_back*math.sin(math.radians(a))
-		x2 = x1 + l_thigh*math.cos(math.radians(b))
-		y2 = y1 + l_thigh*math.sin(math.radians(b))
-		x3 = x2 + l_shin*math.cos(math.radians(c))
-		y3 = y2 + l_shin*math.sin(math.radians(c))
-		x4 = x3 + l_foot*math.cos(math.radians(d))
-		y4 = y3 + l_foot*math.sin(math.radians(d))
+		x1 = x0 + l_back*math.cos(math.radians(-90))
+		y1 = y0 + l_back*math.sin(math.radians(-90))
+		x2 = x1 + l_thigh*math.cos(math.radians(-40))
+		y2 = y1 + l_thigh*math.sin(math.radians(-40))
+		x3 = x2 + l_shin*math.cos(math.radians(-70))
+		y3 = y2 + l_shin*math.sin(math.radians(-70))
+		x4 = x3 + l_foot*math.cos(math.radians(-10))
+		y4 = y3 + l_foot*math.sin(math.radians(-10))
 		
 		pen1 = pg.mkPen(color=(39, 164, 242), width=30)
 		pen2 = pg.mkPen(color=(62, 174, 244), width=25)
@@ -264,17 +250,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		lowerlimbChart = pg.plot()
 		lowerlimbChart.showGrid(x = True, y = True)
+		lowerlimbChart.plot([x3,x4], [y3,y4], pen= pen4, symbol = 'o')
+		lowerlimbChart.plot([x2,x3], [y2,y3], pen= pen3, symbol = 'o')
+		lowerlimbChart.plot([x1,x2], [y1,y2], pen= pen2, symbol = 'o')
+		lowerlimbChart.plot([x0,x1], [y0,y1], pen= pen1, symbol = 'o')
 		lowerlimbChart.setBackground('w')
 		lowerlimbChart.setXRange(-100, 1100, padding= 0)
 		lowerlimbChart.setYRange(-1100, 100, padding= 0)
-
-		self.mainLowerLimb1 = lowerlimbChart.plot([x3,x4], [y3,y4], pen= pen4, symbol = 'o')
-		self.mainLowerLimb2 = lowerlimbChart.plot([x2,x3], [y2,y3], pen= pen3, symbol = 'o')
-		self.mainLowerLimb3 = lowerlimbChart.plot([x1,x2], [y1,y2], pen= pen2, symbol = 'o')
-		self.mainLowerLimb4 = lowerlimbChart.plot([x0,x1], [y0,y1], pen= pen1, symbol = 'o')
-		
 		layoutMain_lowerlimb = QHBoxLayout()
-		self.uic.widget_MLowerlimb.setLayout(layoutMain_lowerlimb)
+		self.uic.widget_MLowerlimb.setLayout(layoutMain_lowerlimb)		
 		layoutMain_lowerlimb.addWidget(lowerlimbChart)
 
 	def lineChartMain(self):
@@ -292,8 +276,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		# setting horizontal range
 		linechart.setXRange(0, 10)
 		pen1 = pg.mkPen(color=(39, 164, 242), width=5)
-		pen2 = pg.mkPen(color=(0, 255, 0), width=5)
-		pen3 = pg.mkPen(color=(255, 0, 0), width=5)
+		pen2 = pg.mkPen(color=(255, 0, 0), width=5)
+		pen3 = pg.mkPen(color=(0, 255, 0), width=5)
 		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen1)
 		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen2)
 		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen3)
@@ -303,7 +287,31 @@ class MainWindow(QtWidgets.QMainWindow):
 		linechart.setBackground('w')
 		layoutMain_linechart = QHBoxLayout()		
 		self.uic.widget_MLinechart.setLayout(layoutMain_linechart)		
-		layoutMain_linechart.addWidget(linechart)
+		layoutMain_linechart.addWidget(linechart)	
+
+	def update_plot_data(self):
+		
+		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+			self.time = self.time[1:]  # Remove the first y element.
+			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
+
+			data1 = self.q1.get()
+			data2 = self.q2.get()
+			data3 = self.q3.get()
+			data4 = self.q4.get()
+			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
+			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			self.hipAngle = self.hipAngle[1:]  # Remove the first
+			self.kneeAngle = self.kneeAngle[1:]
+			self.ankleAngle = self.ankleAngle[1:]
+			self.hipAngle.append(hip)  # Add a new random value.
+			self.kneeAngle.append(knee)
+			self.ankleAngle.append(ankle)
+
+			self.line1.setData(self.time, self.hipAngle)  # Update the data.
+			self.line2.setData(self.time, self.kneeAngle)
+			self.line3.setData(self.time, self.ankleAngle)
 
 	def onPatientAddClinked(self):
 		if self.dlg_PatientInfo == None:
@@ -398,39 +406,36 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		lowerlimbChartReview = pg.plot()
 		lowerlimbChartReview.showGrid(x = True, y = True)
+		lowerlimbChartReview.plot([x3,x4], [y3,y4], pen= pen4, symbol = 'o')
+		lowerlimbChartReview.plot([x2,x3], [y2,y3], pen= pen3, symbol = 'o')
+		lowerlimbChartReview.plot([x1,x2], [y1,y2], pen= pen2, symbol = 'o')
+		lowerlimbChartReview.plot([x0,x1], [y0,y1], pen= pen1, symbol = 'o')
 		lowerlimbChartReview.setBackground('w')
 		lowerlimbChartReview.setXRange(-100, 1100, padding= 0)
 		lowerlimbChartReview.setYRange(-1100, 100, padding= 0)
-		self.lowerlimbReview1 = lowerlimbChartReview.plot([x3,x4], [y3,y4], pen= pen4, symbol = 'o')
-		self.lowerlimbReview2 = lowerlimbChartReview.plot([x2,x3], [y2,y3], pen= pen3, symbol = 'o')
-		self.lowerlimbReview3 = lowerlimbChartReview.plot([x1,x2], [y1,y2], pen= pen2, symbol = 'o')
-		self.lowerlimbReview4 = lowerlimbChartReview.plot([x0,x1], [y0,y1], pen= pen1, symbol = 'o')		
-		
 		layoutReview_lowerlimb = QHBoxLayout()
 		self.uic.widget_ReviewLowerlimb.setLayout(layoutReview_lowerlimb)		
 		layoutReview_lowerlimb.addWidget(lowerlimbChartReview)
 
 	def lineChartReview(self):
-		self.time_review = [1]
-		self.angle_review = [0]
-		self.linechartReview = pg.plot()
-		self.linechartReview.showGrid(x = True, y = True)
-		self.linechartReview.addLegend()
+		hour = [1,2,3,4,5,6,7,8,9,10]
+		temperature = [30,32,34,32,33,31,29,32,35,45]
+		linechartReview = pg.plot()
+		linechartReview.showGrid(x = True, y = True)
+		linechartReview.addLegend()
 		# set properties of the label for y axis
-		self.linechartReview.setLabel('left', 'Vertical Values', units ='y')
+		linechartReview.setLabel('left', 'Vertical Values', units ='y')
 		# set properties of the label for x axis
-		self.linechartReview.setLabel('bottom', 'Horizontal Values', units ='s')
+		linechartReview.setLabel('bottom', 'Horizontal Values', units ='s')
 		# setting horizontal range
-		# linechartReview.setXRange(len(hour)-10, len(hour))	
-		self.linechartReview.setAutoPan()	
+		linechartReview.setXRange(0, 10)
 		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		self.line_review = self.linechartReview.plot(self.time_review, self.angle_review, pen =pen)
-		self.line_review.setSymbol('o')
-		self.linechartReview.setBackground('w')
+		line1 = linechartReview.plot(hour, temperature, pen =pen)
+		line1.setSymbol('o')
+		linechartReview.setBackground('w')
 		layoutReview_linechart = QHBoxLayout()		
 		self.uic.widget_ReviewLinechart.setLayout(layoutReview_linechart)		
-		layoutReview_linechart.addWidget(self.linechartReview)	
-		
+		layoutReview_linechart.addWidget(linechartReview)	
 
 	def handle_Patient(self, data):
 		if(self.thisPage == "Main"):
@@ -513,31 +518,22 @@ class MainWindow(QtWidgets.QMainWindow):
 			file_data = json.load(file)
 			file.close()
 		for index_person in range(len(file_data)):
-			if file_data[str(index_person)]['PatientCode'] == self.currentMainPatientCode:
+			if file_data[str(index_person)]['PatientCode'] == self.currentMainPatientCode:				
 				file_data[str(index_person)]['Exercise'].append(Exercise)				
 		
 		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(file_data, f, indent= 4)
 			f.close()
-
+		
 		self.client_threads = []
 		for client in self.clients:
 			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{self.clients.index(client)+1}')))
 		for thread in self.client_threads:
 			thread.start()
 		
-		threadTimer = threading.Thread(target=self.timer_test)
-		threadTimer.start()
+		self.threadTimer = RepeatTimer(0.027, self.update_plotDataMain)
+		self.threadTimer.start()
 
-	def timer_test(self):
-		self.timer = QTimer()
-		self.timer.setInterval(20)
-		self.timer.timeout.connect(self.update_plotDataMain)
-		self.timer.start()
-		# while True:
-		# 	self.update_plotDataMain()
-		# 	time.sleep(0.02)
-		
 	def searchPatientInfo(self):
 		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
 		if not self.uic.le_PatientInfoSearch.text():
@@ -556,7 +552,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		with open('sample.json','r', encoding='utf-8') as file:
 			ParitentList = json.load(file)
 			file.close()
-		# print(ParitentList[Patient[0].text()])
+		print(ParitentList[Patient[0].text()])
 		del ParitentList[Patient[0].text()]
 		with open('sample.json','w', encoding='utf-8') as f:			
 			json.dump(ParitentList, f, indent= 4)
@@ -571,7 +567,6 @@ class MainWindow(QtWidgets.QMainWindow):
 	
 	def on_connect(self, client, userdata, flags, rc):
 		print(f"Connected with result code {rc}")
-		self.isConnected = True
 
 	def on_log(self, client, userdata, level, buf):
 		print("log: " + buf)
@@ -584,6 +579,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			case 'data':
 				client.proq.put(message)
 				client.logL.append([message])
+				# print(f'{topics[0]}: {client.proq.qsize()}')
 		# Save data to file on each message
 <<<<<<< Updated upstream
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
@@ -591,7 +587,6 @@ class MainWindow(QtWidgets.QMainWindow):
 					csvwriter.writerows(client.logL)
 					f.close()
 				print(message)
-=======
 				# with open(f'{client.logfile}.csv', 'w', newline='') as f:
 				# 	csvwriter = csv.writer(f)
 				# 	csvwriter.writerows(client.logL)
@@ -622,27 +617,18 @@ class MainWindow(QtWidgets.QMainWindow):
 		client.loop_start()
 
 	def connectBroker(self):
-		result = subprocess.run(['netsh', 'wlan', 'show', 'interfaces'], capture_output=True, text=True)
-		if result.returncode == 0:			
-			output_lines = result.stdout.split('\n')
-			for line in output_lines:
-				if "RPiHotspot" in line:
-					self.isConnected = True
-		else:
-			self.isConnected = False
-		print(self.isConnected)
-		if self.isConnected:			
-			for client in self.clients:
-				client.connect("192.168.50.10", 1883, 3600)
-		
-	def disconnectBroker(self):
 		for client in self.clients:
+			client.connect("192.168.50.10", 1883, 3600)
+
+	def disconnectBroker(self):
+		while not self.q1.empty():
+			self.update_plot_data()
+		for client in self.clients:
+			client.proq = Queue()
 			client.loop_stop()
 		for thread in self.client_threads:
 			thread.join()
-<<<<<<< Updated upstream
 		print('All threads ended')
-=======
 		print('threads stop')
 		# self.q1 = Queue()
 		# self.q2 = Queue()
@@ -682,21 +668,21 @@ class MainWindow(QtWidgets.QMainWindow):
 				)
 
 	def update_plotDataMain(self):
-		if not (self.q1.empty() 
-		#   or self.q2.empty() or self.q3.empty() or self.q4.empty()
-		  ):
+		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+			t1 = time.perf_counter()
 			self.time = self.time[1:]  # Remove the first y element.
 			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
 
 			data1 = self.q1.get()
-			knee = data1
-			# data2 = self.q2.get()
-			# data3 = self.q3.get()
-			# data4 = self.q4.get()
+			data2 = self.q2.get()
+			data3 = self.q3.get()
+			data4 = self.q4.get()
 			# print(data1, data2, data3, data4)
-			# hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
-			# knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
-			# ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			# print(self.q1.qsize(),self.q2.qsize(),self.q3.qsize(),self.q4.qsize())
+			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
+			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			print('knee:', knee)
 			
 			# self.hipAngle = self.hipAngle[1:]  # Remove the first
 			# self.kneeAngle = self.kneeAngle[1:]
@@ -741,8 +727,17 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.timer.timeout.connect(self.update_plotDataReview)
 		self.timer.start()
 
+	# def update_data(self):
+	# 	if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+			
+
 # -------------------------------------------------------------------------------
 
+class RepeatTimer(threading.Timer):  
+    def run(self):  
+        while not self.finished.wait(self.interval):  
+            self.function(*self.args,**self.kwargs)  
+            # print('thread is running')
 
 # ---------------------------------------------------------------------------------
 if __name__ == '__main__':
