@@ -530,12 +530,9 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.client_threads.append(threading.Thread(target=self.Sub, args=(client,f'mqtt{self.clients.index(client)+1}')))
 		for thread in self.client_threads:
 			thread.start()
-<<<<<<< Updated upstream
-=======
 		
 		self.threadTimer = RepeatTimer(0.027, self.update_plotDataMain)
 		self.threadTimer.start()
->>>>>>> Stashed changes
 
 	def searchPatientInfo(self):
 		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
@@ -730,8 +727,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.timer.timeout.connect(self.update_plotDataReview)
 		self.timer.start()
 
-	def update_data(self):
-		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+	# def update_data(self):
+	# 	if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
 			
 
 # -------------------------------------------------------------------------------
