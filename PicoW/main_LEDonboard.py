@@ -7,7 +7,6 @@ from umqtt.simple import MQTTClient
 from time import sleep
 from bno055 import *
 
-
 ### Blink the onboard LED to show startup
 led = Pin("LED", Pin.OUT)
 

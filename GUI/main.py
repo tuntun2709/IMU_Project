@@ -534,6 +534,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.threadTimer = RepeatTimer(0.027, self.update_plotDataMain)
 		self.threadTimer.start()
 
+		self.kneelist = []
+
 	def searchPatientInfo(self):
 		self.uic.tableWidget_PatientInfoPatientTable.setCurrentItem(None)
 		if not self.uic.le_PatientInfoSearch.text():
@@ -581,7 +583,7 @@ class MainWindow(QtWidgets.QMainWindow):
 				client.logL.append([message])
 				# print(f'{topics[0]}: {client.proq.qsize()}')
 		# Save data to file on each message
-<<<<<<< Updated upstream
+
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
 					csvwriter = csv.writer(f)
 					csvwriter.writerows(client.logL)
@@ -602,8 +604,7 @@ class MainWindow(QtWidgets.QMainWindow):
 				# self.uic.tableWidget_MDataTable.setItem(0,0,QTableWidgetItem(angles[0]))
 				# self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
 				# self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
-				
->>>>>>> Stashed changes
+		
 			case 'calib':
 				print(f'{topics[0]}: {message}')
 			case 'calib_status':
@@ -695,8 +696,13 @@ class MainWindow(QtWidgets.QMainWindow):
 			# self.ankleAngle = self.ankleAngle[1:]
 			# self.hipAngle.append(hip)  # Add a new random value.
 			self.kneeAngle.append(knee)
-			# self.ankleAngle.append(ankle)
+			self.kneelist.append([knee])
 
+			# self.ankleAngle.append(ankle)
+			with open('knee.csv', 'w', newline='') as f:
+					csvwriter = csv.writer(f)
+					csvwriter.writerows(self.kneelist)
+					f.close()
 			# self.line1.setData(self.time, self.hipAngle)  # Update the data.
 			self.line2.setData(self.time, self.kneeAngle)
 			# self.line3.setData(self.time, self.ankleAngle)
