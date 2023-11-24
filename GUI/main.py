@@ -291,10 +291,12 @@ class MainWindow(QtWidgets.QMainWindow):
 		linechart.setLabel('bottom', 'Horizontal Values', units ='s')
 		# setting horizontal range
 		linechart.setXRange(0, 10)
-		pen = pg.mkPen(color=(39, 164, 242), width=5)
-		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen)
-		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen)
-		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen)
+		pen1 = pg.mkPen(color=(39, 164, 242), width=5)
+		pen2 = pg.mkPen(color=(0, 255, 0), width=5)
+		pen3 = pg.mkPen(color=(255, 0, 0), width=5)
+		self.line1 = linechart.plot(self.time, self.hipAngle, pen =pen1)
+		self.line2 = linechart.plot(self.time, self.kneeAngle, pen =pen2)
+		self.line3 = linechart.plot(self.time, self.ankleAngle, pen =pen3)
 		self.line1.setSymbol('o')
 		self.line2.setSymbol('o')
 		self.line3.setSymbol('o')
@@ -587,17 +589,17 @@ class MainWindow(QtWidgets.QMainWindow):
 					csvwriter = csv.writer(f)
 					csvwriter.writerows(client.logL)
 					f.close()
-				angles = message.split(',')
-				# print(message)
-				self.uic.lb_MainMaxHipAngle.setText(angles[0])
-				self.uic.lb_MainMaxKneeAngle.setText(angles[1])
-				self.uic.lb_MainMaxAnkleAngle.setText(angles[2])
-				self.countData +=1
-				self.uic.tableWidget_MDataTable.setRowCount(self.countData)
-				self.uic.tableWidget_MDataTable.insertRow(0)
-				self.uic.tableWidget_MDataTable.setItem(0,0,QTableWidgetItem(angles[0]))
-				self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
-				self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
+				# angles = message.split(',')
+				# # print(message)
+				# self.uic.lb_MainMaxHipAngle.setText(angles[0])
+				# self.uic.lb_MainMaxKneeAngle.setText(angles[1])
+				# self.uic.lb_MainMaxAnkleAngle.setText(angles[2])
+				# self.countData +=1
+				# self.uic.tableWidget_MDataTable.setRowCount(self.countData)
+				# self.uic.tableWidget_MDataTable.insertRow(0)
+				# self.uic.tableWidget_MDataTable.setItem(0,0,QTableWidgetItem(angles[0]))
+				# self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
+				# self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
 				
 			case 'calib':
 				print(f'{topics[0]}: {message}')
@@ -661,29 +663,32 @@ class MainWindow(QtWidgets.QMainWindow):
 				)
 
 	def update_plotDataMain(self):
-		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
+		if not (self.q1.empty() 
+		#   or self.q2.empty() or self.q3.empty() or self.q4.empty()
+		  ):
 			self.time = self.time[1:]  # Remove the first y element.
 			self.time.append(self.time[-1] + 1)  # Add a new value 1 higher than the last.
 
 			data1 = self.q1.get()
-			data2 = self.q2.get()
-			data3 = self.q3.get()
-			data4 = self.q4.get()
-			print(data1, data2, data3, data4)
-			hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
-			knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
-			ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
+			knee = data1
+			# data2 = self.q2.get()
+			# data3 = self.q3.get()
+			# data4 = self.q4.get()
+			# print(data1, data2, data3, data4)
+			# hip = float(data2.split(',')[2]) - float(data1.split(',')[2])
+			# knee = float(data3.split(',')[2]) - float(data2.split(',')[2])
+			# ankle = float(data4.split(',')[2]) - float(data3.split(',')[2])
 			
-			self.hipAngle = self.hipAngle[1:]  # Remove the first
-			self.kneeAngle = self.kneeAngle[1:]
-			self.ankleAngle = self.ankleAngle[1:]
-			self.hipAngle.append(hip)  # Add a new random value.
+			# self.hipAngle = self.hipAngle[1:]  # Remove the first
+			# self.kneeAngle = self.kneeAngle[1:]
+			# self.ankleAngle = self.ankleAngle[1:]
+			# self.hipAngle.append(hip)  # Add a new random value.
 			self.kneeAngle.append(knee)
-			self.ankleAngle.append(ankle)
+			# self.ankleAngle.append(ankle)
 
-			self.line1.setData(self.time, self.hipAngle)  # Update the data.
+			# self.line1.setData(self.time, self.hipAngle)  # Update the data.
 			self.line2.setData(self.time, self.kneeAngle)
-			self.line3.setData(self.time, self.ankleAngle)
+			# self.line3.setData(self.time, self.ankleAngle)
 
 	def update_plotDataReview(self):
 		self.time_review = self.time_review[0:]
