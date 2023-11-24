@@ -584,13 +584,11 @@ class MainWindow(QtWidgets.QMainWindow):
 				client.logL.append([message])
 				# print(f'{topics[0]}: {client.proq.qsize()}')
 		# Save data to file on each message
-<<<<<<< Updated upstream
 				with open(f'{client.logfile}.csv', 'w', newline='') as f:
 					csvwriter = csv.writer(f)
 					csvwriter.writerows(client.logL)
 					f.close()
 				print(message)
-=======
 				# with open(f'{client.logfile}.csv', 'w', newline='') as f:
 				# 	csvwriter = csv.writer(f)
 				# 	csvwriter.writerows(client.logL)
@@ -607,7 +605,6 @@ class MainWindow(QtWidgets.QMainWindow):
 				# self.uic.tableWidget_MDataTable.setItem(0,1,QTableWidgetItem(angles[1]))
 				# self.uic.tableWidget_MDataTable.setItem(0,2,QTableWidgetItem(angles[2]))
 				
->>>>>>> Stashed changes
 			case 'calib':
 				print(f'{topics[0]}: {message}')
 			case 'calib_status':
@@ -632,9 +629,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			client.loop_stop()
 		for thread in self.client_threads:
 			thread.join()
-<<<<<<< Updated upstream
 		print('All threads ended')
-=======
 		print('threads stop')
 		# self.q1 = Queue()
 		# self.q2 = Queue()
@@ -734,7 +729,6 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.timer.setInterval(value+50)
 		self.timer.timeout.connect(self.update_plotDataReview)
 		self.timer.start()
->>>>>>> Stashed changes
 
 	def update_data(self):
 		if not (self.q1.empty() or self.q2.empty() or self.q3.empty() or self.q4.empty()):
