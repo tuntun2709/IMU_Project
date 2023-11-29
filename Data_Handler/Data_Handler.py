@@ -45,6 +45,11 @@ def on_message(client, userdata, msg):
                 print(f'{topics[0]}: imu is calibrated')
             elif message == 'a':
                 print(f'{topics[0]}: imu is not calibrated')
+        case 'status':
+            if message == 'c':
+                print(f'{topics[0]}: imu is connected')
+            else:
+                print(f'{topics[0]}: imu is disconnected')
 
 def Sub(client, topic):
     client.subscribe(f'{topic}/#')

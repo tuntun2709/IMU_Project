@@ -11,6 +11,7 @@ from bno055 import *
 led = Pin("LED", Pin.OUT)
 
 topic = 'mqtt4'
+status_subtopic = f'{topic}/status'
 calib_status_subtopic = f'{topic}/calib_status'
 calib_subtopic = f'{topic}/calib'
 data_subtopic = f'{topic}/data'
@@ -77,7 +78,8 @@ if not connected or wlan.ifconfig()[0] == "0.0.0.0":
 # As we end up here, we now we have a WiFi connection
 print("WiFi status: " + str(wlan.ifconfig()))
 
-
+on_status = 'c'
+off_status = 'd'
 ### Connect to HiveMQ Cloud
 broker = '192.168.50.10'
 mqtt_username = 'pico4'
@@ -93,7 +95,8 @@ mqtt_client = MQTTClient(client_id="pico4",
                         port= 1883,
                         user=mqtt_username,
                         password=mqtt_key,
-                        keepalive=3600)
+                        keepalive=1)
+mqtt_client.set_last_will(topic=status_subtopic, msg=off_status, retain=True)
 con = True
 while con:
     try:
@@ -109,7 +112,7 @@ while con:
         while True:
             pass
 # print('Connected to MQTT Broker: ' + broker)
-
+mqtt_client.publish(status_subtopic, on_status, retain = True)
 ### Main program
 
 calibrated_data_file = 'calibrated_data.txt'
@@ -146,7 +149,7 @@ except:
 # check calib status, if not calibrated then send status and start timer2     
 calib = imu.calibrated()
 if not calib:
-    mqtt_client.publish(calib_status_subtopic, f'{uncalibrated_mess}', retain = True)
+    mqtt_client.publish(calib_status_subtopic, uncalibrated_mess, retain = True)
     timer2.init(period=500, mode=machine.Timer.PERIODIC, callback=calibration)
     while not calib:
         calib = imu.calibrated()
@@ -160,7 +163,7 @@ if not calib:
     led.off()
 
 # print('imu is calibrated')
-mqtt_client.publish(calib_status_subtopic, f'{calibrated_mess}', retain = True)
+mqtt_client.publish(calib_status_subtopic, calibrated_mess, retain = True)
 for i in range(4):
     led.toggle()
     time.sleep(0.2)
@@ -168,7 +171,7 @@ for i in range(4):
 mqtt_client.publish(calib_status_subtopic, '', retain = True)
 # start timer1
 led.on()
-timer1.init(period=20, mode=machine.Timer.PERIODIC, callback=blink)
+timer1.init(period=30, mode=machine.Timer.PERIODIC, callback=blink)
 
 while True:
     pass
