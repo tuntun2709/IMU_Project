@@ -55,21 +55,21 @@ def Sub(client, topic):
     client.subscribe(f'{topic}/#')
     client.loop_forever()
 
-def process(s1, s2):
-    log_process =[]
-    while True:
-        if not (s1.empty() or s2.empty()):
-            a = s2.get()
-            b = s1.get()
-            # c = float(a.split(',')[0]) - float(b.split(',')[0])
-            d = float(a.split(',')[1]) - float(b.split(',')[1])
-            # e = float(a.split(',')[2]) - float(b.split(',')[2])
-            # print(d)
-            log_process.append([d])
-            with open(f'log_process.csv', 'w', newline='') as f:
-                csvwriter = csv.writer(f)
-                csvwriter.writerows(log_process)
-                f.close()
+# def process(s1, s2):
+#     log_process =[]
+#     while True:
+#         if not (s1.empty() or s2.empty()):
+#             a = s2.get()
+#             b = s1.get()
+#             # c = float(a.split(',')[0]) - float(b.split(',')[0])
+#             d = float(a.split(',')[1]) - float(b.split(',')[1])
+#             # e = float(a.split(',')[2]) - float(b.split(',')[2])
+#             # print(d)
+#             log_process.append([d])
+#             with open(f'log_process.csv', 'w', newline='') as f:
+#                 csvwriter = csv.writer(f)
+#                 csvwriter.writerows(log_process)
+#                 f.close()
 
 
 for i in range(nclients):
@@ -92,5 +92,5 @@ for i in range(nclients):
 for thread in client_threads:
     thread.start()
 
-process_thread = threading.Thread(target=process, args=(q2, q3,))
-process_thread.start()
+# process_thread = threading.Thread(target=process, args=(q2, q3,))
+# process_thread.start()
